@@ -1,11 +1,21 @@
 import logo from './logo.svg';
-import './App.css';
-
+import { Routes, Route } from 'react-router-dom'
+import urlPages from './urlPages/urlPages';
 function App() {
   return (
-    <div>
-      aaaa
-    </div>
+    <Routes>
+      {
+        urlPages.map(item => {
+          const Layout = item.layout
+          console.log(item.layout)
+          return <Route path={item.path} element={
+            <Layout>
+              {item.element}
+            </Layout>}
+          />
+        })
+      }
+    </Routes >
   );
 }
 

@@ -7,7 +7,6 @@ function App() {
       {
         urlPages.map(item => {
           const Layout = item.layout
-          console.log(item.layout)
           return <Route path={item.path} element={
             <Layout>
               {item.element}

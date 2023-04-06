@@ -3,6 +3,8 @@ import Content from "./Content/Content";
 import Footer from "./Footer/Footer";
 
 function LoginLayout({ children }) {
+    //children
+    //element content
     return (
         <div>
             <HeaderLogin></HeaderLogin>

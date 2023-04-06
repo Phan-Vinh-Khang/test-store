@@ -1,0 +1,61 @@
+.wrapper {
+    display: flex;
+    width: 75%;
+    height: 100vh;
+
+    .slide-Login {
+        width: 60%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+
+        .slide-Img-Wrap {
+            width: 100%;
+            height: 50%;
+
+            .slide-Img {
+                height: 100%;
+                background-image: url('../../../public/slide-Login.jpg');
+                background-size: contain;
+                background-repeat: no-repeat;
+            }
+        }
+
+
+    }
+
+    .form-Login {
+        display: flex;
+        align-items: center;
+        width: 40%;
+        height: 100%;
+
+        .wrapper-Login-center {
+            height: 50%;
+            width: 100%;
+            background-color: white;
+            border-radius: 5px;
+
+            .wrapper-Login-label {
+                padding: 0px 30px;
+                display: flex;
+                justify-content: space-between;
+                font-size: 1.6rem;
+                color: #222;
+            }
+
+            .wrapperForm {
+                padding: 25px 30px;
+
+                input {
+                    padding: 10px 10px;
+                    margin: 10px 0px;
+                }
+
+                button {
+                    background-color: #ee4d2d;
+                }
+            }
+        }
+    }
+}

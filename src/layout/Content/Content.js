@@ -1,9 +1,11 @@
+import objStyle from './Content.module.scss'
+import classNames from 'classnames/bind'
 function Content({ children }) {
+    var cv = classNames.bind(objStyle)
     return (
-        <div>
+        <div className={cv('wrapper')}>
             {children}
-            <i className="fa-brands fa-google-plus-g" Style="color: #c33c92;"></i>
-        </div>
+        </ div>
     );
 }
 

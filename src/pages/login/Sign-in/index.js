@@ -5,7 +5,6 @@ function Login() {
     let cv = classNames.bind(objStyle)
     return (
         <div className={cv('wrapper')}>
-            {/* slide */}
             <SlideLogin></SlideLogin>
             <div className={cv('form-Login')}>
                 <div className={cv('wrapper-Login-center')}>

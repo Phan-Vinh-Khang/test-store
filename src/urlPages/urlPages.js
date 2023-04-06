@@ -1,7 +1,7 @@
 import Home from "../pages/home/home"
 import Search from "../pages/search/seach"
 import Following from "../pages/following/following"
-import Login from "../pages/login/login"
+import Login from "../pages/login/Sign-in"
 //Layout website
 import MainLayout from "../layout/mainLayout"
 import LoginLayout from "../layout/loginLayout"

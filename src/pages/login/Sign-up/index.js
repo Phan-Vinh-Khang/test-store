@@ -1,7 +1,7 @@
 import objStyle from './index.module.scss'
 import classNames from 'classnames/bind'
 import SlideLogin from '../Slide';
-function Login() {
+function SignUp() {
     let cv = classNames.bind(objStyle)
     return (
         <div className={cv('wrapper')}>
@@ -32,4 +32,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default SignUp;

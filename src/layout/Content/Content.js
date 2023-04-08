@@ -5,7 +5,7 @@ function Content({ children }) {
     return (
         <div className={cv('wrapper')}>
             {children}
-        </ div>
+        </div>
     );
 }
 

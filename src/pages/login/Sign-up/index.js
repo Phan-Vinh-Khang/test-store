@@ -24,6 +24,8 @@ function SignUp(obj) {
     const submitAction = () => {
         console.log(state)
     }
+    console.log(state)
+
     return (
         <div className={cv('form-Login')}> {/*40% width block*/}
             <div className={cv('wrapper-Login-center')}>

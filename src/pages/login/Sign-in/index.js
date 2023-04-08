@@ -24,6 +24,7 @@ function SignIn(obj) {
     const submitAction = () => {
         console.log(state)
     }
+    console.log(state)
     return (
         <div className={cv('form-Login')}> {/*40% width block*/}
             <div className={cv('wrapper-Login-center')}>
@@ -41,8 +42,39 @@ function SignIn(obj) {
                         <div className="d-grid gap-2">
                             <button onClick={submitAction} class="btn" type="button">Đăng nhập</button>
                         </div>
-                        <div>
-                            <button onClick={obj.switchForm} type="button">Đăng ký</button>
+                        <div className={cv('block-login2')}>
+                            <a href='/'>Quên mật khẩu?</a>
+                            <a href='/'>Dăng nhập với SMS</a>
+                        </div>
+                        <div className={cv('block-border')}>
+                            <div className={cv('block-border-2')}></div>
+                            <div className={cv('block-border-label')}>HOẶC</div>
+                            <div className={cv('block-border-2')}></div>
+                        </div>
+                        <div className={cv('wrap-icon-login')}>
+                            <span>
+                                <a href='/'>
+                                    <i class="fa-brands fa-facebook"></i>
+                                    <span>Facebook</span>
+                                </a>
+                            </span>
+                            <span>
+                                <a href='/'>
+
+                                    <i class="fa-brands fa-google"></i>
+                                    <span> Google</span>
+                                </a>
+                            </span>
+                            <span>
+                                <a href='/'>
+                                    <i class="fa-brands fa-apple"></i>
+                                    <span>Apple</span>
+                                </a>
+                            </span>
+                        </div>
+                        <div className={cv('block-signup')}>
+                            bạn mới biết đến Shopee?
+                            <a onClick={obj.switchForm} type="button"> Đăng ký</a>
                         </div>
                     </form>
                 </div>

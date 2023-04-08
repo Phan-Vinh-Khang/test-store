@@ -1,7 +1,7 @@
+
 import HeaderLogin from "./HeaderLogin/headerLogin";
 import Content from "./Content/Content";
 import Footer from "./Footer/Footer";
-
 function LoginLayout({ children }) {
     //children
     //element content

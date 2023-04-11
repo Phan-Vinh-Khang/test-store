@@ -28,6 +28,20 @@
                 margin: 10px 0px;
             }
 
+            .wrap-position-eyesIcon {
+                position: relative;
+
+                .eyesIcon {
+                    position: absolute;
+                    right: 10px;
+                    top: 12px;
+
+                    :hover {
+                        cursor: pointer;
+                    }
+                }
+            }
+
             button {
                 background-color: #ee4d2d;
                 color: whitesmoke
@@ -88,6 +102,16 @@
                 a {
                     padding-left: 5px;
                     color: #ee4d2d;
+                }
+            }
+
+            .block-policy {
+                font-size: 0.9vw;
+                text-align: center;
+
+                a {
+                    color: #ee4d2d;
+                    padding: 0px 5px;
                 }
             }
 

@@ -55,6 +55,12 @@ function SignIn(obj) {
         //properties ref to static data(propertie data ref to arr,status ref to 200, config ref to obj)
         //respon của devtool sẽ hien thị obj.data
         console.log(data.data)
+        if (data.data.errCode == 3) {
+            setState({
+                email: state.email,
+                password: ''
+            })
+        }
         setStateSigninMessage(data.data.message)
     }
     const showPassword = () => {
@@ -73,14 +79,15 @@ function SignIn(obj) {
                 <div className={cv('wrapperForm')}>
                     <form>
                         <input type='text' name='email' onChange={(e) => getValue(e, 'email')} class="form-control" placeholder="Email đăng nhập...." aria-label="default input example" />
-                        <input type={showPasswordInput} name='password' onChange={(e) => getValue(e, 'password')} class="form-control" placeholder="Mật khẩu...." aria-label="default input example" />
-
-                        <span Style={showPasswordIcon1} onClick={showPassword} className={cv('eyesIcon')}>
-                            <i class="fa-solid fa-eye"></i>
-                        </span>
-                        <span Style={showPasswordIcon2} onClick={showPassword} className={cv('eyesIcon')}>
-                            <i class="fa-solid fa-eye-slash"></i>
-                        </span>
+                        <div className={cv('wrap-position-eyesIcon')}>
+                            <input value={state.password} type={showPasswordInput} name='password' onChange={(e) => getValue(e, 'password')} class="form-control" placeholder="Mật khẩu...." aria-label="default input example" />
+                            <span Style={showPasswordIcon1} onClick={showPassword} className={cv('eyesIcon')}>
+                                <i class="fa-solid fa-eye"></i>
+                            </span>
+                            <span Style={showPasswordIcon2} onClick={showPassword} className={cv('eyesIcon')}>
+                                <i class="fa-solid fa-eye-slash"></i>
+                            </span>
+                        </div>
                         <span>{stateSigninMessage}</span>
                         <div className="d-grid gap-2">
                             <button onClick={submitAction} class="btn" type="button">Đăng nhập</button>

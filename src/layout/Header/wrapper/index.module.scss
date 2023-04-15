@@ -1,0 +1,13 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    position: sticky;
+    top: 0px;
+    background-color: #ee4d2d;
+    font-size: 1vw;
+    z-index: 999;
+
+    &-center {
+        width: 75vw;
+    }
+}

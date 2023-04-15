@@ -26,38 +26,40 @@ function Signup(obj) {
         showPasswordIcon2 = ''
     }
     let [stateSignupMessage, setStateSignupMessage] = useState('');
+    console.log(state)
     const getValue = (e, label) => {
-        if (label == 'name') {
-            setState(refpreState => ({
-                ...refpreState,
-                name: e.target.value
-            }))
-        }
-        else if (label == 'email') {
-            setState(refpreState => ({
-                ...refpreState,
-                email: e.target.value
-            }))
-        }
-        else if (label == 'password') {
-            setState(refpreState => ({
-                ...refpreState,
-                password: e.target.value
-            }))
-        }
-        else if (label == 'confirmPassword') {
-            setState(refpreState => ({
-                ...refpreState,
-                confirmPassword: e.target.value
-            }))
-        }
-        else {
-            setState(refpreState => ({
-                ...refpreState,
-                address: e.target.value
-            }))
-        }
-
+        state[label] = e.target.value
+        setState(refpreState => ({ ...refpreState }))
+        // if (label == 'name') {
+        //     setState(refpreState => ({
+        //         ...refpreState,
+        //         name: e.target.value
+        //     }))
+        // }
+        // else if (label == 'email') {
+        //     setState(refpreState => ({
+        //         ...refpreState,
+        //         email: e.target.value
+        //     }))
+        // }
+        // else if (label == 'password') {
+        //     setState(refpreState => ({
+        //         ...refpreState,
+        //         password: e.target.value
+        //     }))
+        // }
+        // else if (label == 'confirmPassword') {
+        //     setState(refpreState => ({
+        //         ...refpreState,
+        //         confirmPassword: e.target.value
+        //     }))
+        // }
+        // else {
+        //     setState(refpreState => ({
+        //         ...refpreState,
+        //         address: e.target.value
+        //     }))
+        // }
     }
     const submitAction = async () => {
         let data = {};
@@ -72,6 +74,7 @@ function Signup(obj) {
                 password: '',
                 confirmPassword: ''
             }))
+        console.log(data.data)
         setStateSignupMessage(data.data.message)
     }
     const showPassword = () => {
@@ -85,8 +88,8 @@ function Signup(obj) {
                 </div>
                 <div className={cv('wrapperForm')}>
                     <form>
-                        <input name='name' onChange={(e, name) => getValue(e, 'name')} class="form-control" type="text" placeholder="Tên người dùng...." aria-label="default input example" />
-                        <input name='email' onChange={(e) => getValue(e, 'email')} class="form-control" type="text" placeholder="Email đăng nhập...." aria-label="default input example" />
+                        <input onChange={(e) => getValue(e, 'name')} class="form-control" type="text" placeholder="Tên người dùng...." aria-label="default input example" />
+                        <input onChange={(e) => getValue(e, 'email')} class="form-control" type="text" placeholder="Email đăng nhập...." aria-label="default input example" />
                         <div className={cv('wrap-position-eyesIcon')}>
                             <input value={state.password} onChange={(e) => getValue(e, 'password')} class="form-control" type={showPasswordInput} placeholder="Mật khẩu...." aria-label="default input example" />
                             <span Style={showPasswordIcon1} onClick={showPassword} className={cv('eyesIcon')}>

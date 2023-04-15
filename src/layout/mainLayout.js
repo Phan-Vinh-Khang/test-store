@@ -1,12 +1,12 @@
-import Header from "./Header/Header";
-import Content from "./Content/Content";
+import WrapperHeader from "./Header/wrapper";
+import WrapperContent from "./Content/wrapper";
 import Footer from "./Footer/Footer";
 
 function MainLayout({ children }) {
     return (
         <div>
-            <Header></Header>
-            <Content>{children}</Content>
+            <WrapperHeader></WrapperHeader>
+            <WrapperContent>{children}</WrapperContent>
             <Footer></Footer>
         </div>
     );

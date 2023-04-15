@@ -1,0 +1,58 @@
+.wrapper-header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 20px;
+
+    .wrapper-logo {
+        width: 25%;
+
+        img {
+            width: 10vw;
+            height: 50px;
+        }
+    }
+
+    .wrapper-searchbar {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        input {
+            width: 100%;
+            padding: 8px 15px;
+            border-radius: 3px;
+            border-style: none;
+        }
+
+        span {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            right: 4px;
+            width: 8%;
+            height: 32px;
+            background-color: #ee4d2d;
+            border-radius: 3px;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+        }
+    }
+
+    .wrapper-cart {
+        width: 25%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+
+        img {
+            width: 50px;
+            padding: 5px;
+        }
+    }
+
+}

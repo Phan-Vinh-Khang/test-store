@@ -1,0 +1,9 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    height: 100vw;
+
+    &-center {
+        width: 75vw;
+    }
+}

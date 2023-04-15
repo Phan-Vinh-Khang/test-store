@@ -1,0 +1,44 @@
+.wrapper-nav {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9vw;
+    padding-top: 3px;
+    padding-bottom: 10px;
+
+    a {
+        text-decoration: none;
+        color: whitesmoke;
+    }
+
+    span {
+        color: whitesmoke;
+        padding: 0px 5px;
+    }
+
+    .content-nav1 {
+        display: flex;
+        align-items: center;
+
+        >span {
+            border-right: 1px solid hsla(0, 0%, 100%, .22);
+
+            :hover {
+                color: hsla(0, 0%, 100%, .7);
+            }
+        }
+    }
+
+    .content-nav2 {
+        display: flex;
+        align-items: center;
+
+        >span {
+            border-right: 1px solid hsla(0, 0%, 100%, .22);
+
+        }
+
+        :hover {
+            color: hsla(0, 0%, 100%, .7);
+        }
+    }
+}

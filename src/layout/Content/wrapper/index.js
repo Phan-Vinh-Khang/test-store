@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import objStyle from './index.module.scss'
 import classNames from 'classnames/bind'
-function WrapperContent({ children }) {
+function WrapperContent(obj) {
     let cv = classNames.bind(objStyle)
     return (
         <div className={cv('wrapper')}>
             <div className={cv('wrapper-center')}>
-                {children}
+                <obj.Element loginName={obj.loginName} />
             </div>
         </div>
     );

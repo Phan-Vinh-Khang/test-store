@@ -2,11 +2,11 @@ import WrapperHeader from "./Header/wrapper";
 import WrapperContent from "./Content/wrapper";
 import Footer from "./Footer/Footer";
 
-function MainLayout({ children }) {
+function MainLayout(obj) {
     return (
         <div>
-            <WrapperHeader></WrapperHeader>
-            <WrapperContent>{children}</WrapperContent>
+            <WrapperHeader loginName={obj.loginName}></WrapperHeader>
+            <WrapperContent func={obj.func} Element={obj.Element}></WrapperContent>
             <Footer></Footer>
         </div>
     );

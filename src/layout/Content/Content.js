@@ -1,10 +1,12 @@
 import objStyle from './Content.module.scss'
 import classNames from 'classnames/bind'
-function Content({ children }) {
+function Content(obj) {
     var cv = classNames.bind(objStyle)
+    console.log(obj.func)
     return (
         <div className={cv('wrapper')}>
-            {children}
+            {/* {children} */}
+            <obj.Element func={obj.func} />
         </div>
     );
 }

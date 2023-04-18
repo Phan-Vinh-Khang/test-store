@@ -9,7 +9,7 @@ import LoginLayout from "../layout/loginLayout"
 const urlPages = [
     {
         path: '/',
-        element: <WrapperHome />,
+        element: WrapperHome,
         layout: MainLayout
     },
     {
@@ -24,7 +24,7 @@ const urlPages = [
     },
     {
         path: '/Login',
-        element: <WrapperLogin />,
+        element: WrapperLogin,
         layout: LoginLayout
 
     },

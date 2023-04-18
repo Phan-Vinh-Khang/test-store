@@ -61,6 +61,9 @@ function SignIn(obj) {
                 password: ''
             })
         }
+        if (data.data.errCode == 0) {
+            obj.func(data.data.user[0].name)
+        }
         setStateSigninMessage(data.data.message)
     }
     const showPassword = () => {

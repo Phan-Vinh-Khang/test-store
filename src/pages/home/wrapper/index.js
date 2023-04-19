@@ -3,11 +3,13 @@ import axios from 'axios';
 import classNames from 'classnames/bind'
 import Home from '../home';
 import Banner from '../banner'
+import Section from '../section';
 function WrapperHome() {
     return (
         <div>
-            <Home />
+            {/* <Home /> */}
             <Banner></Banner>
+            <Section></Section>
         </div>
     );
 }

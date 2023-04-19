@@ -1,15 +1,71 @@
 .wrapper {
     display: flex;
+    justify-content: center;
+    background-color: white;
 
-    .wrap-banner1 {
-        width: 80%;
-    }
+    &-center {
+        display: flex;
+        padding-top: 20px;
+        flex-wrap: wrap;
+        width: 75vw;
 
-    .wrap-banner2 {
-        width: 20%;
-
+        //default các element sẽ đặt theo row của block flex
+        //wrap:các element đã dc đặt 100% width của block flex element tiep theo sẽ xuống row mới
+        //ko có wrap nếu đặt các element vượt 100% width ,width các element sẽ tự điều chỉnh nhỏ lại 
         img {
+            padding: 3px;
+            border-radius: 5px;
+        }
+
+        .wrap-banner1 {
+            width: 70%;
+        }
+
+        .wrap-banner2 {
+            width: 30%;
+
+            // display: flex;
+            .wrap-img {
+                height: 50%;
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .wrap-list {
+            display: flex;
             width: 100%;
+            font-size: .9vw;
+            justify-content: space-between;
+
+            .list-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+
+                a {
+                    padding-top: 20px;
+                }
+
+                img {
+                    width: 55%;
+                }
+
+                p {
+                    padding-bottom: 5px;
+                    margin: 0px;
+                }
+            }
+
+            .list-item:hover {
+                cursor: pointer;
+                position: relative;
+                bottom: 2px;
+            }
         }
     }
 }

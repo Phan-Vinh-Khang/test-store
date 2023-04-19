@@ -2,14 +2,13 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import objStyle from './index.module.scss'
 import classNames from 'classnames/bind'
-function WrapperContent({ children }) {
+function Section() {
     let cv = classNames.bind(objStyle)
-    let Element = children
     return (
-        <div className={cv('wrapper')}>
-            <Element />
+        <div>
+
         </div>
     );
 }
 
-export default WrapperContent;
+export default Section;

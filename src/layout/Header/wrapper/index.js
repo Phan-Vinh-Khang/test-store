@@ -4,12 +4,12 @@ import objStyle from './index.module.scss'
 import classNames from 'classnames/bind'
 import NavHeader from '../nav';
 import ContentHeader from '../content';
-function WrapperHeader(obj) {
+function WrapperHeader() {
     let cv = classNames.bind(objStyle)
     return (
         <div className={cv('wrapper')}>
             <div className={cv('wrapper-center')}>
-                <NavHeader loginName={obj.loginName}></NavHeader>
+                <NavHeader></NavHeader>
                 <ContentHeader></ContentHeader>
             </div>
 

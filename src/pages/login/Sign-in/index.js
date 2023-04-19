@@ -3,6 +3,7 @@ import axios from 'axios';
 import objStyle from './index.module.scss'
 import classNames from 'classnames/bind'
 import resLogin from '../../../services/userServices';
+import { redirect } from "react-router-dom";
 function SignIn(obj) {
     let cv = classNames.bind(objStyle)
     let [state, setState] = useState({
@@ -60,9 +61,6 @@ function SignIn(obj) {
                 email: state.email,
                 password: ''
             })
-        }
-        if (data.data.errCode == 0) {
-            obj.func(data.data.user[0].name)
         }
         setStateSigninMessage(data.data.message)
     }

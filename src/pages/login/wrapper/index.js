@@ -4,7 +4,7 @@ import classNames from 'classnames/bind'
 import SlideLogin from '../Slide';
 import SignIn from '../Sign-in';
 import SignUp from '../Sign-up';
-function WrapperLogin(obj) {
+function WrapperLogin() {
     let cv = classNames.bind(objStyle)
     var [state, setState] = useState(true)
     var ElementForm = '';
@@ -19,7 +19,7 @@ function WrapperLogin(obj) {
     return (
         <div className={cv('wrapper')}>
             <SlideLogin></SlideLogin>
-            <ElementForm func={obj.func} switchForm={switchForm}></ElementForm>
+            <ElementForm switchForm={switchForm}></ElementForm>
         </div>
     );
 }

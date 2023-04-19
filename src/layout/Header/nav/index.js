@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import objStyle from './index.module.scss'
 import classNames from 'classnames/bind'
-function NavHeader(obj) {
-    console.log(obj.loginName)
+function NavHeader() {
     let cv = classNames.bind(objStyle)
     return (
         <div className={cv('wrapper-nav')}>

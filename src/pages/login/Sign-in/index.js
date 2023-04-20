@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import objStyle from './index.module.scss'
 import classNames from 'classnames/bind'
 import resLogin from '../../../services/userServices';
-import { redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 function SignIn(obj) {
-    let cv = classNames.bind(objStyle)
+    let cv = classNames.bind(objStyle);
+    let [stateLogin, setStateLogin] = useState('');
     let [state, setState] = useState({
         email: '',
         password: ''
@@ -62,76 +63,85 @@ function SignIn(obj) {
                 password: ''
             })
         }
+        if (data.data.errCode == 0) {
+            setStateLogin(data.data.user[0])
+
+        }
         setStateSigninMessage(data.data.message)
     }
     const showPassword = () => {
         setStateShowPassword(!stateShowPassword)
     }
-    return (
-        <div className={cv('form-Login')}> {/*40% width block*/}
-            <div className={cv('wrapper-Login-center')}>
-                <div className={cv('wrapper-Login-label')}>
-                    <label>Đăng nhập</label>
-                    <div>
-                        <label>Đăng nhập với QR</label>
-                        <a href="/"><label>QR</label></a>
+    if (stateLogin != '') {
+        return <Navigate replace to="/" />;
+    }
+    else {
+        return (
+            <div className={cv('form-Login')}> {/*40% width block*/}
+                <div className={cv('wrapper-Login-center')}>
+                    <div className={cv('wrapper-Login-label')}>
+                        <label>Đăng nhập</label>
+                        <div>
+                            <label>Đăng nhập với QR</label>
+                            <a href="/"><label>QR</label></a>
+                        </div>
+                    </div>
+                    <div className={cv('wrapperForm')}>
+                        <form>
+                            <input type='text' name='email' onChange={(e) => getValue(e, 'email')} class="form-control" placeholder="Email đăng nhập...." aria-label="default input example" />
+                            <div className={cv('wrap-position-eyesIcon')}>
+                                <input value={state.password} type={showPasswordInput} name='password' onChange={(e) => getValue(e, 'password')} class="form-control" placeholder="Mật khẩu...." aria-label="default input example" />
+                                <span Style={showPasswordIcon1} onClick={showPassword} className={cv('eyesIcon')}>
+                                    <i class="fa-solid fa-eye"></i>
+                                </span>
+                                <span Style={showPasswordIcon2} onClick={showPassword} className={cv('eyesIcon')}>
+                                    <i class="fa-solid fa-eye-slash"></i>
+                                </span>
+                            </div>
+                            <span>{stateSigninMessage}</span>
+                            <div className="d-grid gap-2">
+                                <button onClick={submitAction} class="btn" type="button">Đăng nhập</button>
+                            </div>
+                            <div className={cv('block-login2')}>
+                                <a href='/'>Quên mật khẩu?</a>
+                                <a href='/'>Dăng nhập với SMS</a>
+                            </div>
+                            <div className={cv('block-border')}>
+                                <div className={cv('block-border-2')}></div>
+                                <div className={cv('block-border-label')}>HOẶC</div>
+                                <div className={cv('block-border-2')}></div>
+                            </div>
+                            <div className={cv('wrap-icon-login')}>
+                                <span>
+                                    <a href='/'>
+                                        <i class="fa-brands fa-facebook"></i>
+                                        <span>Facebook</span>
+                                    </a>
+                                </span>
+                                <span>
+                                    <a href='/'>
+
+                                        <i class="fa-brands fa-google"></i>
+                                        <span> Google</span>
+                                    </a>
+                                </span>
+                                <span>
+                                    <a href='/'>
+                                        <i class="fa-brands fa-apple"></i>
+                                        <span>Apple</span>
+                                    </a>
+                                </span>
+                            </div>
+                            <div className={cv('block-signup')}>
+                                bạn mới biết đến Shopee?
+                                <a onClick={obj.switchForm} type="button"> Đăng ký</a>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div className={cv('wrapperForm')}>
-                    <form>
-                        <input type='text' name='email' onChange={(e) => getValue(e, 'email')} class="form-control" placeholder="Email đăng nhập...." aria-label="default input example" />
-                        <div className={cv('wrap-position-eyesIcon')}>
-                            <input value={state.password} type={showPasswordInput} name='password' onChange={(e) => getValue(e, 'password')} class="form-control" placeholder="Mật khẩu...." aria-label="default input example" />
-                            <span Style={showPasswordIcon1} onClick={showPassword} className={cv('eyesIcon')}>
-                                <i class="fa-solid fa-eye"></i>
-                            </span>
-                            <span Style={showPasswordIcon2} onClick={showPassword} className={cv('eyesIcon')}>
-                                <i class="fa-solid fa-eye-slash"></i>
-                            </span>
-                        </div>
-                        <span>{stateSigninMessage}</span>
-                        <div className="d-grid gap-2">
-                            <button onClick={submitAction} class="btn" type="button">Đăng nhập</button>
-                        </div>
-                        <div className={cv('block-login2')}>
-                            <a href='/'>Quên mật khẩu?</a>
-                            <a href='/'>Dăng nhập với SMS</a>
-                        </div>
-                        <div className={cv('block-border')}>
-                            <div className={cv('block-border-2')}></div>
-                            <div className={cv('block-border-label')}>HOẶC</div>
-                            <div className={cv('block-border-2')}></div>
-                        </div>
-                        <div className={cv('wrap-icon-login')}>
-                            <span>
-                                <a href='/'>
-                                    <i class="fa-brands fa-facebook"></i>
-                                    <span>Facebook</span>
-                                </a>
-                            </span>
-                            <span>
-                                <a href='/'>
-
-                                    <i class="fa-brands fa-google"></i>
-                                    <span> Google</span>
-                                </a>
-                            </span>
-                            <span>
-                                <a href='/'>
-                                    <i class="fa-brands fa-apple"></i>
-                                    <span>Apple</span>
-                                </a>
-                            </span>
-                        </div>
-                        <div className={cv('block-signup')}>
-                            bạn mới biết đến Shopee?
-                            <a onClick={obj.switchForm} type="button"> Đăng ký</a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div >
-    );
+            </div >
+        )
+    }
 }
 
 export default SignIn;

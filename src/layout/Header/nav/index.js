@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import objStyle from './index.module.scss'
 import classNames from 'classnames/bind'
@@ -38,8 +38,8 @@ function NavHeader() {
                 <span>
                     <a href='/login'>Đăng nhập</a>
                 </span>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }
 

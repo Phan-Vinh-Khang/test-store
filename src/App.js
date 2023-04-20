@@ -1,9 +1,7 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Routes, Route } from 'react-router-dom'
-import { redirect } from 'react-router-dom';
 import urlPages from './urlPages/urlPages';
 function App() {
-  let [state, setState] = useState('')
   return (
     <Routes>
       {
@@ -11,9 +9,12 @@ function App() {
           const Layout = item.layout
           Element = item.element
           return <Route path={item.path} element={
+            // <WrapContext.Provider value={LoggedIn}>
             <Layout>
               {item.element}
-            </Layout>}
+            </Layout>
+            // </WrapContext.Provider>
+          }
           />
         })
       }

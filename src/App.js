@@ -7,13 +7,10 @@ function App() {
       {
         urlPages.map(item => {
           const Layout = item.layout
-          Element = item.element
           return <Route path={item.path} element={
-            // <WrapContext.Provider value={LoggedIn}>
             <Layout>
               {item.element}
             </Layout>
-            // </WrapContext.Provider>
           }
           />
         })

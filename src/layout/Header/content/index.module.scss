@@ -25,6 +25,8 @@
             border-style: none;
         }
 
+
+
         span {
             display: flex;
             justify-content: center;
@@ -54,5 +56,27 @@
             padding: 5px;
         }
     }
+}
 
+.showbox {
+    background-color: #fff;
+    width: 50vw;
+    border-radius: 5px;
+    padding-left: 15px;
+
+    a {
+        display: block;
+        padding: 7px 0px;
+        margin: 0px;
+        text-decoration: none;
+        color: black;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+
+    }
+
+    :hover {
+        background-color: #fafafa;
+    }
 }

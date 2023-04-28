@@ -65,7 +65,6 @@ function SignIn(obj) {
         }
         if (data.data.errCode == 0) {
             setStateLogin(data.data.user[0])
-
         }
         setStateSigninMessage(data.data.message)
     }

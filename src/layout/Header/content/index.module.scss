@@ -60,7 +60,6 @@
 
 .showbox {
     background-color: #fff;
-    width: 50vw;
     border-radius: 5px;
     padding-left: 15px;
 
@@ -68,7 +67,6 @@
         display: block;
         padding: 7px 0px;
         margin: 0px;
-        text-decoration: none;
         color: black;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -79,4 +77,12 @@
     :hover {
         background-color: #fafafa;
     }
+}
+
+.size-search {
+    width: 50vw;
+}
+
+.size-cart {
+    width: 10vw;
 }

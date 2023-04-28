@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import objStyle from './index.module.scss'
 import classNames from 'classnames/bind'
+import { Link } from 'react-router-dom';
 function NavHeader() {
     let cv = classNames.bind(objStyle)
     return (
@@ -33,11 +34,12 @@ function NavHeader() {
                     Tiếng Việt
                 </span>
                 <span>
-                    <a href='/login'>Đăng ký</a>
+                    <Link to='/login'>Đăng ký</Link>
                 </span>
                 <span>
-                    <a href='/login'>Đăng nhập</a>
+                    <Link to='/login'>Đăng nhập</Link>
                 </span>
+
             </div >
         </div >
     );

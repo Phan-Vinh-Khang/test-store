@@ -3,12 +3,12 @@ import axios from 'axios';
 import objStyle from './index.module.scss'
 import classNames from 'classnames/bind'
 import Tippy from '@tippyjs/react/headless';
+import TippyCart from './tippy-cart/index ';
 function ContentHeader() {
     let cv = classNames.bind(objStyle)
     const [stateVisible, setStateVisible] = useState(false);
     const show = () => setStateVisible(true);
     const hide = () => setStateVisible(false);
-    let check = true;
     let listarr = ['testaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'test2', 'test3', 'test4', 'test5']
     return (
         <div className={cv('wrapper-header')}>
@@ -20,13 +20,12 @@ function ContentHeader() {
             </div>
 
             <div className={cv('wrapper-searchbar')}>
-
                 <Tippy
                     visible={stateVisible}
                     onClickOutside={hide}
                     interactive
                     render={attrs => (
-                        <div className={cv('showbox')} tabIndex="-1" {...attrs}>
+                        <div className={cv('showbox', 'size-search')} tabIndex="-1" {...attrs}>
                             {
                                 listarr.map(item => (
                                     <a href='/'>
@@ -44,12 +43,24 @@ function ContentHeader() {
                     <i class="fa-solid fa-magnifying-glass" Style="color: #eceff3;"></i>
                 </span>
             </div >
-
             <div className={cv('wrapper-cart')}>
-                <a href='/'>
-                    <img src='./cart.png'></img>
-                </a>
+                <Tippy
+                    interactive
+                    placement="bottom-end"
+                    delay={[null, 100]}
+                    render={attrs => (
+                        <div className={cv('showbox', 'size-cart')}>
+                            <TippyCart></TippyCart>
+                        </div>
+
+                    )}
+                >
+                    <a href='/'>
+                        <img src='./cart.png'></img>
+                    </a>
+                </Tippy>
             </div>
+
         </div >
     );
 }

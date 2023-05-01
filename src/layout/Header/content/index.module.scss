@@ -83,6 +83,15 @@
     width: 50vw;
 }
 
-.size-cart {
-    width: 10vw;
+.size-NoProducts {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20vw;
+    height: 20vh;
+}
+
+.size-Products {
+    width: 20vw;
+    height: 20vh;
 }

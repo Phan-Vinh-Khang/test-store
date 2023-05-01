@@ -10,6 +10,36 @@ function ContentHeader() {
     const show = () => setStateVisible(true);
     const hide = () => setStateVisible(false);
     let listarr = ['testaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'test2', 'test3', 'test4', 'test5']
+    const [stateCart, setStateCart] = useState(
+        // [
+        //     {
+        //         type: 'language',
+        //         datalist: [
+        //             {
+        //                 name: 'tieng viet'
+        //             },
+        //             {
+        //                 name: 'tieng anh'
+        //             },
+        //             {
+        //                 name: 'tieng trung',
+        //                 child: {
+        //                     type: 'china language',
+        //                     datalist: [
+        //                         {
+        //                             name: 'tieng trung 1'
+        //                         },
+        //                         {
+        //                             name: 'tieng trung 2'
+        //                         }
+        //                     ]
+        //                 }
+        //             }
+        //         ]
+        //     }
+        // ]
+        ''
+    )
     return (
         <div className={cv('wrapper-header')}>
             <div className={cv('wrapper-logo')}>
@@ -49,8 +79,8 @@ function ContentHeader() {
                     placement="bottom-end"
                     delay={[null, 100]}
                     render={attrs => (
-                        <div className={cv('showbox', 'size-cart')}>
-                            <TippyCart></TippyCart>
+                        <div className={cv('showbox')}>
+                            <TippyCart data={stateCart} />
                         </div>
 
                     )}

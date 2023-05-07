@@ -61,17 +61,16 @@
 .showbox {
     background-color: #fff;
     border-radius: 5px;
-    padding-left: 15px;
+    cursor: pointer;
 
     a {
         display: block;
-        padding: 7px 0px;
+        padding: 7px 15px;
         margin: 0px;
+        border-radius: 5px;
         color: black;
         overflow: hidden;
         text-overflow: ellipsis;
-
-
     }
 
     :hover {

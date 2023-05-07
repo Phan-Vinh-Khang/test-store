@@ -1,0 +1,33 @@
+.showbox {
+    background-color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+
+    a {
+        display: block;
+        padding: 7px 15px;
+        margin: 0px;
+        border-radius: 5px;
+        color: black;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    div {
+        display: block;
+        padding: 5px 10px;
+        margin: 0px;
+        border-radius: 5px;
+        color: black;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        i {
+            margin-left: 5px;
+        }
+    }
+
+    :hover {
+        background-color: #fafafa;
+    }
+}

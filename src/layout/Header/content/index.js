@@ -82,7 +82,6 @@ function ContentHeader() {
                         <div className={cv('showbox')}>
                             <TippyCart data={stateCart} />
                         </div>
-
                     )}
                 >
                     <a href='/'>

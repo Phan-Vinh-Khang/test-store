@@ -15,16 +15,24 @@
         padding: 0px 5px;
     }
 
+    span:hover {
+        color: hsla(0, 0%, 100%, .7);
+    }
+
+    span>i {
+        margin-right: 3px;
+    }
+
+    .user {
+        cursor: pointer;
+    }
+
     .content-nav1 {
         display: flex;
         align-items: center;
 
         >span {
             border-right: 1px solid hsla(0, 0%, 100%, .22);
-
-            :hover {
-                color: hsla(0, 0%, 100%, .7);
-            }
         }
     }
 
@@ -34,11 +42,6 @@
 
         >span {
             border-right: 1px solid hsla(0, 0%, 100%, .22);
-
-        }
-
-        :hover {
-            color: hsla(0, 0%, 100%, .7);
         }
     }
 }

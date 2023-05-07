@@ -1,11 +1,15 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import axios from 'axios';
 import objStyle from './index.module.scss'
 import classNames from 'classnames/bind'
 import resLogin from '../../../services/userServices';
 import { Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { handleLogin } from '../../../redux/actions';
 function SignIn(obj) {
     let cv = classNames.bind(objStyle);
+    // let w = useSelector(state => state);
+    const dispatch = useDispatch();
     let [stateLogin, setStateLogin] = useState('');
     let [state, setState] = useState({
         email: '',
@@ -65,6 +69,13 @@ function SignIn(obj) {
         }
         if (data.data.errCode == 0) {
             setStateLogin(data.data.user[0])
+            // localStorage.setItem("logged", JSON.stringify(
+            //     {
+            //         id: data.data.user[0].id,
+            //         name: data.data.user[0].name
+            //     }
+            // ))
+            dispatch(handleLogin(data.data.user[0]))
         }
         setStateSigninMessage(data.data.message)
     }

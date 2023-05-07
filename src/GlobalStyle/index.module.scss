@@ -13,21 +13,8 @@
         text-overflow: ellipsis;
     }
 
-    div {
-        display: block;
-        padding: 5px 10px;
-        margin: 0px;
-        border-radius: 5px;
-        color: black;
-        overflow: hidden;
-        text-overflow: ellipsis;
-
-        i {
-            margin-left: 5px;
-        }
-    }
-
     :hover {
         background-color: #fafafa;
+        border-radius: 5px;
     }
 }

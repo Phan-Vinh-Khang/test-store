@@ -8,7 +8,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { handleLogin } from '../../../redux/actions';
 function SignIn(obj) {
     let cv = classNames.bind(objStyle);
-    // let w = useSelector(state => state);
+    let logged = (useSelector((value) => { return value }))
+    localStorage.setItem("logged", JSON.stringify(
+        {
+            id: logged.id,
+            name: logged.name
+        }
+    ))
     const dispatch = useDispatch();
     let [stateLogin, setStateLogin] = useState('');
     let [state, setState] = useState({
@@ -76,6 +82,7 @@ function SignIn(obj) {
             //     }
             // ))
             dispatch(handleLogin(data.data.user[0]))
+
         }
         setStateSigninMessage(data.data.message)
     }

@@ -5,7 +5,6 @@ import objStyle from '../index.module.scss'
 function TippyCart({ data }) {
     let cv = classNames.bind(objStyle)
     const [state, setState] = useState(data)
-    console.log(data)
     var dataTippy = () => {
         let data = state[state.length - 1];
         return data.datalist.map(item => {
@@ -14,8 +13,6 @@ function TippyCart({ data }) {
             else return <div onClick={() => {
                 setState(preState => ([...preState, item.child]))
             }}>{item.name}</div>
-
-
         }
         )
     }

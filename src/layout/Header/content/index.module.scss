@@ -58,26 +58,6 @@
     }
 }
 
-.showbox {
-    background-color: #fff;
-    border-radius: 5px;
-    cursor: pointer;
-
-    a {
-        display: block;
-        padding: 7px 15px;
-        margin: 0px;
-        border-radius: 5px;
-        color: black;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    :hover {
-        background-color: #fafafa;
-    }
-}
-
 .size-search {
     width: 50vw;
 }

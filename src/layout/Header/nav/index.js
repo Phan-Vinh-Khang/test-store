@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import Tippy from '@tippyjs/react/headless';
 function NavHeader() {
     let cv = classNames.bind(objStyle)
+    let cv2 = classNames.bind(objGlobalStyle)
     let [stateLogged, setStateLogged] = useState(JSON.parse(localStorage.getItem("logged")).name)
     let Logout = () => {
         localStorage.setItem("logged", JSON.stringify({
@@ -47,8 +48,9 @@ function NavHeader() {
                     (stateLogged != undefined) ? (
                         <Tippy
                             interactive
+                            delay={[null, 50]}
                             render={attrs => (
-                                <div className={objGlobalStyle.showbox}>
+                                <div className={cv2('showbox') + ' ' + cv('pd-5-10')}>
                                     <div>test</div>
                                     <div>test2</div>
                                     <div onClick={Logout}>Logout

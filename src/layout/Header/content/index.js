@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import objStyle from './index.module.scss'
+import objGlobalStyle from '../../../GlobalStyle/index.module.scss'
 import classNames from 'classnames/bind'
 import Tippy from '@tippyjs/react/headless';
 import TippyCart from './tippy-cart/index ';
 function ContentHeader() {
     let cv = classNames.bind(objStyle)
+    let cv2 = classNames.bind(objGlobalStyle)
     const [stateVisible, setStateVisible] = useState(false);
     const show = () => setStateVisible(true);
     const hide = () => setStateVisible(false);
@@ -55,7 +57,7 @@ function ContentHeader() {
                     onClickOutside={hide}
                     interactive
                     render={attrs => (
-                        <div className={cv('showbox', 'size-search')} tabIndex="-1" {...attrs}>
+                        <div className={cv2('showbox') + ' ' + ('size-search')} tabIndex="-1" {...attrs}>
                             {
                                 listarr.map(item => (
                                     <a href='/'>
@@ -77,9 +79,9 @@ function ContentHeader() {
                 <Tippy
                     interactive
                     placement="bottom-end"
-                    delay={[null, 100]}
+                    delay={[null, 50]}
                     render={attrs => (
-                        <div className={cv('showbox')}>
+                        <div className={cv2('showbox')}>
                             <TippyCart data={stateCart} />
                         </div>
                     )}

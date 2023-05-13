@@ -4,3 +4,17 @@ export const handleLogin = (data) => {
         data: data
     }
 }
+export const handleLoginInput = (data, label) => {
+    if (label == 'email') {
+        return {
+            type: 'loginInput/email',
+            data: data
+        }
+    }
+    else {
+        return {
+            type: 'loginInput/password',
+            data: data
+        }
+    }
+}

@@ -1,11 +1,11 @@
 import Home from "../pages/home/home"
 import Search from "../pages/search/seach"
 import Following from "../pages/following/following"
-import WrapperLogin from "../pages/login/wrapper"
-import WrapperHome from "../pages/home/wrapper"
+import WrapperLogin from "../pages/login/wrapper"//content
+import WrapperHome from "../pages/home/wrapper"//content
 //Layout website
-import MainLayout from "../layout/mainLayout"
-import LoginLayout from "../layout/loginLayout"
+import MainLayout from "../layout/mainLayout" //layout header and footer
+import LoginLayout from "../layout/loginLayout" //layout header and footer
 const urlPages = [
     {
         path: '/',

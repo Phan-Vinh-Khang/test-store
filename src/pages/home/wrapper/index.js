@@ -1,15 +1,17 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
 import classNames from 'classnames/bind'
-import Home from '../home';
+
 import Banner from '../banner'
 import Section from '../section';
+
+import objStyle from './index.module.scss'
 function WrapperHome() {
+    let cv = classNames.bind(objStyle)
     return (
         <div>
-            {/* <Home /> */}
             <Banner></Banner>
-            <Section></Section>
+            <div className={cv('wrap')}>
+                <Section></Section>
+            </div>
         </div>
     );
 }

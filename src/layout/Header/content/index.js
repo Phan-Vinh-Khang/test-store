@@ -57,7 +57,7 @@ function ContentHeader() {
                     onClickOutside={hide}
                     interactive
                     render={attrs => (
-                        <div className={cv2('showbox') + ' ' + ('size-search')} tabIndex="-1" {...attrs}>
+                        <div className={cv2('showbox') + ' ' + cv('size-search')} tabIndex="-1" {...attrs}>
                             {
                                 listarr.map(item => (
                                     <a href='/'>

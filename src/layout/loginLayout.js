@@ -1,14 +1,13 @@
-
 import HeaderLogin from "./HeaderLogin/headerLogin";
-import Content from "./Content/Content";
 import Footer from "./Footer/Footer";
+import WrapperContent from "./Content/wrapper";
 function LoginLayout({ children }) {
     //children
     //element content
     return (
         <div>
             <HeaderLogin></HeaderLogin>
-            <Content>{children}</Content>
+            <WrapperContent>{children}</WrapperContent>
             <Footer></Footer>
         </div>
     );

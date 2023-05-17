@@ -9,8 +9,10 @@ function WrapperHome() {
     return (
         <div>
             <Banner></Banner>
-            <div className={cv('wrap')}>
-                <Section></Section>
+            <div className={cv('wrapper')}>
+                <div className={cv('wrapper-center')}>
+                    <Section></Section>
+                </div>
             </div>
         </div>
     );

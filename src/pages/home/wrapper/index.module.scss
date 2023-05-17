@@ -1,3 +1,8 @@
-.wrap {
+.wrapper {
     display: flex;
+    justify-content: center;
+
+    &-center {
+        width: 75vw;
+    }
 }

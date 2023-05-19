@@ -1,0 +1,131 @@
+.section-1 {
+    display: flex;
+
+    &-image {
+        width: 40%;
+        box-sizing: border-box;
+        padding: 20px 12px 20px 12px;
+
+        &>img {
+            width: 100%;
+        }
+
+        &-slider {
+            position: relative;
+            box-sizing: border-box;
+
+            .item-img {
+                padding: 5px;
+
+                img {
+                    width: 100%;
+
+                }
+
+            }
+        }
+    }
+
+    .active {
+        //su dung khi hv
+        border: 1px solid black;
+    }
+
+    &-detail-product {
+        width: 60%;
+        box-sizing: border-box;
+        padding: 20px 12px 20px 12px;
+
+        .title {
+            font-size: 1.25rem;
+        }
+
+        .wrap-flex {
+            display: flex;
+            text-align: center;
+            padding-top: 4px;
+
+            .wrap-star {
+                display: flex;
+                align-items: center;
+                padding-right: 7px;
+                border-right: 1px solid #dcdcdc;
+
+                span {
+                    border-bottom: 1px solid black;
+                    padding-right: 5px;
+                }
+
+                svg {
+                    width: 20px;
+                    height: 15px;
+                }
+            }
+
+            .wrap-feedback {
+                padding-left: 5px;
+                padding-right: 10px;
+                border-right: 1px solid #dcdcdc;
+
+            }
+
+            .wrap-sold {
+                padding-left: 5px;
+            }
+        }
+
+        .wrap-price {
+            box-sizing: border-box;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: rgba(208, 1, 27, 0.08);
+            font-size: 1.8rem;
+        }
+
+    }
+}
+
+.slick-arrow {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: whitesmoke;
+    z-index: 1;
+    font-size: 150%;
+
+    &.right {
+        top: calc(50% - 12px);
+        right: 9px;
+
+        i {
+            text-shadow: 3px 0px 5px rgba(0, 0, 0, .3);
+        }
+    }
+
+    &.left {
+        top: calc(50% - 12px);
+        left: 9px;
+
+        i {
+            text-shadow: -3px 0px 5px rgba(0, 0, 0, .3);
+        }
+    }
+}
+
+@keyframes animation {
+    from {
+        font-size: 150%;
+    }
+
+    to {
+        font-size: 180%;
+    }
+}
+
+.slick-arrow:hover {
+    font-size: 180%;
+    animation-name: animation;
+    animation-duration: .08s;
+}

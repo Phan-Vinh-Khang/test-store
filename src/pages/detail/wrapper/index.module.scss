@@ -1,3 +1,21 @@
 .wrapper {
     width: 75vw;
+
+    .title-path {
+        padding: 15px 0px;
+        font-size: 0.8125rem;
+        color: #05a;
+
+    }
+
+    span>i {
+        color: gray;
+        padding: 0px 4px;
+    }
+
+    .wrap-content {
+        background-color: white;
+        height: 500vh;
+
+    }
 }

@@ -4,18 +4,18 @@ import classNames from 'classnames/bind'
 import Slider from "react-slick";
 import objStyle from './index.module.scss'
 let cv = classNames.bind(objStyle);
-function RightArrow(obj) {
+export function RightArrow(obj) {
     return (
-        <div className={cv('slick-arrow') + ' ' + cv('right')}
+        <div className={obj.className1}
             onClick={obj.onClick}
         >
             <i class="fa-solid fa-angle-right"></i>
         </ div>
     )
 }
-function LeftArrow(obj) {
+export function LeftArrow(obj) {
     return (
-        <div className={cv('slick-arrow') + ' ' + cv('left')}
+        <div className={obj.className1}
             onClick={obj.onClick}
         >
             <i class="fa-solid fa-angle-left"></i>
@@ -31,8 +31,8 @@ function Section() {
         speed: 600,
         slidesToShow: 10,
         slidesToScroll: 4,
-        prevArrow: <LeftArrow />, //properties ref vào sẽ thêm vào các properties có sẵn vào funcreturnvềelement
-        nextArrow: <RightArrow /> //properties ref vào sẽ thêm vào các properties có sẵn vào funcreturnvềelement
+        prevArrow: <LeftArrow className1={cv('slick-arrow') + ' ' + cv('left')} />, //properties ref vào sẽ thêm vào các properties có sẵn vào funcreturnvềelement
+        nextArrow: <RightArrow className1={cv('slick-arrow') + ' ' + cv('right')} /> //properties ref vào sẽ thêm vào các properties có sẵn vào funcreturnvềelement
 
     };
     let ListItem = (arr, arrDes) => {

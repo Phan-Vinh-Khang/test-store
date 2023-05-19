@@ -3,13 +3,26 @@ import axios from 'axios';
 import objStyle from './index.module.scss'
 import classNames from 'classnames/bind'
 import Carousel from 'react-bootstrap/Carousel';
+import './index.scss'
 function Banner() {
     let cv = classNames.bind(objStyle)
     return (
         <div className={cv('wrapper')}>
             <div className={cv('wrapper-center')}>
                 <div className={cv('wrap-banner1')}>
-                    <Carousel fade touch>
+                    <Carousel
+                        fade
+                        touch
+                        interval={3000}
+                        nextIcon={<span className='wrapIcon'>
+                            <span aria-hidden="true" className="carousel-control-next-icon" />
+
+                        </span>}
+                        prevIcon={<span className='wrapIcon'>
+                            <span aria-hidden="true" className="carousel-control-prev-icon" />
+
+                        </span>}
+                    >
                         <Carousel.Item>
                             <a href='/'>
                                 <img

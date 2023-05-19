@@ -1,7 +1,7 @@
 .wrapper {
     display: flex;
     justify-content: center;
-    position: sticky;
+    // position: sticky;
     top: 0px;
     background-color: #ee4d2d;
     font-size: 1vw;
@@ -14,4 +14,8 @@
     &-center {
         width: 75vw;
     }
+}
+
+.stickyHeader {
+    position: sticky;
 }

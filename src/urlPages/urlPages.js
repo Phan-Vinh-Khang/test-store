@@ -3,6 +3,7 @@ import Search from "../pages/search/seach"
 import Following from "../pages/following/following"
 import WrapperLogin from "../pages/login/wrapper"//content
 import WrapperHome from "../pages/home/wrapper"//content
+import WrapperDetail from "../pages/detail/wrapper"
 //Layout website
 import MainLayout from "../layout/mainLayout" //layout header and footer
 import LoginLayout from "../layout/loginLayout" //layout header and footer
@@ -26,6 +27,12 @@ const urlPages = [
         path: '/Login',
         element: WrapperLogin,
         layout: LoginLayout
+
+    },
+    {
+        path: '/Detail',
+        element: WrapperDetail,
+        layout: MainLayout
 
     },
 ]

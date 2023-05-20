@@ -84,6 +84,9 @@ function Section1(obj) {
                 <div className={cv('wrap-price')}>
                     <div>đ70.000</div>
                 </div>
+                <div className={cv('wrap-select')}>
+
+                </div>
             </div>
         </div>
     );

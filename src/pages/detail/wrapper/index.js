@@ -3,7 +3,7 @@ import axios from 'axios';
 import classNames from 'classnames/bind'
 import objStyle from './index.module.scss'
 import { useSelector, useDispatch } from 'react-redux';
-
+import { unStickyHeader } from '../../../redux/reducer2';
 import Section1 from '../section1';
 let w = 1;
 function WrapperDetail(obj) {
@@ -12,10 +12,7 @@ function WrapperDetail(obj) {
         return state;
     }))
     if (w == 1) {
-        dispatch({
-            type: 'checkStickyHeader',
-            data: '/detail'
-        })
+        dispatch(unStickyHeader())
         w++;
     }
     let cv = classNames.bind(objStyle);

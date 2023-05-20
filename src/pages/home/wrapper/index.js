@@ -5,6 +5,7 @@ import Banner from '../banner'
 import Section from '../section';
 
 import objStyle from './index.module.scss'
+import { StickyHeader } from '../../../redux/reducer2';
 let w = 1;
 function WrapperHome() {
     let dispatch = useDispatch();
@@ -12,10 +13,7 @@ function WrapperHome() {
         return state;
     }))
     if (w == 1) {
-        dispatch({
-            type: 'checkStickyHeader',
-            data: '/'
-        })
+        dispatch(StickyHeader())
         w++;
     }
     let cv = classNames.bind(objStyle)

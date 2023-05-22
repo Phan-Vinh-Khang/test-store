@@ -1,5 +1,10 @@
+.gray-color {
+    color: #757575;
+}
+
 .section-1 {
     display: flex;
+    background-color: white;
 
     &-image {
         width: 40%;
@@ -45,6 +50,10 @@
             text-align: center;
             padding-top: 4px;
 
+            &.flex-gap {
+                gap: 30px
+            }
+
             .wrap-star {
                 display: flex;
                 align-items: center;
@@ -74,12 +83,52 @@
             }
         }
 
-        .wrap-price {
+        .wrap-select {
             box-sizing: border-box;
-            padding: 10px;
-            margin-top: 20px;
-            background-color: rgba(208, 1, 27, 0.08);
-            font-size: 1.8rem;
+            padding: 5px 20px;
+
+            >div {
+                margin-top: 50px;
+            }
+
+            .wrap-price {
+                padding: 10px 30px;
+                margin-top: 20px;
+                background-color: rgba(208, 1, 27, 0.08);
+                font-size: 1.8rem;
+            }
+
+            .amount {
+                >input {
+                    width: 25%;
+                    height: 31px;
+                    text-align: center;
+                    border: solid 1px gainsboro;
+                }
+
+                >button {
+                    background-color: white;
+                    border: solid 1px gainsboro;
+                    width: 32px;
+                    height: 32px;
+                }
+            }
+
+            .btn1 {
+                padding: 11px 40px;
+                border-radius: 4px;
+                background-color: rgba(255, 87, 34, .1);
+                border: 1px solid #ee4d2d;
+                color: #ee4d2d;
+            }
+
+            .btn2 {
+                margin-left: 20px;
+                padding: 11px 20px;
+                border-radius: 4px;
+                background-color: #ee4d2d;
+                border: none;
+            }
         }
 
     }

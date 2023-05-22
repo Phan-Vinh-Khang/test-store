@@ -5,11 +5,12 @@ import objStyle from './index.module.scss'
 import { useSelector, useDispatch } from 'react-redux';
 import { unStickyHeader } from '../../../redux/reducer2';
 import Section1 from '../section1';
+import Section2 from '../section2';
 let w = 1;
 function WrapperDetail(obj) {
     let dispatch = useDispatch();
     console.log('detail: ', useSelector((state) => {
-        return state;
+        return state.checkStickyHeader;
     }))
     if (w == 1) {
         dispatch(unStickyHeader())
@@ -29,6 +30,7 @@ function WrapperDetail(obj) {
             </div>
             <div className={cv('wrap-content')}>
                 <Section1></Section1>
+                <Section2></Section2>
             </div>
         </div>
     );

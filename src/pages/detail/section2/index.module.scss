@@ -1,0 +1,63 @@
+.section-2 {
+    display: flex;
+    background-color: white;
+    margin-top: 20px;
+
+    >div {
+        box-sizing: border-box;
+        padding: 20px;
+    }
+
+    .block-shop1 {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: center;
+        width: 30%;
+
+        .shop-avatar {
+            width: 25%;
+
+            img {
+                width: 100%;
+                border-radius: 999px;
+            }
+
+
+        }
+
+        &-info {
+            >div:last-child {
+                margin-top: 8px;
+            }
+
+            >div:nth-child(2) {
+                color: rgba(0, 0, 0, .54)
+            }
+
+            &-btn {
+                button:first-child {
+                    padding: 4px 12px;
+                    background-color: rgba(255, 87, 34, .1);
+                    border: 1px solid #ee4d2d;
+                    color: #ee4d2d;
+                    margin-right: 0.625rem;
+                }
+
+                button:last-child {
+                    padding: 4px 12px;
+                    background-color: white;
+                    border: 1px solid rgba(0, 0, 0, 0.09);
+                    color: rgb(85, 85, 85);
+                }
+            }
+        }
+
+
+    }
+
+    .block-shop-info {
+        width: 70%;
+        background-color: cornflowerblue;
+    }
+}

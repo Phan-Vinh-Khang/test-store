@@ -9,9 +9,8 @@ function WrapperHeader() {
     let cv = classNames.bind(objStyle)
     let checkStickyHeader = useSelector(
         (state) => {
-            return state.checkStickyHeader
+            return state.checkStickyHeader.checkStickyHeader
         })
-    console.log('checkStickyHeader', checkStickyHeader)
     return (
         <div className={checkStickyHeader ? cv('wrapper') + ' ' + cv('stickyHeader') : cv('wrapper')}>
             <div className={cv('wrapper-center')}>

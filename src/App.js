@@ -8,7 +8,7 @@ function App() {
         {
           urlPages.map(item => {
             const Layout = item.layout
-            return <Route path={item.path} element={
+            return <Route key={item.path} path={item.path} element={
               <Layout>
                 {item.element}
               </Layout>

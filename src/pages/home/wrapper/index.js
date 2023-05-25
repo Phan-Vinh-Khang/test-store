@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import Banner from '../banner'
 import Section from '../section';
+import Products from '../Section-Products';
 
 import objStyle from './index.module.scss'
 import { StickyHeader } from '../../../redux/reducer2';
@@ -23,6 +24,7 @@ function WrapperHome() {
             <div className={cv('wrapper')}>
                 <div className={cv('wrapper-center')}>
                     <Section></Section>
+                    <Products></Products>
                 </div>
             </div>
         </div>

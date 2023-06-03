@@ -5,8 +5,12 @@ import classNames from 'classnames/bind'
 import resLogin from '../../../services/userServices';
 import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { handleLogin, handleLoginInput } from '../../../redux/actions';
+import { setLoginReducer } from '../../../redux/reducerLogin';
 function SignIn(obj) {
+    let dispatch = useDispatch();
+    let logged = useSelector((state) => {
+        return state.dataLogged.name
+    })
     let cv = classNames.bind(objStyle);
     let [state, setState] = useState({
         email: undefined,
@@ -64,19 +68,20 @@ function SignIn(obj) {
             })
         }
         if (data.data.errCode == 0) {
-            localStorage.setItem("logged", JSON.stringify(
-                {
-                    id: data.data.user[0].id,
-                    name: data.data.user[0].name
-                }
-            ))
+            // localStorage.setItem("logged", JSON.stringify(
+            //     {
+            //         id: data.data.user[0].id,
+            //         name: data.data.user[0].name
+            //     }
+            // ))
+            dispatch(setLoginReducer(data.data.user[0]))
         }
         setStateSigninMessage(data.data.message)
     }
     const showPassword = () => {
         setStateShowPassword(!stateShowPassword)
     }
-    if (localStorage.getItem("logged") != '{}') {
+    if (logged != undefined) {
         return <Navigate replace to="/" />;
     }
     else {

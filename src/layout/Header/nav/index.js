@@ -5,17 +5,27 @@ import objGlobalStyle from '../../../GlobalStyle/index.module.scss'
 import classNames from 'classnames/bind'
 import { Link } from 'react-router-dom';
 import Tippy from '@tippyjs/react/headless';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoginReducer } from '../../../redux/reducerLogin';
 function NavHeader() {
     let cv = classNames.bind(objStyle)
     let cv2 = classNames.bind(objGlobalStyle)
-    let [stateLogged, setStateLogged] = useState(JSON.parse(localStorage.getItem("logged")).name)
+    let dispatch = useDispatch();
+    // let [stateLogged, setStateLogged] = useState(JSON.parse(localStorage.getItem("logged")).name)
+    let Logged = useSelector((state) => {
+        return state.dataLogged.name;
+    })
     let Logout = () => {
-        localStorage.setItem("logged", JSON.stringify({
-            id: undefined,
-            name: undefined
-        }))
-        setStateLogged(undefined)
+        dispatch(setLoginReducer());
     }
+    sessionStorage.setItem('test', 'aaa')
+    // let Logout = () => {
+    //     localStorage.setItem("logged", JSON.stringify({
+    //         id: undefined,
+    //         name: undefined
+    //     }))
+    //     setStateLogged(undefined)
+    // }
     return (
         <div className={cv('wrapper-nav')}>
             <div className={cv('content-nav1')}>
@@ -45,7 +55,7 @@ function NavHeader() {
                     Tiếng Việt
                 </span>
                 {
-                    (stateLogged != undefined) ? (
+                    (Logged != undefined) ? (
                         <Tippy
                             interactive
                             delay={[null, 50]}
@@ -62,7 +72,7 @@ function NavHeader() {
                             <div className={cv('user')}>
                                 <span>
                                     <i class="fa-regular fa-user"></i>
-                                    {stateLogged}
+                                    {Logged}
                                 </span>
                             </div>
                         </Tippy>

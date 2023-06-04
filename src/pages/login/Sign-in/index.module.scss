@@ -2,7 +2,6 @@
     display: flex;
     align-items: center;
     width: 40%;
-    height: 100%;
 
     //label
     .wrapper-Login-center {
@@ -43,8 +42,9 @@
             }
 
             button {
+                position: relative;
                 background-color: #ee4d2d;
-                color: whitesmoke
+                color: whitesmoke;
             }
 
             .block-login2 {

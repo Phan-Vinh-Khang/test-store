@@ -18,7 +18,6 @@ function NavHeader() {
     let Logout = () => {
         dispatch(setLoginReducer());
     }
-    sessionStorage.setItem('test', 'aaa')
     // let Logout = () => {
     //     localStorage.setItem("logged", JSON.stringify({
     //         id: undefined,

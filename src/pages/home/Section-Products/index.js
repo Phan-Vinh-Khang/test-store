@@ -2,13 +2,14 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import classNames from 'classnames/bind'
 import objStyle from './index.module.scss'
+import { reFreshToken } from '../../../services/userServices';
 let cv = classNames.bind(objStyle);
 function Products() {
     let arr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
     let listProduct = () => {
         return arr.map((item) => {
             return (
-                <div className={cv('wrap-product')}>
+                <div onClick={reFreshToken} className={cv('wrap-product')}>
                     <img src='./Section-Products/img1.jpg' />
                     <div className={cv('wrap-info-product')}>
                         <div className={cv('product-name')}>

@@ -15,5 +15,16 @@ async function resSignup(username, email, password, confirmPassword, address) {
         address: address
     })
 }
+async function detailUser(idUser) {
+    console.log(idUser)
+    console.log(('http://localhost:3001/api/detail-user/' + idUser).toString())
+    return await axios.get('http://localhost:3001/api/detail-user/' + idUser)
+}
+async function reFreshToken() {
+    return await axios.get('http://localhost:3001/api/reFresh-token',
+        {
+            Cookie: 'cookie1=reAccessToken;'
+        })
+}
 export default resLogin
-export { resSignup }
+export { resSignup, detailUser, reFreshToken }

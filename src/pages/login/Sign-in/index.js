@@ -2,10 +2,9 @@ import { useState, useContext } from 'react';
 import axios from 'axios';
 import objStyle from './index.module.scss'
 import classNames from 'classnames/bind'
-import ReactLoading from 'react-loading';
-import ClipLoader from "react-spinners/ClipLoader";
+import jwt_decode from "jwt-decode";
 import ButtonLoading from './ButtonLoading';
-import resLogin from '../../../services/userServices';
+import resLogin, { detailUser } from '../../../services/userServices';
 import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoginReducer } from '../../../redux/reducerLogin';
@@ -21,9 +20,11 @@ function SignIn(obj) {
     })
     let cv = classNames.bind(objStyle);
     let [state, setState] = useState({
-        email: undefined,
-        password: undefined
+        email: sessionStorage.getItem('sessionEmail'),
+        password: sessionStorage.getItem('sessionPassword')
     })
+    sessionStorage.setItem('sessionEmail', state.email)
+    sessionStorage.setItem('sessionPassword', state.password)
     let [stateShowPassword, setStateShowPassword] = useState(true);
     let showPasswordInput;
     let showPasswordIcon1, showPasswordIcon2;
@@ -91,7 +92,12 @@ function SignIn(obj) {
             //         name: data.data.user[0].name
             //     }
             // ))
-            dispatch(setLoginReducer(data.data.user[0]))
+            // const data = jwt_decode(localStorage.getItem('access_token'));
+            localStorage.setItem('access_token', data.data.access_token)
+            const token_Decode = jwt_decode(data.data.access_token)
+            const userData = await detailUser(token_Decode.data.id)
+            console.log(userData.data)
+            dispatch(setLoginReducer(userData.data))
         }
     }
     const showPassword = () => {
@@ -113,7 +119,7 @@ function SignIn(obj) {
                     </div>
                     <div className={cv('wrapperForm')}>
                         <form>
-                            <input type='text' name='email' onChange={(e) => getValue(e, 'email')} class="form-control" placeholder="Email đăng nhập...." aria-label="default input example" />
+                            <input value={state.email} type='text' name='email' onChange={(e) => getValue(e, 'email')} class="form-control" placeholder="Email đăng nhập...." aria-label="default input example" />
                             <div className={cv('wrap-position-eyesIcon')}>
                                 <input value={state.password} type={showPasswordInput} name='password' onChange={(e) => getValue(e, 'password')} class="form-control" placeholder="Mật khẩu...." aria-label="default input example" />
                                 <span Style={showPasswordIcon1} onClick={showPassword} className={cv('eyesIcon')}>

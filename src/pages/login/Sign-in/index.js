@@ -1,10 +1,10 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import objStyle from './index.module.scss'
 import classNames from 'classnames/bind'
 import jwt_decode from "jwt-decode";
 import ButtonLoading from './ButtonLoading';
-import resLogin, { detailUser } from '../../../services/userServices';
+import resLogin, { AuthenticationUser } from '../../../services/userServices';
 import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoginReducer } from '../../../redux/reducerLogin';
@@ -92,14 +92,13 @@ function SignIn(obj) {
             //         name: data.data.user[0].name
             //     }
             // ))
-            // const data = jwt_decode(localStorage.getItem('access_token'));
-            localStorage.setItem('access_token', data.data.access_token)
-            const token_Decode = jwt_decode(data.data.access_token)
-            const userData = await detailUser(token_Decode.data.id)
-            console.log(userData.data)
-            dispatch(setLoginReducer(userData.data))
+            const access_token = data.data.access_token
+            localStorage.setItem('access_token', access_token)
+            let userData = await AuthenticationUser(access_token);
+            dispatch(setLoginReducer(userData.data.user))
         }
     }
+
     const showPassword = () => {
         setStateShowPassword(!stateShowPassword)
     }

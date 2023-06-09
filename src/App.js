@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom'
 import urlPages from './urlPages/urlPages';
+import jwt_decode from 'jwt-decode'
+import Authentication from './authentication';
 function App() {
+  Authentication()
   return (
     <div>
       <Routes>

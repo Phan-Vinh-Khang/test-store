@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import Tippy from '@tippyjs/react/headless';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoginReducer } from '../../../redux/reducerLogin';
+import { Logout as LogoutAuth } from '../../../services/userServices';
 function NavHeader() {
     let cv = classNames.bind(objStyle)
     let cv2 = classNames.bind(objGlobalStyle)
@@ -15,8 +16,10 @@ function NavHeader() {
     let Logged = useSelector((state) => {
         return state.dataLogged.name;
     })
-    let Logout = () => {
-        dispatch(setLoginReducer());
+    let Logout = async () => {
+        await LogoutAuth();
+        localStorage.setItem('access_token', '')
+        dispatch(setLoginReducer())
     }
     // let Logout = () => {
     //     localStorage.setItem("logged", JSON.stringify({

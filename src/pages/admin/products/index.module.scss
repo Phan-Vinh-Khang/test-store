@@ -1,0 +1,25 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    height: 5%;
+    background-color: gainsboro;
+
+    span {
+        padding: 0px 8px;
+    }
+
+    span:hover {
+        cursor: pointer;
+    }
+
+    i {
+        margin-left: 8px;
+    }
+
+}
+
+.wrapSlider {
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+}

@@ -1,0 +1,13 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ccc;
+    height: 10vh;
+
+    .wrap1,
+    .wrap2 {
+        padding: 0px 20px;
+        font-size: larger;
+    }
+}

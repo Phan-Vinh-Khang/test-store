@@ -5,43 +5,42 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
-import ModalInPut from '../modals';
-import Slider from "react-slick";
 
 let cv = classNames.bind(objStyle);
 function AdminUser() {
     let [stateIdx, setStateIdx] = useState(0)
-
-    let listPage = [<Page1 />, <Page2 />]
-    console.log(stateIdx)
-    var settings = {
-        dots: true,
-        infinite: false,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 0,
-        autoplay: false,
-        initialSlide: 0,
-    };
+    let [stateClassName, setStateClassName] = useState('')
+    let listPage = [<Page1 />, <Page2 className={cv(stateClassName)} />]
     return (
-        <>
+        <div className={cv('wrapperForm')}>
             <div className={cv('navbar')}>
-                {stateIdx > 0 &&
-                    <span onClick={() => setStateIdx(--stateIdx)}>
-                        <i class="fa-solid fa-arrow-left fa-xl"></i>                </span>
-                }
-            </div>
-            <Slider {...settings}>
-                <Page1 />
-                <Page2 />
-            </Slider>
+                {
+                    stateIdx > 0 &&
+                    <span onClick={() => {
+                        setStateIdx(--stateIdx)
+                        setStateClassName('wrapForm2')
 
+                    }}>
+                        <i class="fa-solid fa-arrow-left fa-xl"></i>
+                    </span>
+                }
+                <span className={cv('title')}> Quản lí sản phẩm</span>
+            </div>
+            {
+                listPage.map((item, idx) => {
+                    return item
+                })
+            }
             {stateIdx < 1 &&
-                <Button onClick={() => setStateIdx(++stateIdx)} variant="primary">
+                <Button onClick={() => {
+                    setStateIdx(++stateIdx)
+                    setStateClassName('wrapForm')
+                }
+                } variant="primary">
                     <i Style='margin-right:4px' class="fa-sharp fa-solid fa-plus" /> Thêm sản phẩm
                 </Button>
             }
-        </>
+        </div>
 
     );
 }
@@ -81,10 +80,11 @@ function Page1() {
     );
 
 }
-function Page2() {
+function Page2(obj) {
+    console.log('a', obj.className)
     return (
-        <div>
-            <Form className={cv('wrapForm')}>
+        <div className={obj.className == '' ? cv('wrapFormTest') : obj.className}>
+            <Form >
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                     <Form.Label>Tên người dùng</Form.Label>
                     <Form.Control type="text" placeholder="Tên người dùng" />

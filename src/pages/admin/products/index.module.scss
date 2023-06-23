@@ -1,25 +1,69 @@
-.navbar {
-    display: flex;
-    align-items: center;
-    height: 5%;
-    background-color: gainsboro;
+.wrapperForm {
+    position: relative;
+    height: 100vh;
 
-    span {
-        padding: 0px 8px;
+    .navbar {
+        display: flex;
+        align-items: center;
+        height: 5%;
+        background-color: gainsboro;
+        text-align: center;
+
+        span {
+            padding: 0px 8px;
+        }
+
+        span:hover {
+            cursor: pointer;
+        }
+
+        i {
+            margin-left: 8px;
+        }
+
     }
 
-    span:hover {
-        cursor: pointer;
+    .wrapForm {
+        animation: animetionOpenPage2 .7s ease forwards;
+        position: absolute;
+        top: 5%;
+        left: -100%;
+        width: 100%;
+        background-color: white;
+
+        @keyframes animetionOpenPage2 {
+            from {
+                left: -100%;
+            }
+
+            to {
+                left: 0%;
+            }
+        }
     }
 
-    i {
-        margin-left: 8px;
+    .wrapFormTest {
+        position: absolute;
+        top: 0;
+        left: -100%;
     }
 
-}
+    .wrapForm2 {
+        animation: animetionClosePage2 .7s ease forwards;
+        position: absolute;
+        top: 5%;
+        width: 100%;
+        background-color: white;
 
-.wrapSlider {
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
+        @keyframes animetionClosePage2 {
+            from {
+                left: 0%;
+            }
+
+            to {
+                left: -100%;
+            }
+        }
+    }
+
 }

@@ -23,8 +23,18 @@ async function detailUser(idUser) {
 async function AuthenticationUser(access_token) {
     return await axios.post('http://localhost:3001/api/authentication-user', { access_token: access_token })
 }
-async function Logout(access_token) {
+async function Logout() {
     return await axios.get('http://localhost:3001/api/logout-user', { withCredentials: true })
+}
+async function allUser() {
+    return await axios.get('http://localhost:3001/api/all-user')
+}
+async function updateUser(id, access_token, data) {
+    return await axios.post('http://localhost:3001/api/update-product/:' + id,
+        {
+            access_token,
+            data,
+        })
 }
 async function reFreshToken() {
     return await axios.get('http://localhost:3001/api/reFresh-token', {
@@ -32,4 +42,12 @@ async function reFreshToken() {
     })
 }
 export default resLogin
-export { resSignup, detailUser, AuthenticationUser, Logout, reFreshToken }
+export {
+    resSignup,
+    detailUser,
+    AuthenticationUser,
+    Logout,
+    allUser,
+    updateUser,
+    reFreshToken
+}

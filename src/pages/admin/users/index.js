@@ -19,8 +19,8 @@ function AdminUser() {
             const dataRole = (await allRole()).data;
             setTimeout(() => {
                 setStateDataUsers({
-                    listUser: dataUser,
-                    listRole: dataRole
+                    listUser: dataUser.listUser,
+                    listRole: dataRole.listRole
                 })
             }, 500)
         }
@@ -40,7 +40,10 @@ function AdminUser() {
                     'createdAt',
                     'updatedAt',
                     'More']}
-                dataList={stateDataUsers}
+                listData={stateDataUsers.listUser}
+                listData2={stateDataUsers.listRole}
+                className={cv('modify-user')}
+
             />
             <Button variant="primary" onClick={() => setShow(true)}>
                 <i Style='margin-right:4px' class="fa-sharp fa-solid fa-plus" /> Thêm người dùng

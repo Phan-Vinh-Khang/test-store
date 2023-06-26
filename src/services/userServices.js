@@ -1,4 +1,5 @@
 import axios from "axios"
+import checkToken from "./checkToken"
 //ref req to controller
 async function resLogin(email, password) {
     return await axios.post('http://localhost:3001/api/check-user-login', {
@@ -30,9 +31,10 @@ async function allUser() {
     return await axios.get('http://localhost:3001/api/all-user')
 }
 async function updateUser(id, access_token, data) {
-    return await axios.post('http://localhost:3001/api/update-product/:' + id,
+    const access_token2 = await checkToken(access_token)
+    return await axios.put('http://localhost:3001/api/update-user/' + id,
         {
-            access_token,
+            access_token: access_token2,
             data,
         })
 }

@@ -58,45 +58,34 @@ function SignIn(obj) {
             className: cv('btnload-active'),
             mesage: '',
         })
-        let data = {};
-        // data = await axios({
-        //     method: 'post',
-        //     url: 'http://localhost:3001/api/check-user-login',
-        //     data: {
-        //         email: state.email,
-        //         password: state.password
-        //     }
-        // });
-        data = await resLogin(state.email, state.password)
-        await new Promise(r => setTimeout(r, 500));
-        setStateLoading({
-            loading: false,
-            className: '',
-            mesage: data.data.message
-        })
+        try {
+            let data = await resLogin(state.email, state.password)
+            if (data.status == 200) {//status ở response ko phải status ở obj return ve
+                const access_token = data.data.access_token
+                localStorage.setItem('access_token', access_token)
+                let userData = await AuthenticationUser(access_token);
+                dispatch(setLoginReducer(userData.data.user))
+            }
+        }
+        catch (e) {
+            setTimeout(() => {
+                setStateLoading({
+                    loading: false,
+                    className: '',
+                    mesage: e.response.data.message
+                })
+                if (e.response.status == 409) {
+                    setState({
+                        ...state,
+                        password: ''
+                    })
+                }
+            }, 500);
+        }
         //return về 1 obj
         //{data: Array(10), status: 200, statusText: '', headers: AxiosHeaders, config: {…}, …}config: {transitional: {…}, adapter: Array(2), transformRequest: Array(1), transformResponse: Array(1), timeout: 0, …}data: Array(10)0: {id: 1, name: 'Leanne Graham', username: 'Bret', email: 'Sincere@april.biz', address: {…}, …}1: {id: 2, name: 'Ervin Howell', username: 'Antonette', email: 'Shanna@melissa.tv', address: {…}, …}2: {id: 3, name: 'Clementine Bauch', username: 'Samantha', email: 'Nathan@yesenia.net', address: {…}, …}3: {id: 4, name: 'Patricia Lebsack', username: 'Karianne', email: 'Julianne.OConner@kory.org', address: {…}, …}4: {id: 5, name: 'Chelsey Dietrich', username: 'Kamren', email: 'Lucio_Hettinger@annie.ca', address: {…}, …}5: {id: 6, name: 'Mrs. Dennis Schulist', username: 'Leopoldo_Corkery', email: 'Karley_Dach@jasper.info', address: {…}, …}6: {id: 7, name: 'Kurtis Weissnat', username: 'Elwyn.Skiles', email: 'Telly.Hoeger@billy.biz', address: {…}, …}7: {id: 8, name: 'Nicholas Runolfsdottir V', username: 'Maxime_Nienow', email: 'Sherwood@rosamond.me', address: {…}, …}8: {id: 9, name: 'Glenna Reichert', username: 'Delphine', email: 'Chaim_McDermott@dana.io', address: {…}, …}9: {id: 10, name: 'Clementina DuBuque', username: 'Moriah.Stanton', email: 'Rey.Padberg@karina.biz', address: {…}, …}length: 10[[Prototype]]: Array(0)headers: AxiosHeaders {cache-control: 'max-age=43200', content-type: 'application/json; charset=utf-8', expires: '-1', pragma: 'no-cache'}request: XMLHttpRequest {onreadystatechange: null, readyState: 4, timeout: 0, withCredentials: false, upload: XMLHttpRequestUpload, …}status: 200statusText: ""[[Prototype]]: Object
         //properties ref to static data(propertie data ref to arr,status ref to 200, config ref to obj)
         //respon của devtool sẽ hien thị obj.data
-        console.log(data.data)
-        if (data.data.errCode == 3) {
-            setState({
-                ...state,
-                password: ''
-            })
-        }
-        if (data.data.errCode == 0) {
-            // localStorage.setItem("logged", JSON.stringify(
-            //     {
-            //         id: data.data.user[0].id,
-            //         name: data.data.user[0].name
-            //     }
-            // ))
-            const access_token = data.data.access_token
-            localStorage.setItem('access_token', access_token)
-            let userData = await AuthenticationUser(access_token);
-            dispatch(setLoginReducer(userData.data.user))
-        }
     }
 
     const showPassword = () => {

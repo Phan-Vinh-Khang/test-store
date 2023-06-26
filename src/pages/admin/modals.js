@@ -4,7 +4,6 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import createUserAdmin from '../../services/adminServices';
-import reqWithToken from '../../services/reqWithToken';
 function ModalInput({ listRole, ...obj }) {
     let access_token = localStorage.getItem('access_token')
     let [stateInput, setStateInput] = useState({
@@ -29,9 +28,13 @@ function ModalInput({ listRole, ...obj }) {
             ...stateInput
         })
     }
-    let addUserAdmin = () => {
+    let addUserAdmin = async () => {
         obj.close();
-        reqWithToken(createUserAdmin, access_token, stateInput)
+        try {
+            await createUserAdmin({ access_token, data: stateInput })
+        } catch (e) {
+            alert(e.response.data.message)
+        }
     }
     return (
         <>

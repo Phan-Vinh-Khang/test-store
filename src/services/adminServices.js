@@ -1,15 +1,11 @@
 import axios from "axios"
+import checkToken from "./checkToken"
 //ref req to controller
-async function createUserAdmin({ name, email, password, confirmPassword, avatar, adress, roleid }, access_token) {
+async function createUserAdmin({ data, access_token }) {
+    const access_token2 = await checkToken(access_token)
     return await axios.post('http://localhost:3001/api/create-user-admin', {
-        name,
-        email,
-        password,
-        confirmPassword,
-        avatar,
-        adress,
-        roleid,
-        access_token
+        ...data,
+        access_token: access_token2
     }
     )
 }

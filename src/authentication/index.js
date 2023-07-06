@@ -11,10 +11,11 @@ async function Authentication() {
             break;
         }
         catch (e) {
-            access_token = (await reFreshToken()).data
-            if (access_token?.status != 401) {//refresh token loi hoac het han
+            try {
+                access_token = (await reFreshToken()).data
                 localStorage.setItem('access_token', access_token)
-            } else {
+            }
+            catch (e) {//refresh token loi hoac het han
                 dispatch(setLoginReducer()) //logout khi refresh token loi hoac het han
                 break;
             }

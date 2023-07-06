@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import createUserAdmin from '../../services/adminServices';
-function ModalInput({ listRole, ...obj }) {
+function ModalInput({ reReqData, listRole, ...obj }) {
     let access_token = localStorage.getItem('access_token')
     let [stateInput, setStateInput] = useState({
         name: '',
@@ -14,7 +14,7 @@ function ModalInput({ listRole, ...obj }) {
         avatar: '',
         adress: '',
         roleid: '',
-    })
+    });
     let setInput = (label, e) => {
         let input = e.target.value;
         if (label == 'roleid') {
@@ -28,17 +28,41 @@ function ModalInput({ listRole, ...obj }) {
             ...stateInput
         })
     }
+    console.log(stateInput)
     let addUserAdmin = async () => {
-        obj.close();
         try {
             await createUserAdmin({ access_token, data: stateInput })
+            obj.close();
+            setStateInput({
+                name: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
+                avatar: '',
+                adress: '',
+                roleid: '',
+            })
+            setTimeout(() => {
+                reReqData(); //cho 500ms de luu data vao db,neu chay ngay co the db chua kip luu da return ve data
+            }, 100)
         } catch (e) {
             alert(e.response.data.message)
         }
     }
     return (
         <>
-            <Modal show={obj.open} onHide={obj.close} size='lg'>
+            <Modal show={obj.open} onHide={() => {
+                obj.close()
+                setStateInput({
+                    name: '',
+                    email: '',
+                    password: '',
+                    confirmPassword: '',
+                    avatar: '',
+                    adress: '',
+                    roleid: '',
+                })
+            }} size='lg'>
                 <Modal.Header closeButton>
                     <Modal.Title>Thêm người dùng</Modal.Title>
                 </Modal.Header>
@@ -77,7 +101,18 @@ function ModalInput({ listRole, ...obj }) {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={obj.close}>
+                    <Button variant="secondary" onClick={() => {
+                        obj.close()
+                        setStateInput({
+                            name: '',
+                            email: '',
+                            password: '',
+                            confirmPassword: '',
+                            avatar: '',
+                            adress: '',
+                            roleid: '',
+                        })
+                    }}>
                         Đóng
                     </Button>
                     <Button onClick={addUserAdmin} variant="primary">

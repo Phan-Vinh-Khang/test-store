@@ -13,6 +13,14 @@ function AdminUser() {
         listUser: Array(20).fill(0),
         listRole: []
     })
+    let reReqData = async () => {
+        const dataUser = (await allUser()).data;
+        const dataRole = (await allRole()).data;
+        setStateDataUsers({
+            listUser: dataUser.listUser,
+            listRole: dataRole.listRole
+        })
+    }
     useEffect(() => {
         const fetchData = async () => {
             const dataUser = (await allUser()).data;
@@ -43,6 +51,7 @@ function AdminUser() {
                 listData={stateDataUsers.listUser}
                 listData2={stateDataUsers.listRole}
                 className={cv('modify-user')}
+                reReqData={reReqData}
 
             />
             <Button variant="primary" onClick={() => setShow(true)}>
@@ -53,6 +62,7 @@ function AdminUser() {
                 close={() => setShow(false)}
                 listRole={stateDataUsers.listRole}
                 classNames={cv('modify-user')}
+                reReqData={reReqData}
             />
         </>
 

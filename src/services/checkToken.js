@@ -2,7 +2,7 @@ import axios from "axios"
 import { reFreshToken } from "./userServices";
 async function checkToken(access_token) {
     try {
-        const token = await axios.post('http://localhost:3001/api/check-token', { access_token })
+        await axios.post('http://localhost:3001/api/check-token', { access_token })
     } catch (e) {
         const token = (await reFreshToken()).data
         localStorage.setItem('access_token', token)

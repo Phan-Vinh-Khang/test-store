@@ -39,7 +39,7 @@ function AdminUser() {
     return (
         <>
             <TableBootstrap
-                thead={['Id',
+                thead={['#',
                     'Name',
                     'Email',
                     'Avatar',

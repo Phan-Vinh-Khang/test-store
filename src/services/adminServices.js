@@ -15,8 +15,15 @@ async function deleteUser({ id, access_token }) {
         access_token: access_token2
     })
 }
+async function deleteUserMany({ listId, access_token }) {
+    const access_token2 = await checkToken(access_token)
+    return await axios.post('http://localhost:3001/api/delete-user-many/', {
+        listId,
+        access_token: access_token2
+    })
+}
 async function allRole() {
     return await axios.get('http://localhost:3001/api/all-role')
 }
 export default createUserAdmin
-export { allRole, deleteUser }
+export { allRole, deleteUser, deleteUserMany }

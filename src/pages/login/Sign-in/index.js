@@ -39,18 +39,8 @@ function SignIn(obj) {
         showPasswordIcon2 = ''
     }
     const getValue = (e, label) => {
-        if (label == 'email') {
-            setState({
-                email: e.target.value,
-                password: state.password
-            })
-        }
-        else {
-            setState({
-                ...state,
-                password: e.target.value
-            })
-        }
+        state[label] = e.target.value
+        setState({ ...state })
     }
     const submitAction = async () => {
         setStateLoading({

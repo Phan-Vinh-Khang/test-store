@@ -4,6 +4,8 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import createUserAdmin from '../../services/adminServices';
+import { uploadAvatar } from '../../services/userServices';
+import { uid } from 'uid'
 function ModalInput({ reReqData, listRole, ...obj }) {
     let access_token = localStorage.getItem('access_token')
     let [stateInput, setStateInput] = useState({
@@ -15,7 +17,9 @@ function ModalInput({ reReqData, listRole, ...obj }) {
         adress: '',
         roleid: '',
     });
-    let setInput = (label, e) => {
+    let [stateFile, setStateFile] = useState()
+
+    let setInput = async (label, e) => {
         let input = e.target.value;
         if (label == 'roleid') {
             if (input == 'admin') input = '1'
@@ -24,16 +28,23 @@ function ModalInput({ reReqData, listRole, ...obj }) {
             else input = '-1'
         }
         stateInput[label] = input
-        setStateInput({
-            ...stateInput
-        })
+        if (label == 'avatar') {
+            let fileName = e.target.files[0].name
+            let fileExtension = fileName.split('.')[1]
+            let fileNameUid = fileName.split('.')[0] + uid() + '.' + fileExtension
+            stateInput[label] = fileNameUid
+            stateFile = e.target.files[0];
+        }
+        // setStateInput({
+        //     ...stateInput
+        // })
     }
-    console.log(stateInput)
     let addUserAdmin = async () => {
         try {
             await createUserAdmin({ access_token, data: stateInput })
+            await uploadAvatar(stateFile, stateInput.avatar)
             obj.close();
-            setStateInput({
+            stateInput = {
                 name: '',
                 email: '',
                 password: '',
@@ -41,7 +52,8 @@ function ModalInput({ reReqData, listRole, ...obj }) {
                 avatar: '',
                 adress: '',
                 roleid: '',
-            })
+            }
+            stateFile = ''
             setTimeout(() => {
                 reReqData(); //cho 500ms de luu data vao db,neu chay ngay co the db chua kip luu da return ve data
             }, 100)
@@ -80,15 +92,21 @@ function ModalInput({ reReqData, listRole, ...obj }) {
                                 autoFocus
                             />
 
-                            <Form.Label column sm="2">Password</Form.Label>
-                            <Col sm="10">
+                            <Form.Label column sm="3">Password</Form.Label>
+                            <Col sm="">
                                 <Form.Control onChange={(e) => setInput('password', e)} type="password" placeholder="Password" />
                             </Col>
 
                             <Form.Label column sm="2"> Confirm Password</Form.Label>
-                            <Col sm="10">
+                            <Col sm="">
                                 <Form.Control onChange={(e) => setInput('confirmPassword', e)} type="password" placeholder="Confirm Password" />
                             </Col>
+                            <Form.Label>Chọn avatar người dùng</Form.Label>
+                            {/* <form action="#" method="post" enctype="multipart/form-data">
+                                <input onChange={(e) => setInput('avatar', e)} type="file" name="file" />
+                            </form> */}
+                            <Form.Control nctype="multipart/form-data" name='avatar' onChange={(e) => setInput('avatar', e)} type="file" />
+                            <img Style='width:50px' src={stateInput.avatar} />
                             <Form.Select onChange={(e) => setInput('roleid', e)} Style='text-transform: capitalize;margin-top:24px'>
                                 <option>-------------------</option>
                                 {

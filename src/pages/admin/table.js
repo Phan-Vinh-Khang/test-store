@@ -44,10 +44,11 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
             disabledButton: false
         })
     }
-    let handleDeleteUser = async (id, selectedRow) => {
+    let handleDeleteUser = async (id, selectedRow, avatarFile) => {
         if (window.confirm('Bạn muốn gỡ người dùng ' + listData[selectedRow].email + '?\n\n')) {
             try {
-                await deleteUser({ id, access_token: access_token })
+                console.log(avatarFile)
+                await deleteUser({ id, access_token: access_token, avatarFile })
                 stateChecked.delete(id)//thay doi o datastatic la dc ko can reload
                 reReqData()
             } catch (e) {
@@ -71,7 +72,6 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
             }
         }
     }
-    console.log('aaaaaaa', stateChecked);
     let checkedbox = (e, id) => {
         if (e.target.checked) {
             stateChecked.add(id); //khi add vào k cần reload, khi add sẽ add vào datastatic,value o datastatic se có
@@ -95,7 +95,7 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
                 catch (e) {
                     alert(e.response.data.message);//can xu li wait o try catch (khi dang await o try{} se load effect, sau 500ms se dung load effect va gui req, neu req return ve loi se van catch dc o catch{})
                 }
-            }, 2000);
+            }, 1000);
         }
     }
     let [id, ...arrProperties] = Object.keys(listData[0]);
@@ -108,28 +108,26 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
                 {
                     thead.map((item, idx) => (
                         (stateChecked.size > 0 && idx == thead.length - 1) ?
-                            <td>
+                            (<td>
                                 {!stateLoading &&
-                                    <Button Style='width:100%' onClick={() => handleRemoveMany()} variant="outline-secondary">
+                                    <Button Style='width:80%' onClick={() => handleRemoveMany()} variant="outline-secondary">
                                         Xoa {stateChecked.size} user
                                     </Button>
                                 }
 
                                 {stateLoading &&
-                                    <Button Style='width:100%' variant="outline-secondary">
+                                    <Button Style='width:80%' variant="outline-secondary">
                                         <TailSpin
-                                            height="20"
-                                            width="80"
-                                            color="#4fa94d"
+                                            height="15"
+                                            width="50"
+                                            color="#6c757d"
                                             ariaLabel="tail-spin-loading"
                                             radius="1"
-                                            wrapperStyle={{}}
-                                            wrapperClass=""
                                             visible={true}
                                         />
                                     </Button>
                                 }
-                            </td> :
+                            </td>) :
                             <td>{item}</td>
                     ))
                 }
@@ -137,13 +135,23 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
         </thead>
         <tbody>
             {
-                listData.map((item, idx) => (
+                listData.map((item, idx) => ( //varfunc item ref vào data func map return sau do truyen goi func la truyen vao
                     (idx + 1 != state.selectedRow) ? (
                         <tr>
                             <td>{item.id ? idx + 1 : <Skeleton />}</td>
                             {
                                 arrProperties.map((propertie) => (
-                                    <td>{item[propertie] || <Skeleton />}</td>
+                                    <>
+                                        {
+                                            propertie != 'avatar' &&
+                                            <td>{item[propertie]}</td>
+                                        }
+                                        {
+                                            propertie == 'avatar' &&
+                                            <td><img Style='width:5vw;height:10vh' src={'http://localhost:3001/avatar/' + item[propertie]} /></td>
+                                        }
+                                    </>
+
                                 ))
                             }
                             <td>
@@ -152,7 +160,7 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
                                         : <Skeleton />
                                 }
                                 {
-                                    item.id ? <i onClick={() => handleDeleteUser(item.id, idx)} className={"fa-solid fa-trash" + ' ' + className} />
+                                    item.id ? <i onClick={() => handleDeleteUser(item.id, idx, item.avatar)} className={"fa-solid fa-trash" + ' ' + className} />
                                         : <Skeleton />
                                 }
                                 {

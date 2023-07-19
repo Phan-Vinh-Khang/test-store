@@ -7,7 +7,6 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { updateUser } from "../../services/userServices";
 import { deleteUser, deleteUserMany } from "../../services/adminServices";
 import { TailSpin } from 'react-loader-spinner'
-
 function TableBootstrap({ reReqData, thead, listData, listData2 = [], className = '' }) {
     let [state, setState] = useState({
         selectedRow: 0,
@@ -72,13 +71,25 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
             }
         }
     }
+    console.log(stateChecked)
     let checkedbox = (e, id) => {
         if (e.target.checked) {
             stateChecked.add(id); //khi add vào k cần reload, khi add sẽ add vào datastatic,value o datastatic se có
-            setStateChecked(new Set([...stateChecked]));
+            setStateChecked(new Set([...stateChecked]))
         } else {
             stateChecked.delete(id);
-            setStateChecked(new Set([...stateChecked]));
+            setStateChecked(new Set([...stateChecked]))
+        }
+    }
+    let checkedAllbox = (e) => {
+        if (e.target.checked) {
+            listData.map((item) => {
+                stateChecked.add(item.id)
+            })
+            setStateChecked(new Set([...stateChecked]))
+        }
+        else {
+            setStateChecked(new Set())
         }
     }
     let handleRemoveMany = async () => {
@@ -148,7 +159,12 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
                                         }
                                         {
                                             propertie == 'avatar' &&
-                                            <td><img Style='width:5vw;height:10vh' src={'http://localhost:3001/avatar/' + item[propertie]} /></td>
+                                            <td>
+                                                <img Style='width:3vw;height:7vh' src={item[propertie] ?
+                                                    'http://localhost:3001/avatar/' + item[propertie] :
+                                                    'avatar/default-avatar-profile.jpg'}
+                                                />
+                                            </td>
                                         }
                                     </>
 
@@ -170,6 +186,16 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
                                         onChange={(e) => checkedbox(e, item.id)}
                                         checked={stateChecked.has(item.id)}
                                     />
+                                }
+                                {
+                                    idx == 0 && (
+                                        <Form.Check
+                                            inline
+                                            type='checkbox'
+                                            checked={stateChecked.size == listData.length}
+                                            onChange={(e) => checkedAllbox(e)}
+                                        />
+                                    )
                                 }
                             </td>
                         </tr>) : (

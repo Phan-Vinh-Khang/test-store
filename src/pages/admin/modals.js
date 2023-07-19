@@ -17,9 +17,9 @@ function ModalInput({ reReqData, listRole, ...obj }) {
         adress: '',
         roleid: '',
     });
-    let [stateFile, setStateFile] = useState()
-
+    let [stateFile, setStateFile] = useState('')
     let setInput = async (label, e) => {
+        console.log(stateInput, stateFile)
         let input = e.target.value;
         if (label == 'roleid') {
             if (input == 'admin') input = '1'
@@ -41,10 +41,10 @@ function ModalInput({ reReqData, listRole, ...obj }) {
     }
     let addUserAdmin = async () => {
         try {
+            let imgName = stateInput.avatar
             await createUserAdmin({ access_token, data: stateInput })
-            await uploadAvatar(stateFile, stateInput.avatar)
             obj.close();
-            stateInput = {
+            setStateInput({
                 name: '',
                 email: '',
                 password: '',
@@ -52,11 +52,12 @@ function ModalInput({ reReqData, listRole, ...obj }) {
                 avatar: '',
                 adress: '',
                 roleid: '',
-            }
-            stateFile = ''
+            })
             setTimeout(() => {
                 reReqData(); //cho 500ms de luu data vao db,neu chay ngay co the db chua kip luu da return ve data
             }, 100)
+            await uploadAvatar(stateFile, imgName)
+            stateFile = ''
         } catch (e) {
             alert(e.response.data.message)
         }

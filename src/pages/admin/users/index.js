@@ -48,6 +48,7 @@ function AdminUser() {
                     'createdAt',
                     'updatedAt',
                     'More']}
+                tagName={['input', 'input', 'Form.Control', 'input', 'input']}
                 listData={stateDataUsers.listUser}
                 listData2={stateDataUsers.listRole}
                 className={cv('modify-user')}

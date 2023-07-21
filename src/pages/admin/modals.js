@@ -16,10 +16,10 @@ function ModalInput({ reReqData, listRole, ...obj }) {
         avatar: '',
         adress: '',
         roleid: '',
+        imgName: ''
     });
-    let [stateFile, setStateFile] = useState('')
+    let [stateFile, setStateFile] = useState({})
     let setInput = async (label, e) => {
-        console.log(stateInput, stateFile)
         let input = e.target.value;
         if (label == 'roleid') {
             if (input == 'admin') input = '1'
@@ -32,8 +32,9 @@ function ModalInput({ reReqData, listRole, ...obj }) {
             let fileName = e.target.files[0].name
             let fileExtension = fileName.split('.')[1]
             let fileNameUid = fileName.split('.')[0] + uid() + '.' + fileExtension
-            stateInput[label] = fileNameUid
-            stateFile = e.target.files[0];
+            stateInput['imgName'] = fileNameUid
+            stateInput[label] = URL.createObjectURL(e.target.files[0])
+            setStateFile(e.target.files[0])//phai setState o day do var state k ref vao files[0] dc(varproperti thi ref dc nhung vay thi datastaticstatefile nay phai la obj)
         }
         // setStateInput({
         //     ...stateInput
@@ -41,7 +42,7 @@ function ModalInput({ reReqData, listRole, ...obj }) {
     }
     let addUserAdmin = async () => {
         try {
-            let imgName = stateInput.avatar
+            let imgName = stateInput.imgName
             await createUserAdmin({ access_token, data: stateInput })
             obj.close();
             setStateInput({
@@ -52,12 +53,14 @@ function ModalInput({ reReqData, listRole, ...obj }) {
                 avatar: '',
                 adress: '',
                 roleid: '',
-            })
+                imgName: ''
+            }
+            )
             setTimeout(() => {
                 reReqData(); //cho 500ms de luu data vao db,neu chay ngay co the db chua kip luu da return ve data
             }, 100)
-            await uploadAvatar(stateFile, imgName)
-            stateFile = ''
+            await uploadAvatar(stateFile, imgName)//co the req loi se dung o day(req loi co the do ko co data file dc chon)
+            setStateFile({})
         } catch (e) {
             alert(e.response.data.message)
         }

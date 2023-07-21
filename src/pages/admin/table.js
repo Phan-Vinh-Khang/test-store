@@ -7,6 +7,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { updateUser } from "../../services/userServices";
 import { deleteUser, deleteUserMany } from "../../services/adminServices";
 import { TailSpin } from 'react-loader-spinner'
+import Element from "./element";
 function TableBootstrap({ reReqData, thead, listData, listData2 = [], className = '' }) {
     let [state, setState] = useState({
         selectedRow: 0,
@@ -46,7 +47,6 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
     let handleDeleteUser = async (id, selectedRow, avatarFile) => {
         if (window.confirm('Bạn muốn gỡ người dùng ' + listData[selectedRow].email + '?\n\n')) {
             try {
-                console.log(avatarFile)
                 await deleteUser({ id, access_token: access_token, avatarFile })
                 stateChecked.delete(id)//thay doi o datastatic la dc ko can reload
                 reReqData()
@@ -71,7 +71,6 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
             }
         }
     }
-    console.log(stateChecked)
     let checkedbox = (e, id) => {
         if (e.target.checked) {
             stateChecked.add(id); //khi add vào k cần reload, khi add sẽ add vào datastatic,value o datastatic se có
@@ -114,6 +113,15 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
         arrProperties = Array(thead.length - 2).fill(0);
     }
     return <Table striped bordered hover>
+        <Form.Group controlId="formFileSm" className="mb-3">
+            <Form.Control type="file" size="sm" />
+        </Form.Group>
+
+        <Element
+            TagName='i'
+            children={<span>aaww</span>}
+            data={<span>dataaww</span>}
+        ></Element>
         <thead>
             <tr >
                 {

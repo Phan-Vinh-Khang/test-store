@@ -41,6 +41,7 @@ async function updateUser(id, access_token, data) {
 async function uploadAvatar(file, filename) {
     let formData = new FormData();
     formData.append('avatar', file, filename)
+    console.log('req: ', file, filename)
     return await axios.post('http://localhost:3001/api/uploadAvatar/', formData)
 }
 async function reFreshToken() {

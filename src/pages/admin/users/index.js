@@ -39,18 +39,17 @@ function AdminUser() {
     return (
         <>
             <TableBootstrap
-                thead={['#',
-                    'Name',
+                thead={['Name',
                     'Email',
                     'Avatar',
                     'adress',
                     'roleid',
                     'createdAt',
-                    'updatedAt',
-                    'More']}
-                tagName={['input', 'input', 'Form.Control', 'input', 'input']}
+                    'updatedAt',]}
                 listData={stateDataUsers.listUser}
                 listData2={stateDataUsers.listRole}
+                ElementTag={['input', 'input', 'input', 'input', 'select']}
+                typeBootstrap={['', '', 'file', '', '']}
                 className={cv('modify-user')}
                 reReqData={reReqData}
 

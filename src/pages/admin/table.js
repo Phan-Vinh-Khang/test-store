@@ -4,16 +4,19 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { updateUser } from "../../services/userServices";
+import { updateUser, uploadAvatar } from "../../services/userServices";
 import { deleteUser, deleteUserMany } from "../../services/adminServices";
 import { TailSpin } from 'react-loader-spinner'
-import Element from "./element";
-function TableBootstrap({ reReqData, thead, listData, listData2 = [], className = '' }) {
+import InputType from "./inputType";
+import { uid } from "uid";
+function TableBootstrap({ reReqData, thead, listData, listData2 = [], className = '', ElementTag, typeBootstrap }) {
     let [state, setState] = useState({
         selectedRow: 0,
-        dataInput: '',
+        dataInput: {},
         disabledButton: true
     })
+    let [stateFile, setStateFile] = useState();
+    console.log(state.dataInput)
     let [stateChecked, setStateChecked] = useState(new Set([]))
     let [stateLoading, setStateLoading] = useState(false)
     const access_token = localStorage.getItem('access_token')
@@ -21,12 +24,15 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
         let rowSelected = JSON.parse(JSON.stringify(listData[idx - 1]))
         //sử dụng như trên nếu ko dataInput sẽ ref vào datastatic arr
         //hoặc tao 1 obj và varproperties obj mới tao sẽ ref vào varproperties của obj trong arr
+        rowSelected.avatar = null;
+        // rowSelected.imgName = null;
         setState({
             selectedRow: idx,
             dataInput: rowSelected,
             disabledButton: true
         })
     }
+    console.log(state.dataInput)
     let unSelect = () => {
         setState({})
     }
@@ -39,6 +45,14 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
             else input = '-1'
         }
         state.dataInput[label] = input
+        if (label == 'avatar') {
+            let fileName = e.target.files[0].name
+            let fileExtension = fileName.split('.')[1]
+            let fileNameUid = fileName.split('.')[0] + uid() + '.' + fileExtension
+            state.dataInput['imgName'] = fileNameUid
+            state.dataInput[label] = URL.createObjectURL(e.target.files[0])
+            setStateFile(e.target.files[0])//phai setState o day do var state k ref vao files[0] dc(varproperti thi ref dc nhung vay thi datastaticstatefile nay phai la obj)
+        }
         setState({
             ...state,
             disabledButton: false
@@ -55,15 +69,19 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
             }
         }
     }
+    console.log(state.selectedRow)
     let handleUpdateUser = async (id, selectedRow) => {
         if (window.confirm('Bạn muốn sửa người dùng ' + listData[selectedRow].email + '?\n\n')) {
             try {//su dụng try catch khi return ve client obj err (status 400,403,409) se su dung dc obj err ở catch (var e sẽ ref vào obj err)
                 //su dung e.response.data de ref vao data server return ve (thong thuong neu ko co loi se su dung obj.data nhung neu co loi obj server return ve se dc var propertoes response ref vao)
                 await updateUser(id, access_token, state.dataInput)
-                listData[state.selectedRow - 1] = {
-                    ...state.dataInput
+                if (state.dataInput.imgName != null) {
+                    await uploadAvatar(stateFile, state.dataInput.imgName)
                 }
-                setState({})
+                state.selectedRow = 0
+                setTimeout(() => {
+                    reReqData()
+                }, 500);
             }
             catch (e) {//var e sẽ ref vào data return err
                 if (e.response.status == 422)
@@ -110,45 +128,42 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
     }
     let [id, ...arrProperties] = Object.keys(listData[0]);
     if (arrProperties.length == 0) {
-        arrProperties = Array(thead.length - 2).fill(0);
+        arrProperties = Array(thead.length).fill(0);
     }
-    return <Table striped bordered hover>
-        <Form.Group controlId="formFileSm" className="mb-3">
-            <Form.Control type="file" size="sm" />
-        </Form.Group>
+    const ElementName = ElementTag[0];
 
-        <Element
-            TagName='i'
-            children={<span>aaww</span>}
-            data={<span>dataaww</span>}
-        ></Element>
+    return <Table striped bordered hover>
+
         <thead>
             <tr >
+                <td>#</td>
                 {
                     thead.map((item, idx) => (
-                        (stateChecked.size > 0 && idx == thead.length - 1) ?
-                            (<td>
-                                {!stateLoading &&
-                                    <Button Style='width:80%' onClick={() => handleRemoveMany()} variant="outline-secondary">
-                                        Xoa {stateChecked.size} user
-                                    </Button>
-                                }
-
-                                {stateLoading &&
-                                    <Button Style='width:80%' variant="outline-secondary">
-                                        <TailSpin
-                                            height="15"
-                                            width="50"
-                                            color="#6c757d"
-                                            ariaLabel="tail-spin-loading"
-                                            radius="1"
-                                            visible={true}
-                                        />
-                                    </Button>
-                                }
-                            </td>) :
-                            <td>{item}</td>
+                        <td>{item}</td>
                     ))
+                }
+                {
+                    stateChecked.size > 0 ?
+                        (<td>
+                            {!stateLoading &&
+                                <Button Style='width:80%' onClick={() => handleRemoveMany()} variant="outline-secondary">
+                                    Xoa {stateChecked.size} user
+                                </Button>
+                            }
+
+                            {stateLoading &&
+                                <Button Style='width:80%' variant="outline-secondary">
+                                    <TailSpin
+                                        height="15"
+                                        width="50"
+                                        color="#6c757d"
+                                        ariaLabel="tail-spin-loading"
+                                        radius="1"
+                                        visible={true}
+                                    />
+                                </Button>
+                            }
+                        </td>) : <td>More</td>
                 }
             </tr>
         </thead>
@@ -162,11 +177,11 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
                                 arrProperties.map((propertie) => (
                                     <>
                                         {
-                                            propertie != 'avatar' &&
-                                            <td>{item[propertie]}</td>
+                                            (propertie != 'avatar' &&
+                                                <td>{item[propertie] || <Skeleton />}</td>)
                                         }
                                         {
-                                            propertie == 'avatar' &&
+                                            (propertie == 'avatar' || propertie == 'img') &&
                                             <td>
                                                 <img Style='width:3vw;height:7vh' src={item[propertie] ?
                                                     'http://localhost:3001/avatar/' + item[propertie] :
@@ -188,53 +203,67 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
                                         : <Skeleton />
                                 }
                                 {
-                                    <Form.Check
+                                    item != 0 ? <Form.Check
                                         inline
                                         type='checkbox'
                                         onChange={(e) => checkedbox(e, item.id)}
                                         checked={stateChecked.has(item.id)}
-                                    />
+                                    /> : <Skeleton />
                                 }
                                 {
                                     idx == 0 && (
-                                        <Form.Check
-                                            inline
-                                            type='checkbox'
-                                            checked={stateChecked.size == listData.length}
-                                            onChange={(e) => checkedAllbox(e)}
-                                        />
+                                        item != 0 ?
+                                            <Form.Check
+                                                inline
+                                                type='checkbox'
+                                                checked={stateChecked.size == listData.length}
+                                                onChange={(e) => checkedAllbox(e)}
+                                            /> : <Skeleton />
                                     )
                                 }
                             </td>
                         </tr>) : (
                         <tr>
-                            <td>{idx + 1}</td>{
+                            <td>{idx + 1}</td>
+                            {
                                 arrProperties.map((propertie, idx) => {
-                                    if (idx < arrProperties.length - 3) {
-                                        return <td><Form.Control
-                                            onChange={(e) => getDataInput(propertie, e)}
-                                            aria-label="Default"
-                                            aria-describedby="inputGroup-sizing-default"
-                                            defaultValue={item[propertie]}
-                                        /></td>
+                                    let Element = ElementTag[idx]
+                                    if (idx < arrProperties.length - 2) {
+                                        if (Element == 'input') {
+                                            return (
+                                                <td>
+                                                    <Element
+                                                        onChange={(e) => getDataInput(propertie, e)}
+                                                        className='form-control'
+                                                        type={typeBootstrap[idx]}
+                                                        defaultValue={(!typeBootstrap[idx] && item[propertie]) || ''}
+                                                    />
+                                                    {typeBootstrap[idx] == 'file' && (
+                                                        <img Style='width:3vw;height:7vh' src={!state.dataInput[propertie] ?
+                                                            'http://localhost:3001/avatar/' + item[propertie] :
+                                                            state.dataInput[propertie]}
+                                                        />
+                                                    )
+                                                    }
+                                                </td>
+                                            )
+                                        }
+                                        else {
+                                            return <td><Element
+                                                className='form-select'
+                                                onChange={(e) => getDataInput(thead[4].toLowerCase(), e)}
+                                                Style='text-transform: capitalize;margin-top:24px' >
+                                                <option>-------------------</option>
+                                                {
+                                                    listData2.map((item) => {
+                                                        return <option Style='text-transform: capitalize;' >{item.name}</option>
+                                                    })
+                                                }
+                                            </Element></td>
+                                        }
                                     }
                                 })
                             }
-                            {
-                                listData2 != [] && (
-                                    <td><Form.Select onChange={(e) => getDataInput(thead[5].toLowerCase(), e)} Style='text-transform: capitalize;margin-top:24px' >
-                                        <option>-------------------</option>
-                                        {
-                                            listData2.map((item) => {
-                                                return <option Style='text-transform: capitalize;' >{item.name}</option>
-                                            })
-                                        }
-                                    </Form.Select>
-                                    </td>
-                                )
-                            }
-                            <td>{item.createdAt || <Skeleton />}</td>
-                            <td>{item.updatedAt || <Skeleton />}</td>
                             <td>
                                 <Button
                                     disabled={state.disabledButton}

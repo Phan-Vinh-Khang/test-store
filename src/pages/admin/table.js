@@ -4,22 +4,32 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { updateUser, uploadAvatar } from "../../services/userServices";
-import { deleteUser, deleteUserMany } from "../../services/adminServices";
 import { TailSpin } from 'react-loader-spinner'
-import InputType from "./inputType";
 import { uid } from "uid";
-function TableBootstrap({ reReqData, thead, listData, listData2 = [], className = '', ElementTag, typeBootstrap }) {
+import { deleteUser, deleteUserMany } from "../../services/adminServices";
+import { updateUser, uploadAvatar } from "../../services/userServices";
+const hostName = 'http://localhost:3001/avatar/';
+const defaultAvatar = 'avatar/default-avatar-profile.jpg'
+function TableBootstrap({ reloadData,
+    thead,
+    listData,
+    listData2 = [],
+    className = '',
+    ElementTag,
+    propertieTag,
+    handleDelete,
+    handleUpdate,
+    handleRemoveMany
+
+}) {
     let [state, setState] = useState({
         selectedRow: 0,
         dataInput: {},
         disabledButton: true
     })
     let [stateFile, setStateFile] = useState();
-    console.log(state.dataInput)
     let [stateChecked, setStateChecked] = useState(new Set([]))
     let [stateLoading, setStateLoading] = useState(false)
-    const access_token = localStorage.getItem('access_token')
     let selectIdx = (idx) => {
         let rowSelected = JSON.parse(JSON.stringify(listData[idx - 1]))
         //sử dụng như trên nếu ko dataInput sẽ ref vào datastatic arr
@@ -32,7 +42,6 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
             disabledButton: true
         })
     }
-    console.log(state.dataInput)
     let unSelect = () => {
         setState({})
     }
@@ -58,37 +67,6 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
             disabledButton: false
         })
     }
-    let handleDeleteUser = async (id, selectedRow, avatarFile) => {
-        if (window.confirm('Bạn muốn gỡ người dùng ' + listData[selectedRow].email + '?\n\n')) {
-            try {
-                await deleteUser({ id, access_token: access_token, avatarFile })
-                stateChecked.delete(id)//thay doi o datastatic la dc ko can reload
-                reReqData()
-            } catch (e) {
-                alert(e.response.data.message)
-            }
-        }
-    }
-    console.log(state.selectedRow)
-    let handleUpdateUser = async (id, selectedRow) => {
-        if (window.confirm('Bạn muốn sửa người dùng ' + listData[selectedRow].email + '?\n\n')) {
-            try {//su dụng try catch khi return ve client obj err (status 400,403,409) se su dung dc obj err ở catch (var e sẽ ref vào obj err)
-                //su dung e.response.data de ref vao data server return ve (thong thuong neu ko co loi se su dung obj.data nhung neu co loi obj server return ve se dc var propertoes response ref vao)
-                await updateUser(id, access_token, state.dataInput)
-                if (state.dataInput.imgName != null) {
-                    await uploadAvatar(stateFile, state.dataInput.imgName)
-                }
-                state.selectedRow = 0
-                setTimeout(() => {
-                    reReqData()
-                }, 500);
-            }
-            catch (e) {//var e sẽ ref vào data return err
-                if (e.response.status == 422)
-                    alert(e.response.data.message);
-            }
-        }
-    }
     let checkedbox = (e, id) => {
         if (e.target.checked) {
             stateChecked.add(id); //khi add vào k cần reload, khi add sẽ add vào datastatic,value o datastatic se có
@@ -109,23 +87,6 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
             setStateChecked(new Set())
         }
     }
-    let handleRemoveMany = async () => {
-        const listId = Array.from(stateChecked);
-        if (window.confirm('bạn có muốn gỡ ' + stateChecked.size + ' user?')) {
-            setStateLoading(true)
-            setTimeout(async () => {
-                try {
-                    setStateLoading(false)
-                    await deleteUserMany({ access_token, listId });
-                    stateChecked.clear();
-                    reReqData();
-                }
-                catch (e) {
-                    alert(e.response.data.message);//can xu li wait o try catch (khi dang await o try{} se load effect, sau 500ms se dung load effect va gui req, neu req return ve loi se van catch dc o catch{})
-                }
-            }, 1000);
-        }
-    }
     let [id, ...arrProperties] = Object.keys(listData[0]);
     if (arrProperties.length == 0) {
         arrProperties = Array(thead.length).fill(0);
@@ -133,7 +94,6 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
     const ElementName = ElementTag[0];
 
     return <Table striped bordered hover>
-
         <thead>
             <tr >
                 <td>#</td>
@@ -146,7 +106,7 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
                     stateChecked.size > 0 ?
                         (<td>
                             {!stateLoading &&
-                                <Button Style='width:80%' onClick={() => handleRemoveMany()} variant="outline-secondary">
+                                <Button Style='width:80%' onClick={() => handleRemoveMany(stateChecked, setStateLoading)} variant="outline-secondary">
                                     Xoa {stateChecked.size} user
                                 </Button>
                             }
@@ -184,8 +144,7 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
                                             (propertie == 'avatar' || propertie == 'img') &&
                                             <td>
                                                 <img Style='width:3vw;height:7vh' src={item[propertie] ?
-                                                    'http://localhost:3001/avatar/' + item[propertie] :
-                                                    'avatar/default-avatar-profile.jpg'}
+                                                    hostName + item[propertie] : defaultAvatar}
                                                 />
                                             </td>
                                         }
@@ -199,7 +158,7 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
                                         : <Skeleton />
                                 }
                                 {
-                                    item.id ? <i onClick={() => handleDeleteUser(item.id, idx, item.avatar)} className={"fa-solid fa-trash" + ' ' + className} />
+                                    item.id ? <i onClick={() => handleDelete(item.id, idx, stateChecked, item.avatar)} className={"fa-solid fa-trash" + ' ' + className} />
                                         : <Skeleton />
                                 }
                                 {
@@ -228,25 +187,28 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
                             {
                                 arrProperties.map((propertie, idx) => {
                                     let Element = ElementTag[idx]
-                                    if (idx < arrProperties.length - 2) {
+                                    if (idx < arrProperties.length) {
                                         if (Element == 'input') {
                                             return (
                                                 <td>
                                                     <Element
                                                         onChange={(e) => getDataInput(propertie, e)}
                                                         className='form-control'
-                                                        type={typeBootstrap[idx]}
-                                                        defaultValue={(!typeBootstrap[idx] && item[propertie]) || ''}
+                                                        type={propertieTag[idx]}
+                                                        defaultValue={(!propertieTag[idx] && item[propertie]) || ''}
                                                     />
-                                                    {typeBootstrap[idx] == 'file' && (
+                                                    {propertieTag[idx] == 'file' && (
                                                         <img Style='width:3vw;height:7vh' src={!state.dataInput[propertie] ?
-                                                            'http://localhost:3001/avatar/' + item[propertie] :
+                                                            (item[propertie] ? hostName + item[propertie] : defaultAvatar) :
                                                             state.dataInput[propertie]}
                                                         />
                                                     )
                                                     }
                                                 </td>
                                             )
+                                        }
+                                        else if (Element == '') {
+                                            return <td>{item[propertie]}</td>
                                         }
                                         else {
                                             return <td><Element
@@ -267,7 +229,7 @@ function TableBootstrap({ reReqData, thead, listData, listData2 = [], className 
                             <td>
                                 <Button
                                     disabled={state.disabledButton}
-                                    onClick={() => handleUpdateUser(item.id, idx)}
+                                    onClick={() => handleUpdate(item.id, idx, stateFile, state)}
                                     variant="outline-success">
                                     Save
                                 </Button>

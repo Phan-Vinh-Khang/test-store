@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 import createUserAdmin from '../../services/adminServices';
 import { uploadAvatar } from '../../services/userServices';
 import { uid } from 'uid'
-function ModalInput({ reReqData, listRole, ...obj }) {
+function ModalInput({ reloadData, listRole, ...obj }) {
     let access_token = localStorage.getItem('access_token')
     let [stateInput, setStateInput] = useState({
         name: '',
@@ -57,7 +57,7 @@ function ModalInput({ reReqData, listRole, ...obj }) {
             }
             )
             setTimeout(() => {
-                reReqData(); //cho 500ms de luu data vao db,neu chay ngay co the db chua kip luu da return ve data
+                reloadData(); //cho 500ms de luu data vao db,neu chay ngay co the db chua kip luu da return ve data
             }, 100)
             await uploadAvatar(stateFile, imgName)//co the req loi se dung o day(req loi co the do ko co data file dc chon)
             setStateFile({})

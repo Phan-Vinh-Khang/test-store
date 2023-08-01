@@ -14,8 +14,8 @@ function Products() {
     // fetchData();//call func và tiếp tuc chạy,sẽ return về element trước,sau đó 5s sau mới console.log() ra
     useEffect(() => { //useEffect chỉ chạy 1 lần nếu có [] (có setState() vẫn chỉ chạy setState 1 lần)
         async function fetchDataProd() {
-            let listprod = await allproduct(); //call func func dc call sẽ chạy nhưng 5s sau mới return. await chờ func return mới ref var vào staticdata
-            setStateListProd(listprod.data)
+            let listprod = (await allproduct()).data; //call func func dc call sẽ chạy nhưng 5s sau mới return. await chờ func return mới ref var vào staticdata
+            setStateListProd(listprod.listProduct)
         }
         fetchDataProd();//sau khi vừa call func sẽ tiep tục chạy
     }, [])

@@ -24,6 +24,7 @@
     }
 
     .wrapForm {
+        //css hide to show modal
         animation: animetionOpenPage2 .7s ease forwards;
         position: absolute;
         top: 5%;
@@ -49,6 +50,7 @@
     }
 
     .wrapForm2 {
+        //css show to hide modal
         animation: animetionClosePage2 .7s ease forwards;
         position: absolute;
         top: 5%;

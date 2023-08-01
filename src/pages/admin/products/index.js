@@ -1,16 +1,56 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind'
 import objStyle from './index.module.scss'
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
-
+import TableBootstrap from '../table';
+import allProduct from '../../../services/productServices';
+import { allTypeProd } from '../../../services/productServices';
 let cv = classNames.bind(objStyle);
 function AdminUser() {
     let [stateIdx, setStateIdx] = useState(0)
     let [stateClassName, setStateClassName] = useState('')
-    let listPage = [<Page1 />, <Page2 className={cv(stateClassName)} />]
+    let [stateProducts, setStateProducts] = useState({
+        listProduct: Array(20).fill(0),
+        listType: []
+    })
+    let [stateReLoad, setStateReLoad] = useState(false)
+    let reLoadData = () => {
+        setStateReLoad(!stateReLoad)
+    }
+    useEffect(() => {
+        let fetchData = async () => {
+            let products = (await allProduct()).data;
+            let types = (await allTypeProd()).data;
+            setStateProducts({
+                listProduct: products.listProduct,
+                listType: types.listTypeProd
+            }
+            )
+        }
+        fetchData();
+    }, [stateReLoad])
+    let listPage = [<TableBootstrap
+        thead={['Name',
+            'Price',
+            'Img',
+            'Description',
+            'Discount',
+            'Quantity',
+            'Star',
+            'Sold',
+            'TypeProd',
+            'createdAt',
+            'updatedAt',]}
+        ElementTag={['input', 'input', 'input', 'input', 'input', 'input', 'input', 'input', 'select', '', '']}
+        propertieTag={['', '', 'file', '', '']}
+        listData={stateProducts.listProduct}
+        listData2={stateProducts.listType}
+        className={cv('modify-user')}
+        reReqData={reLoadData}
+    />, <Page2 className={cv(stateClassName)} />]
     return (
         <div className={cv('wrapperForm')}>
             <div className={cv('navbar')}>
@@ -28,15 +68,17 @@ function AdminUser() {
             </div>
             {
                 listPage.map((item, idx) => {
+                    console.log('aaaaaaa', item)
                     return item
                 })
             }
             {stateIdx < 1 &&
-                <Button onClick={() => {
-                    setStateIdx(++stateIdx)
-                    setStateClassName('wrapForm')
-                }
-                } variant="primary">
+                <Button
+                    onClick={() => {
+                        setStateIdx(++stateIdx)
+                        setStateClassName('wrapForm')
+                    }
+                    } variant="primary">
                     <i Style='margin-right:4px' class="fa-sharp fa-solid fa-plus" /> Thêm sản phẩm
                 </Button>
             }

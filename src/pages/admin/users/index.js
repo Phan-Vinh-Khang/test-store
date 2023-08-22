@@ -10,6 +10,7 @@ import { allRole } from '../../../services/adminServices';
 import { updateUser, uploadAvatar } from "../../../services/userServices";
 import { deleteUser, deleteUserMany } from '../../../services/adminServices';
 let cv = classNames.bind(objStyle);
+let count = 0;
 function AdminUser() {
     let [stateDataUsers, setStateDataUsers] = useState({
         listUser: Array(20).fill(0),
@@ -95,15 +96,15 @@ function AdminUser() {
                 ElementTag={['input', '', 'input', 'input', 'select', '', '']}
                 propertieTag={['', '', 'file', '', '']}
                 className={cv('modify-user')}
-                reloadData={reloadData}
                 handleDelete={handleDeleteUser}
                 handleUpdate={handleUpdateUser}
                 handleRemoveMany={handleRemoveMany}
+                hostName='http://localhost:3001/avatar/'
             />
             <Button variant="primary" onClick={() => setShow(true)}>
                 <i Style='margin-right:4px' class="fa-sharp fa-solid fa-plus" /> Thêm người dùng
             </Button>
-            <ModalInPut
+            <ModalInPut //show&&<ModalInPut/> //chi can ko dc call 1 lần datastaticstate ở ở func mocal sẽ bị mat
                 open={show}
                 close={() => setShow(false)}
                 listRole={stateDataUsers.listRole}

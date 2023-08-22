@@ -6,11 +6,7 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { TailSpin } from 'react-loader-spinner'
 import { uid } from "uid";
-import { deleteUser, deleteUserMany } from "../../services/adminServices";
-import { updateUser, uploadAvatar } from "../../services/userServices";
-const hostName = 'http://localhost:3001/avatar/';
-const defaultAvatar = 'avatar/default-avatar-profile.jpg'
-function TableBootstrap({ reloadData,
+function TableBootstrap({
     thead,
     listData,
     listData2 = [],
@@ -19,8 +15,9 @@ function TableBootstrap({ reloadData,
     propertieTag,
     handleDelete,
     handleUpdate,
-    handleRemoveMany
-
+    handleRemoveMany,
+    hostName,
+    defaultAvatar = 'avatar/default-avatar-profile.jpg'
 }) {
     let [state, setState] = useState({
         selectedRow: 0,
@@ -45,16 +42,13 @@ function TableBootstrap({ reloadData,
     let unSelect = () => {
         setState({})
     }
-    let getDataInput = (label, e) => {
+    let getDataInput = (label, e, selectType = false) => {
         let input = e.target.value
-        if (label == 'roleid') {
-            if (input == 'admin') input = '1'
-            else if (input == 'manager') input = '2'
-            else if (input == 'user') input = '3'
-            else input = '-1'
+        if (selectType) {
+            input = input[0]
         }
         state.dataInput[label] = input
-        if (label == 'avatar') {
+        if (label == 'avatar' || label == 'image') {
             let fileName = e.target.files[0].name
             let fileExtension = fileName.split('.')[1]
             let fileNameUid = fileName.split('.')[0] + uid() + '.' + fileExtension
@@ -92,7 +86,6 @@ function TableBootstrap({ reloadData,
         arrProperties = Array(thead.length).fill(0);
     }
     const ElementName = ElementTag[0];
-
     return <Table striped bordered hover>
         <thead>
             <tr >
@@ -137,11 +130,11 @@ function TableBootstrap({ reloadData,
                                 arrProperties.map((propertie) => (
                                     <>
                                         {
-                                            (propertie != 'avatar' &&
+                                            (propertie != 'avatar' && propertie != 'image' &&
                                                 <td>{item[propertie] || <Skeleton />}</td>)
                                         }
                                         {
-                                            (propertie == 'avatar' || propertie == 'img') &&
+                                            (propertie == 'avatar' || propertie == 'image') &&
                                             <td>
                                                 <img Style='width:3vw;height:7vh' src={item[propertie] ?
                                                     hostName + item[propertie] : defaultAvatar}
@@ -213,12 +206,12 @@ function TableBootstrap({ reloadData,
                                         else {
                                             return <td><Element
                                                 className='form-select'
-                                                onChange={(e) => getDataInput(thead[4].toLowerCase(), e)}
+                                                onChange={(e) => getDataInput(propertie, e, true)}
                                                 Style='text-transform: capitalize;margin-top:24px' >
                                                 <option>-------------------</option>
                                                 {
                                                     listData2.map((item) => {
-                                                        return <option Style='text-transform: capitalize;' >{item.name}</option>
+                                                        return <option Style='text-transform: capitalize;' >{item.id + '.' + item.name}</option>
                                                     })
                                                 }
                                             </Element></td>

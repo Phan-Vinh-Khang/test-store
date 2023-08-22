@@ -18,6 +18,7 @@ function ModalInput({ reloadData, listRole, ...obj }) {
         roleid: '',
         imgName: ''
     });
+    console.log('input', stateInput)
     let [stateFile, setStateFile] = useState({})
     let setInput = async (label, e) => {
         let input = e.target.value;
@@ -36,9 +37,9 @@ function ModalInput({ reloadData, listRole, ...obj }) {
             stateInput[label] = URL.createObjectURL(e.target.files[0])
             setStateFile(e.target.files[0])//phai setState o day do var state k ref vao files[0] dc(varproperti thi ref dc nhung vay thi datastaticstatefile nay phai la obj)
         }
-        // setStateInput({
-        //     ...stateInput
-        // })
+        setStateInput({
+            ...stateInput
+        })
     }
     let addUserAdmin = async () => {
         try {
@@ -106,9 +107,6 @@ function ModalInput({ reloadData, listRole, ...obj }) {
                                 <Form.Control onChange={(e) => setInput('confirmPassword', e)} type="password" placeholder="Confirm Password" />
                             </Col>
                             <Form.Label>Chọn avatar người dùng</Form.Label>
-                            {/* <form action="#" method="post" enctype="multipart/form-data">
-                                <input onChange={(e) => setInput('avatar', e)} type="file" name="file" />
-                            </form> */}
                             <Form.Control nctype="multipart/form-data" name='avatar' onChange={(e) => setInput('avatar', e)} type="file" />
                             <img Style='width:50px' src={stateInput.avatar} />
                             <Form.Select onChange={(e) => setInput('roleid', e)} Style='text-transform: capitalize;margin-top:24px'>

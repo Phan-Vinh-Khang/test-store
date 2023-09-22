@@ -8,11 +8,16 @@ async function allTypeProd() {
 
 }
 async function createProd({ data, access_token }) {
-    const access_token2 = await checkToken(access_token)
-    return await axios.post('http://localhost:3001/api/create-product', {
-        data,
-        access_token: access_token2
-    })
+    access_token = await checkToken(access_token)
+    return await axios.post('http://localhost:3001/api/create-product',
+        {
+            data
+        }, {
+        headers: {
+            Authorization: `Bearer ${access_token}`
+        }
+    }
+    )
 
 }
 async function uploadImgProd(file, filename) {
@@ -23,5 +28,44 @@ async function uploadImgProd(file, filename) {
     )
 
 }
+async function updateProd({ id, access_token, data }) {
+    access_token = await checkToken(access_token)
+    return await axios.post('http://localhost:3001/api/update-product/' + id, {
+        data
+    }, {
+        headers: {
+            Authorization: `Bearer ${access_token}`
+        }
+    }
+    )
+}
+async function deleteProd({ id, access_token }) {
+    access_token = await checkToken(access_token)
+    return await axios.get('http://localhost:3001/api/delete-product/' + id,
+        {
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            }
+        }
+    )
+}
+async function deleteProdMany({ listId, access_token }) {
+    access_token = await checkToken(access_token)
+    return await axios.post('http://localhost:3001/api/delete-product-many/', {
+        listId
+    }, {
+        headers: {
+            Authorization: `Bearer ${access_token}`
+        }
+    }
+    )
+}
 export default allProduct
-export { allTypeProd, createProd, uploadImgProd }
+export {
+    allTypeProd,
+    createProd,
+    uploadImgProd,
+    updateProd,
+    deleteProd,
+    deleteProdMany
+}

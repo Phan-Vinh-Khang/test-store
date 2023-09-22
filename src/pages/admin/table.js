@@ -9,10 +9,9 @@ import { uid } from "uid";
 function TableBootstrap({
     thead,
     listData,
-    listData2 = [],
+    selectData = {},
     className = '',
     ElementTag,
-    propertieTag,
     handleDelete,
     handleUpdate,
     handleRemoveMany,
@@ -32,7 +31,7 @@ function TableBootstrap({
         //sử dụng như trên nếu ko dataInput sẽ ref vào datastatic arr
         //hoặc tao 1 obj và varproperties obj mới tao sẽ ref vào varproperties của obj trong arr
         rowSelected.avatar = null;
-        // rowSelected.imgName = null;
+        rowSelected.image = null;
         setState({
             selectedRow: idx,
             dataInput: rowSelected,
@@ -42,11 +41,9 @@ function TableBootstrap({
     let unSelect = () => {
         setState({})
     }
-    let getDataInput = (label, e, selectType = false) => {
+    console.log(state.dataInput)
+    let getDataInput = (label, e) => {
         let input = e.target.value
-        if (selectType) {
-            input = input[0]
-        }
         state.dataInput[label] = input
         if (label == 'avatar' || label == 'image') {
             let fileName = e.target.files[0].name
@@ -61,6 +58,8 @@ function TableBootstrap({
             disabledButton: false
         })
     }
+    console.log(state.dataInput)
+
     let checkedbox = (e, id) => {
         if (e.target.checked) {
             stateChecked.add(id); //khi add vào k cần reload, khi add sẽ add vào datastatic,value o datastatic se có
@@ -81,10 +80,11 @@ function TableBootstrap({
             setStateChecked(new Set())
         }
     }
-    let [id, ...arrProperties] = Object.keys(listData[0]);
-    if (arrProperties.length == 0) {
-        arrProperties = Array(thead.length).fill(0);
+    let [id, ...propertiesListData] = Object.keys(listData[0]);
+    if (propertiesListData.length == 0) {
+        propertiesListData = Array(thead.length).fill(0);
     }
+    let propertiesListSelect = Object.keys(selectData);
     const ElementName = ElementTag[0];
     return <Table striped bordered hover>
         <thead>
@@ -127,7 +127,7 @@ function TableBootstrap({
                         <tr>
                             <td>{item.id ? idx + 1 : <Skeleton />}</td>
                             {
-                                arrProperties.map((propertie) => (
+                                propertiesListData.map((propertie) => (
                                     <>
                                         {
                                             (propertie != 'avatar' && propertie != 'image' &&
@@ -151,7 +151,7 @@ function TableBootstrap({
                                         : <Skeleton />
                                 }
                                 {
-                                    item.id ? <i onClick={() => handleDelete(item.id, idx, stateChecked, item.avatar)} className={"fa-solid fa-trash" + ' ' + className} />
+                                    item.id ? <i onClick={() => handleDelete(item.id, idx, stateChecked)} className={"fa-solid fa-trash" + ' ' + className} />
                                         : <Skeleton />
                                 }
                                 {
@@ -178,45 +178,55 @@ function TableBootstrap({
                         <tr>
                             <td>{idx + 1}</td>
                             {
-                                arrProperties.map((propertie, idx) => {
+                                propertiesListData.map((propertie, idx) => {
                                     let Element = ElementTag[idx]
-                                    if (idx < arrProperties.length) {
-                                        if (Element == 'input') {
-                                            return (
-                                                <td>
-                                                    <Element
-                                                        onChange={(e) => getDataInput(propertie, e)}
-                                                        className='form-control'
-                                                        type={propertieTag[idx]}
-                                                        defaultValue={(!propertieTag[idx] && item[propertie]) || ''}
-                                                    />
-                                                    {propertieTag[idx] == 'file' && (
-                                                        <img Style='width:3vw;height:7vh' src={!state.dataInput[propertie] ?
-                                                            (item[propertie] ? hostName + item[propertie] : defaultAvatar) :
-                                                            state.dataInput[propertie]}
-                                                        />
-                                                    )
-                                                    }
-                                                </td>
-                                            )
-                                        }
-                                        else if (Element == '') {
-                                            return <td>{item[propertie]}</td>
-                                        }
-                                        else {
-                                            return <td><Element
-                                                className='form-select'
-                                                onChange={(e) => getDataInput(propertie, e, true)}
-                                                Style='text-transform: capitalize;margin-top:24px' >
-                                                <option>-------------------</option>
-                                                {
-                                                    listData2.map((item) => {
-                                                        return <option Style='text-transform: capitalize;' >{item.id + '.' + item.name}</option>
-                                                    })
-                                                }
-                                            </Element></td>
-                                        }
+                                    if (Element == '') {
+                                        return <td>{item[propertie]}</td>
                                     }
+                                    else if (Element == 'select') {
+                                        return <td><Element
+                                            className='form-select'
+                                            onChange={(e) => getDataInput(propertie, e)}
+                                            Style='text-transform: capitalize;margin-top:24px' >
+                                            <option>-------------------</option>
+                                            {
+                                                selectData[propertiesListSelect[0]].map((itemSelect, idx) => {
+                                                    let selected = false;
+                                                    if (item[propertie] == itemSelect) {
+                                                        selected = true;
+                                                    }
+                                                    return <option selected={selected} Style='text-transform: capitalize;' >{itemSelect}</option>
+                                                })
+                                            }
+                                            {
+                                                propertiesListSelect.splice(0, 1)
+                                            }
+                                        </Element></td>
+                                    }
+                                    else {
+                                        let isShowImgTag = false;
+                                        if (typeof (Element) == 'function') {
+                                            isShowImgTag = true;
+                                        }
+                                        return (
+                                            <td>
+                                                <Element
+                                                    onChange={(e) => getDataInput(propertie, e)}
+                                                    className='form-control'
+                                                    defaultValue={!isShowImgTag && item[propertie] || null}
+                                                />
+                                                {isShowImgTag && (
+                                                    <img Style='width:3vw;height:7vh' src={!state.dataInput[propertie] ?
+                                                        (item[propertie] ? hostName + item[propertie] : defaultAvatar) :
+                                                        state.dataInput[propertie]}
+                                                    />
+                                                )
+                                                }
+                                            </td>
+                                        )
+                                    }
+
+
                                 })
                             }
                             <td>

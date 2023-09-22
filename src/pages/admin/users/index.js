@@ -9,6 +9,7 @@ import { allUser } from '../../../services/userServices';
 import { allRole } from '../../../services/adminServices';
 import { updateUser, uploadAvatar } from "../../../services/userServices";
 import { deleteUser, deleteUserMany } from '../../../services/adminServices';
+import InputFile from '../../../elements/inputFile';
 let cv = classNames.bind(objStyle);
 let count = 0;
 function AdminUser() {
@@ -34,10 +35,10 @@ function AdminUser() {
         }
         fetchData();
     }, [stateReload])
-    let handleDeleteUser = async (id, selectedRow, stateChecked, avatarFile) => {
+    let handleDeleteUser = async (id, selectedRow, stateChecked) => {
         if (window.confirm('Bạn muốn gỡ người dùng ' + stateDataUsers.listUser[selectedRow].email + '?\n\n')) {
             try {
-                await deleteUser({ id, access_token: access_token, avatarFile })
+                await deleteUser({ id, access_token })
                 stateChecked.delete(id)//thay doi o datastatic la dc ko can reload
                 reloadData()
             } catch (e) {
@@ -49,6 +50,7 @@ function AdminUser() {
         if (window.confirm('Bạn muốn sửa người dùng ' + stateDataUsers.listUser[selectedRow].email + '?\n\n')) {
             try {//su dụng try catch khi return ve client obj err (status 400,403,409) se su dung dc obj err ở catch (var e sẽ ref vào obj err)
                 //su dung e.response.data de ref vao data server return ve (thong thuong neu ko co loi se su dung obj.data nhung neu co loi obj server return ve se dc var propertoes response ref vao)
+                console.log(state.dataInput)
                 await updateUser(id, access_token, state.dataInput)
                 if (state.dataInput.imgName != null) {
                     await uploadAvatar(stateFile, state.dataInput.imgName)
@@ -81,20 +83,30 @@ function AdminUser() {
             }, 1000);
         }
     }
+    console.log(stateDataUsers.listUser)
+    const arrListRole = stateDataUsers.listRole.map((obj) => {
+        return obj.name
+    })
     return (
         <>
             <TableBootstrap
-                thead={['Name',
-                    'Email',
-                    'Avatar',
+                thead={['name',
+                    'email',
+                    'avatar',
                     'adress',
-                    'roleid',
+                    'role',
+                    'isCollab',
                     'createdAt',
-                    'updatedAt',]}
+                    'updatedAt',
+                ]}
                 listData={stateDataUsers.listUser}
-                listData2={stateDataUsers.listRole}
-                ElementTag={['input', '', 'input', 'input', 'select', '', '']}
-                propertieTag={['', '', 'file', '', '']}
+                selectData={
+                    {
+                        rolelist: arrListRole,
+                        isCollablist: ['Có', 'Không']
+                    }
+                }
+                ElementTag={['input', '', InputFile, 'input', 'select', 'select', '', '']}
                 className={cv('modify-user')}
                 handleDelete={handleDeleteUser}
                 handleUpdate={handleUpdateUser}

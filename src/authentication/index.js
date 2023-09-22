@@ -11,6 +11,11 @@ async function Authentication() {
             break;
         }
         catch (e) {
+            if (e.response.status == 404) //ko tim thay user
+            {
+                dispatch(setLoginReducer())
+                break;
+            }
             try {
                 access_token = (await reFreshToken()).data
                 localStorage.setItem('access_token', access_token)
@@ -19,6 +24,7 @@ async function Authentication() {
                 dispatch(setLoginReducer()) //logout khi refresh token loi hoac het han
                 break;
             }
+
         }
     }
 }

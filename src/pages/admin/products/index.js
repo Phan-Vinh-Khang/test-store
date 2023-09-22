@@ -4,10 +4,18 @@ import objStyle from './index.module.scss'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
 import { uid } from 'uid';
 import TableBootstrap from '../table';
-import allProduct, { allTypeProd, createProd, uploadImgProd } from '../../../services/productServices';
+import InputFile from '../../../elements/inputFile';
+import allProduct,
+{
+    allTypeProd,
+    createProd,
+    uploadImgProd,
+    deleteProd,
+    deleteProdMany,
+    updateProd
+} from '../../../services/productServices';
 let cv = classNames.bind(objStyle);
 function AdminProduct() {
     let [stateIdx, setStateIdx] = useState(0)
@@ -34,53 +42,57 @@ function AdminProduct() {
         }
         fetchData();
     }, [stateReLoad])
-    // let handleDeleteProduct = async (id, selectedRow, stateChecked, avatarFile) => {
-    //     if (window.confirm('Bạn muốn gỡ người dùng ' + stateProducts.listProduct[selectedRow].email + '?\n\n')) {
-    //         try {
-    //             await deleteUser({ id, access_token: access_token, avatarFile })
-    //             stateChecked.delete(id)//thay doi o datastatic la dc ko can reload
-    //             reloadData()
-    //         } catch (e) {
-    //             alert(e.response.data.message)
-    //         }
-    //     }
-    // }
-    // let handleUpdateProduct = async (id, selectedRow, stateFile, state) => {
-    //     if (window.confirm('Bạn muốn sửa người dùng ' + stateProducts.listProduct[selectedRow].email + '?\n\n')) {
-    //         try {//su dụng try catch khi return ve client obj err (status 400,403,409) se su dung dc obj err ở catch (var e sẽ ref vào obj err)
-    //             //su dung e.response.data de ref vao data server return ve (thong thuong neu ko co loi se su dung obj.data nhung neu co loi obj server return ve se dc var propertoes response ref vao)
-    //             await updateUser(id, access_token, state.dataInput)
-    //             if (state.dataInput.imgName != null) {
-    //                 await uploadAvatar(stateFile, state.dataInput.imgName)
-    //             }
-    //             state.selectedRow = 0
-    //             setTimeout(() => {
-    //                 reloadData()
-    //             }, 500);
-    //         }
-    //         catch (e) {//var e sẽ ref vào data return err
-    //             if (e.response.status == 422)
-    //                 alert(e.response.data.message);
-    //         }
-    //     }
-    // }
-    // let handleRemoveMany = async (stateChecked, setStateLoading) => {
-    //     const listId = Array.from(stateChecked);
-    //     if (window.confirm('bạn có muốn gỡ ' + stateChecked.size + ' user?')) {
-    //         setStateLoading(true)
-    //         setTimeout(async () => {
-    //             try {
-    //                 setStateLoading(false)
-    //                 await deleteUserMany({ access_token, listId });
-    //                 stateChecked.clear();
-    //                 reloadData();
-    //             }
-    //             catch (e) {
-    //                 alert(e.response.data.message);//can xu li wait o try catch (khi dang await o try{} se load effect, sau 500ms se dung load effect va gui req, neu req return ve loi se van catch dc o catch{})
-    //             }
-    //         }, 1000);
-    //     }
-    // }
+    let access_token = localStorage.getItem('access_token')
+    let handleDeleteProduct = async (id, selectedRow, stateChecked) => {
+        if (window.confirm('Bạn muốn gỡ sản phẩm ' + stateProducts.listProduct[selectedRow].email + '?\n\n')) {
+            try {
+                await deleteProd({ id, access_token })
+                stateChecked.delete(id)//thay doi o datastatic la dc ko can reload
+                reloadData()
+            } catch (e) {
+                alert(e.response.data.message)
+            }
+        }
+    }
+    let handleUpdateProduct = async (id, selectedRow, stateFile, state) => {
+        if (window.confirm('Bạn muốn sửa người dùng ' + stateProducts.listProduct[selectedRow].email + '?\n\n')) {
+            try {//su dụng try catch khi return ve client obj err (status 400,403,409) se su dung dc obj err ở catch (var e sẽ ref vào obj err)
+                //su dung e.response.data de ref vao data server return ve (thong thuong neu ko co loi se su dung obj.data nhung neu co loi obj server return ve se dc var propertoes response ref vao)
+                await updateProd(id, access_token, state.dataInput)
+                if (state.dataInput.imgName != null) {
+                    await uploadImgProd(stateFile, state.dataInput.imgName)
+                }
+                state.selectedRow = 0
+                setTimeout(() => {
+                    reloadData()
+                }, 500);
+            }
+            catch (e) {//var e sẽ ref vào data return err
+                if (e.response.status == 422)
+                    alert(e.response.data.message);
+            }
+        }
+    }
+    let handleRemoveMany = async (stateChecked, setStateLoading) => {
+        const listId = Array.from(stateChecked);
+        if (window.confirm('bạn có muốn gỡ ' + stateChecked.size + ' sản phẩm?')) {
+            setStateLoading(true)
+            setTimeout(async () => {
+                try {
+                    setStateLoading(false)
+                    await deleteProdMany({ access_token, listId });
+                    stateChecked.clear();
+                    reloadData();
+                }
+                catch (e) {
+                    alert(e.response.data.message);//can xu li wait o try catch (khi dang await o try{} se load effect, sau 500ms se dung load effect va gui req, neu req return ve loi se van catch dc o catch{})
+                }
+            }, 1000);
+        }
+    }
+    const listTypeProd = stateProducts.listType.map(({ typeprodname }) => {
+        return typeprodname;
+    })
     let listPage = [<TableBootstrap
         thead={['Name',
             'Price',
@@ -91,17 +103,22 @@ function AdminProduct() {
             'Star',
             'Sold',
             'TypeProd',
+            'UserCreateId',
+            'UserShopId',
             'createdAt',
             'updatedAt',]}
         listData={stateProducts.listProduct}
-        listData2={stateProducts.listType}
+        selectData={
+            {
+                listTypeProd: listTypeProd
+            }
+        }
         hostName='http://localhost:3001/img/products/'
-        ElementTag={['input', 'input', 'input', 'input', 'input', 'input', 'input', 'input', 'select', '', '']}
-        propertieTag={['', '', 'file', '', '']}
+        ElementTag={['input', 'input', 'input', 'input', InputFile, 'input', '', '', 'select', '', '', '', '']}
         className={cv('modify-user')}
-    // handleDelete={handleDeleteProduct}
-    // handleUpdate={handleUpdateProduct}
-    // handleRemoveMany={handleRemoveMany}
+        handleDelete={handleDeleteProduct}
+        handleRemoveMany={handleRemoveMany}
+        handleUpdate={handleUpdateProduct}
     />, <AddProductModal
         className={cv(stateClassName)}
         reloadData={reloadData}
@@ -109,7 +126,7 @@ function AdminProduct() {
         listType={stateProducts.listType}
     />]
     return (
-        <div className={cv('wrapperForm')} Style='height:200vh'>
+        <div className={cv('wrapperForm')}>
             <div className={cv('navbar')}>
                 {
                     stateIdx > 0 &&
@@ -124,12 +141,13 @@ function AdminProduct() {
                 <span className={cv('title')}> Quản lí sản phẩm</span>
             </div>
             {
-                listPage[0]
+                listPage.map((item, idx) => {
+                    return item
+                })
             }
             {
 
-
-                listPage[1]//reloadInpout khi bat tat modal
+                stateIdx == 1 && listPage[1]
             }
             {stateIdx < 1 &&
                 <Button
@@ -145,12 +163,13 @@ function AdminProduct() {
     );
 }
 function AddProductModal({ className, reloadData, listType }) {
+    let access_token = localStorage.getItem('access_token')
     let [stateInput, setStateInput] = useState({
         name: '',
-        price: '',
+        price: '0',
         des: '',
-        discount: '',
-        quantity: '',
+        discount: '0',
+        quantity: '0',
         img: '',
         imgName: '',
         typeprodid: ''
@@ -160,6 +179,28 @@ function AddProductModal({ className, reloadData, listType }) {
         let input = e.target.value;
         if (type) {
             input = input[0]
+        }
+        if (label == 'price') {
+            input = Number(input);
+            if (!Number.isSafeInteger(input)) {
+                input = stateInput.price;
+            }
+        }
+        else if (label == 'discount') {
+            input = Number(input);
+            if (Number.isNaN(input)) {
+                input = stateInput.discount;
+            }
+            if (input > 100) {
+                input = stateInput.discount
+            }
+
+        }
+        else if (label == 'quantity') {
+            input = Number(input);
+            if (!Number.isSafeInteger(input)) {
+                input = stateInput.quantity;
+            }
         }
         stateInput[label] = input
         if (label == 'img') {
@@ -176,19 +217,8 @@ function AddProductModal({ className, reloadData, listType }) {
     }
     let addProdAdmin = async () => {
         try {
-            let access_token = localStorage.getItem('access_token')
             let imgName = stateInput.imgName
             await createProd({ access_token, data: stateInput })
-            setStateInput({
-                name: '',
-                price: '',
-                des: '',
-                discount: '',
-                quantity: '',
-                img: '',
-                imgName: '',
-                typeprod: ''
-            })
             setTimeout(() => {
                 reloadData(); //cho 500ms de luu data vao db,neu chay ngay co the db chua kip luu da return ve data
             }, 100)
@@ -198,7 +228,6 @@ function AddProductModal({ className, reloadData, listType }) {
             alert(e.response.data.message)
         }
     }
-    console.log(stateInput, stateFile)
     return (
         <div className={className == '' ? cv('wrapFormTest') : className}>
             <Form >
@@ -208,24 +237,24 @@ function AddProductModal({ className, reloadData, listType }) {
                         <Form.Control onChange={(e) => { setInput('name', e) }} type="text" placeholder="Tên sản phẩm" />
                     </Col>
                     <Col>
-                        <Form.Label>Giá  </Form.Label>
-                        <Form.Control onChange={(e) => { setInput('price', e) }} type="text" placeholder="Giá" />
+                        <Form.Label >Giá (VND)  </Form.Label>
+                        <Form.Control value={stateInput.price} onChange={(e) => { setInput('price', e) }} type="text" placeholder="Giá" />
                     </Col>
                     <Col>
                         <Form.Label>Mô tả  </Form.Label>
                         <Form.Control onChange={(e) => { setInput('des', e) }} as="textarea" rows="4" placeholder="Mô tả" />
                     </Col>
                     <Col sm="6" >
-                        <Form.Label>Giảm giá</Form.Label>
-                        <Form.Control onChange={(e) => { setInput('discount', e) }} type="number" min="0" max="100" placeholder="Giảm giá" />
+                        <Form.Label>Giảm giá (%)</Form.Label>
+                        <Form.Control value={stateInput.discount} onChange={(e) => { setInput('discount', e) }} placeholder="Giảm giá" />
                     </Col>
                     <Col sm="6" >
                         <Form.Label>Số lượng</Form.Label>
-                        <Form.Control onChange={(e) => { setInput('quantity', e) }} type="number" min='0' max='9999' placeholder="Số lượng" />
+                        <Form.Control value={stateInput.quantity} onChange={(e) => { setInput('quantity', e) }} placeholder="Số lượng" />
                     </Col>
                     <Form.Label>Chọn img</Form.Label>
                     <Form.Control onChange={(e) => { setInput('img', e) }} nctype="multipart/form-data" name='img' type="file" />
-                    <img Style='width:50px' />
+                    <img Style='width:50px' src={stateInput.img} />
                     <Form.Select onChange={(e) => { setInput('typeprodid', e, true) }} Style='margin-top:24px'>
                         <option>-----------------</option>
                         {
@@ -241,5 +270,10 @@ function AddProductModal({ className, reloadData, listType }) {
             </Form>
         </div>
     );
+}
+function checkNumber(num) {
+    if (Number.isSafeInteger(Number(num))) {
+        return num;
+    }
 }
 export default AdminProduct;

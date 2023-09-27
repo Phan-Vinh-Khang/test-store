@@ -13,11 +13,12 @@ function ModalInput({ reloadData, listRole, ...obj }) {
         email: '',
         password: '',
         confirmPassword: '',
-        avatar: '',
+        image: '',
         adress: '',
         roleid: '',
-        imgName: ''
+        fileNameUid: ''
     });
+    console.log(stateInput)
     let [stateFile, setStateFile] = useState({})
     let setInput = async (label, e) => {
         let input = e.target.value;
@@ -28,11 +29,11 @@ function ModalInput({ reloadData, listRole, ...obj }) {
             else input = '-1'
         }
         stateInput[label] = input
-        if (label == 'avatar') {
+        if (label == 'image') {
             let fileName = e.target.files[0].name
             let fileExtension = fileName.split('.')[1]
             let fileNameUid = fileName.split('.')[0] + uid() + '.' + fileExtension
-            stateInput['imgName'] = fileNameUid
+            stateInput['fileNameUid'] = fileNameUid
             stateInput[label] = URL.createObjectURL(e.target.files[0])
             setStateFile(e.target.files[0])//phai setState o day do var state k ref vao files[0] dc(varproperti thi ref dc nhung vay thi datastaticstatefile nay phai la obj)
         }
@@ -42,7 +43,7 @@ function ModalInput({ reloadData, listRole, ...obj }) {
     }
     let addUserAdmin = async () => {
         try {
-            let imgName = stateInput.imgName
+            let fileNameUid = stateInput.fileNameUid
             await createUserAdmin({ access_token, data: stateInput })
             obj.close();
             setStateInput({
@@ -50,16 +51,16 @@ function ModalInput({ reloadData, listRole, ...obj }) {
                 email: '',
                 password: '',
                 confirmPassword: '',
-                avatar: '',
+                image: '',
                 adress: '',
                 roleid: '',
-                imgName: ''
+                fileNameUid: ''
             }
             )
             setTimeout(() => {
                 reloadData(); //cho 500ms de luu data vao db,neu chay ngay co the db chua kip luu da return ve data
             }, 100)
-            await uploadAvatar(stateFile, imgName)//co the req loi se dung o day(req loi co the do ko co data file dc chon)
+            await uploadAvatar(stateFile, fileNameUid)//co the req loi se dung o day(req loi co the do ko co data file dc chon)
             setStateFile({})
         } catch (e) {
             alert(e.response.data.message)
@@ -74,7 +75,7 @@ function ModalInput({ reloadData, listRole, ...obj }) {
                     email: '',
                     password: '',
                     confirmPassword: '',
-                    avatar: '',
+                    image: '',
                     adress: '',
                     roleid: '',
                 })
@@ -106,8 +107,8 @@ function ModalInput({ reloadData, listRole, ...obj }) {
                                 <Form.Control onChange={(e) => setInput('confirmPassword', e)} type="password" placeholder="Confirm Password" />
                             </Col>
                             <Form.Label>Chọn avatar người dùng</Form.Label>
-                            <Form.Control nctype="multipart/form-data" name='avatar' onChange={(e) => setInput('avatar', e)} type="file" />
-                            <img Style='width:50px' src={stateInput.avatar} />
+                            <Form.Control nctype="multipart/form-data" name='image' onChange={(e) => setInput('image', e)} type="file" />
+                            <img Style='width:50px' src={stateInput.image} />
                             <Form.Select onChange={(e) => setInput('roleid', e)} Style='text-transform: capitalize;margin-top:24px'>
                                 <option>-------------------</option>
                                 {
@@ -127,7 +128,7 @@ function ModalInput({ reloadData, listRole, ...obj }) {
                             email: '',
                             password: '',
                             confirmPassword: '',
-                            avatar: '',
+                            image: '',
                             adress: '',
                             roleid: '',
                         })

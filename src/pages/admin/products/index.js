@@ -44,7 +44,7 @@ function AdminProduct() {
     }, [stateReLoad])
     let access_token = localStorage.getItem('access_token')
     let handleDeleteProduct = async (id, selectedRow, stateChecked) => {
-        if (window.confirm('Bạn muốn gỡ sản phẩm ' + stateProducts.listProduct[selectedRow].email + '?\n\n')) {
+        if (window.confirm('Bạn muốn gỡ sản phẩm ' + stateProducts.listProduct[selectedRow].name + '?\n\n')) {
             try {
                 await deleteProd({ id, access_token })
                 stateChecked.delete(id)//thay doi o datastatic la dc ko can reload
@@ -55,12 +55,11 @@ function AdminProduct() {
         }
     }
     let handleUpdateProduct = async (id, selectedRow, stateFile, state) => {
-        if (window.confirm('Bạn muốn sửa người dùng ' + stateProducts.listProduct[selectedRow].email + '?\n\n')) {
-            try {//su dụng try catch khi return ve client obj err (status 400,403,409) se su dung dc obj err ở catch (var e sẽ ref vào obj err)
-                //su dung e.response.data de ref vao data server return ve (thong thuong neu ko co loi se su dung obj.data nhung neu co loi obj server return ve se dc var propertoes response ref vao)
+        if (window.confirm('Bạn muốn sửa sản phẩm ' + stateProducts.listProduct[selectedRow].name + '?\n\n')) {
+            try {
                 await updateProd(id, access_token, state.dataInput)
-                if (state.dataInput.imgName != null) {
-                    await uploadImgProd(stateFile, state.dataInput.imgName)
+                if (state.dataInput.fileNameUid != undefined) {
+                    await uploadImgProd(stateFile, state.dataInput.fileNameUid)
                 }
                 state.selectedRow = 0
                 setTimeout(() => {
@@ -68,7 +67,7 @@ function AdminProduct() {
                 }, 500);
             }
             catch (e) {//var e sẽ ref vào data return err
-                if (e.response.status == 422)
+                if (e.response.status != 200)
                     alert(e.response.data.message);
             }
         }
@@ -126,7 +125,7 @@ function AdminProduct() {
         listType={stateProducts.listType}
     />]
     return (
-        <div className={cv('wrapperForm')}>
+        <div className={cv('wrapperForm')} Style="height:1000px">
             <div className={cv('navbar')}>
                 {
                     stateIdx > 0 &&
@@ -170,10 +169,11 @@ function AddProductModal({ className, reloadData, listType }) {
         des: '',
         discount: '0',
         quantity: '0',
-        img: '',
-        imgName: '',
+        image: '',
+        fileNameUid: '',
         typeprodid: ''
     });
+    console.log(stateInput)
     let [stateFile, setStateFile] = useState({})
     let setInput = async (label, e, type = false) => {
         let input = e.target.value;
@@ -203,11 +203,11 @@ function AddProductModal({ className, reloadData, listType }) {
             }
         }
         stateInput[label] = input
-        if (label == 'img') {
+        if (label == 'image') {
             let fileName = e.target.files[0].name
             let fileExtension = fileName.split('.')[1]
             let fileNameUid = fileName.split('.')[0] + uid() + '.' + fileExtension
-            stateInput['imgName'] = fileNameUid
+            stateInput.fileNameUid = fileNameUid
             stateInput[label] = URL.createObjectURL(e.target.files[0])
             setStateFile(e.target.files[0])//phai setState o day do var state k ref vao files[0] dc(varproperti thi ref dc nhung vay thi datastaticstatefile nay phai la obj)
         }
@@ -215,14 +215,14 @@ function AddProductModal({ className, reloadData, listType }) {
             ...stateInput
         })
     }
-    let addProdAdmin = async () => {
+    let addProdAdmin = async () => {//add product
         try {
-            let imgName = stateInput.imgName
+            let fileNameUid = stateInput.fileNameUid
             await createProd({ access_token, data: stateInput })
             setTimeout(() => {
                 reloadData(); //cho 500ms de luu data vao db,neu chay ngay co the db chua kip luu da return ve data
             }, 100)
-            await uploadImgProd(stateFile, imgName) //co the req loi se dung o day(req loi co the do ko co data file dc chon)
+            await uploadImgProd(stateFile, fileNameUid) //co the req loi se dung o day(req loi co the do ko co data file dc chon)
             setStateFile({})
         } catch (e) {
             alert(e.response.data.message)
@@ -253,8 +253,8 @@ function AddProductModal({ className, reloadData, listType }) {
                         <Form.Control value={stateInput.quantity} onChange={(e) => { setInput('quantity', e) }} placeholder="Số lượng" />
                     </Col>
                     <Form.Label>Chọn img</Form.Label>
-                    <Form.Control onChange={(e) => { setInput('img', e) }} nctype="multipart/form-data" name='img' type="file" />
-                    <img Style='width:50px' src={stateInput.img} />
+                    <Form.Control onChange={(e) => { setInput('image', e) }} nctype="multipart/form-data" name='img' type="file" />
+                    <img Style='width:50px' src={stateInput.image} />
                     <Form.Select onChange={(e) => { setInput('typeprodid', e, true) }} Style='margin-top:24px'>
                         <option>-----------------</option>
                         {

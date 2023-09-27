@@ -52,8 +52,8 @@ function AdminUser() {
                 //su dung e.response.data de ref vao data server return ve (thong thuong neu ko co loi se su dung obj.data nhung neu co loi obj server return ve se dc var propertoes response ref vao)
                 console.log(state.dataInput)
                 await updateUser(id, access_token, state.dataInput)
-                if (state.dataInput.imgName != null) {
-                    await uploadAvatar(stateFile, state.dataInput.imgName)
+                if (state.dataInput.fileNameUid != null) {
+                    await uploadAvatar(stateFile, state.dataInput.fileNameUid)
                 }
                 state.selectedRow = 0
                 setTimeout(() => {
@@ -61,14 +61,14 @@ function AdminUser() {
                 }, 500);
             }
             catch (e) {//var e sẽ ref vào data return err
-                if (e.response.status == 422)
+                if (e.response.status != 200)
                     alert(e.response.data.message);
             }
         }
     }
     let handleRemoveMany = async (stateChecked, setStateLoading) => {
         const listId = Array.from(stateChecked);
-        if (window.confirm('bạn có muốn gỡ ' + stateChecked.size + ' user?')) {
+        if (window.confirm(`bạn có muốn gỡ ${stateChecked.size} user?`)) {
             setStateLoading(true)
             setTimeout(async () => {
                 try {

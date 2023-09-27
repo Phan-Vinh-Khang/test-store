@@ -23,7 +23,7 @@ async function deleteUser({ id, access_token }) {
         })
 }
 async function deleteUserMany({ listId, access_token }) {
-    const access_token2 = await checkToken(access_token)
+    access_token = await checkToken(access_token)
     return await axios.post('http://localhost:3001/api/delete-user-many/',
         {
             listId,

@@ -4,6 +4,8 @@ import { setLoginReducer } from '../redux/reducerLogin';
 let access_token = localStorage.getItem('access_token')
 async function Authentication() {
     let dispatch = useDispatch();
+    if (!access_token)
+        return;
     while (true) {
         try {
             let { data } = await AuthenticationUser(access_token)//neu return loi se ngung tai vi tri nay(vi tri loi) va chay catch

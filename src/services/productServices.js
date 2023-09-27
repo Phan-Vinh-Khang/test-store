@@ -22,21 +22,21 @@ async function createProd({ data, access_token }) {
 }
 async function uploadImgProd(file, filename) {
     let formData = new FormData();
-    formData.append('imgProd', file, filename)
+    formData.append('image', file, filename)
     return await axios.post('http://localhost:3001/api/uploadImgProd',
         formData
     )
 
 }
-async function updateProd({ id, access_token, data }) {
+async function updateProd(id, access_token, data) {
     access_token = await checkToken(access_token)
-    return await axios.post('http://localhost:3001/api/update-product/' + id, {
-        data
-    }, {
-        headers: {
-            Authorization: `Bearer ${access_token}`
+    return await axios.put(`http://localhost:3001/api/update-product/${id}`,
+        data,
+        {
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            }
         }
-    }
     )
 }
 async function deleteProd({ id, access_token }) {
@@ -51,9 +51,10 @@ async function deleteProd({ id, access_token }) {
 }
 async function deleteProdMany({ listId, access_token }) {
     access_token = await checkToken(access_token)
-    return await axios.post('http://localhost:3001/api/delete-product-many/', {
-        listId
-    }, {
+    return await axios.post('http://localhost:3001/api/delete-product-many/',
+        {
+            listId
+        }, {
         headers: {
             Authorization: `Bearer ${access_token}`
         }

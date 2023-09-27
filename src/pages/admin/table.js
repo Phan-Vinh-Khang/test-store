@@ -16,7 +16,7 @@ function TableBootstrap({
     handleUpdate,
     handleRemoveMany,
     hostName,
-    defaultAvatar = 'avatar/default-avatar-profile.jpg'
+    defaultImage = 'avatar/default-avatar-profile.jpg'
 }) {
     let [state, setState] = useState({
         selectedRow: 0,
@@ -30,7 +30,6 @@ function TableBootstrap({
         let rowSelected = JSON.parse(JSON.stringify(listData[idx - 1]))
         //sử dụng như trên nếu ko dataInput sẽ ref vào datastatic arr
         //hoặc tao 1 obj và varproperties obj mới tao sẽ ref vào varproperties của obj trong arr
-        rowSelected.avatar = null;
         rowSelected.image = null;
         setState({
             selectedRow: idx,
@@ -45,11 +44,11 @@ function TableBootstrap({
     let getDataInput = (label, e) => {
         let input = e.target.value
         state.dataInput[label] = input
-        if (label == 'avatar' || label == 'image') {
+        if (label == 'image') {
             let fileName = e.target.files[0].name
             let fileExtension = fileName.split('.')[1]
             let fileNameUid = fileName.split('.')[0] + uid() + '.' + fileExtension
-            state.dataInput['imgName'] = fileNameUid
+            state.dataInput['fileNameUid'] = fileNameUid
             state.dataInput[label] = URL.createObjectURL(e.target.files[0])
             setStateFile(e.target.files[0])//phai setState o day do var state k ref vao files[0] dc(varproperti thi ref dc nhung vay thi datastaticstatefile nay phai la obj)
         }
@@ -130,14 +129,14 @@ function TableBootstrap({
                                 propertiesListData.map((propertie) => (
                                     <>
                                         {
-                                            (propertie != 'avatar' && propertie != 'image' &&
+                                            (propertie != 'image' &&
                                                 <td>{item[propertie] || <Skeleton />}</td>)
                                         }
                                         {
-                                            (propertie == 'avatar' || propertie == 'image') &&
+                                            (propertie == 'image') &&
                                             <td>
                                                 <img Style='width:3vw;height:7vh' src={item[propertie] ?
-                                                    hostName + item[propertie] : defaultAvatar}
+                                                    hostName + item[propertie] : defaultImage}
                                                 />
                                             </td>
                                         }
@@ -217,7 +216,7 @@ function TableBootstrap({
                                                 />
                                                 {isShowImgTag && (
                                                     <img Style='width:3vw;height:7vh' src={!state.dataInput[propertie] ?
-                                                        (item[propertie] ? hostName + item[propertie] : defaultAvatar) :
+                                                        (item[propertie] ? hostName + item[propertie] : defaultImage) :
                                                         state.dataInput[propertie]}
                                                     />
                                                 )

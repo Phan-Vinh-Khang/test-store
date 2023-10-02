@@ -22,7 +22,6 @@ function AdminUser() {
     let reloadData = () => {
         setStateReload(!stateReload)
     }
-    const access_token = localStorage.getItem('access_token')
     useEffect(() => {
         const fetchData = async () => {
             const dataUser = (await allUser()).data;
@@ -38,7 +37,7 @@ function AdminUser() {
     let handleDeleteUser = async (id, selectedRow, stateChecked) => {
         if (window.confirm('Bạn muốn gỡ người dùng ' + stateDataUsers.listUser[selectedRow].email + '?\n\n')) {
             try {
-                await deleteUser({ id, access_token })
+                await deleteUser(id)
                 stateChecked.delete(id)//thay doi o datastatic la dc ko can reload
                 reloadData()
             } catch (e) {
@@ -51,7 +50,7 @@ function AdminUser() {
             try {//su dụng try catch khi return ve client obj err (status 400,403,409) se su dung dc obj err ở catch (var e sẽ ref vào obj err)
                 //su dung e.response.data de ref vao data server return ve (thong thuong neu ko co loi se su dung obj.data nhung neu co loi obj server return ve se dc var propertoes response ref vao)
                 console.log(state.dataInput)
-                await updateUser(id, access_token, state.dataInput)
+                await updateUser(id, state.dataInput)
                 if (state.dataInput.fileNameUid != null) {
                     await uploadAvatar(stateFile, state.dataInput.fileNameUid)
                 }
@@ -73,7 +72,7 @@ function AdminUser() {
             setTimeout(async () => {
                 try {
                     setStateLoading(false)
-                    await deleteUserMany({ access_token, listId });
+                    await deleteUserMany(listId);
                     stateChecked.clear();
                     reloadData();
                 }

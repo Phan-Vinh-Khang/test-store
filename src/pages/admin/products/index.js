@@ -42,11 +42,10 @@ function AdminProduct() {
         }
         fetchData();
     }, [stateReLoad])
-    let access_token = localStorage.getItem('access_token')
     let handleDeleteProduct = async (id, selectedRow, stateChecked) => {
         if (window.confirm('Bạn muốn gỡ sản phẩm ' + stateProducts.listProduct[selectedRow].name + '?\n\n')) {
             try {
-                await deleteProd({ id, access_token })
+                await deleteProd(id)
                 stateChecked.delete(id)//thay doi o datastatic la dc ko can reload
                 reloadData()
             } catch (e) {
@@ -57,7 +56,7 @@ function AdminProduct() {
     let handleUpdateProduct = async (id, selectedRow, stateFile, state) => {
         if (window.confirm('Bạn muốn sửa sản phẩm ' + stateProducts.listProduct[selectedRow].name + '?\n\n')) {
             try {
-                await updateProd(id, access_token, state.dataInput)
+                await updateProd(id, state.dataInput)
                 if (state.dataInput.fileNameUid != undefined) {
                     await uploadImgProd(stateFile, state.dataInput.fileNameUid)
                 }
@@ -79,7 +78,7 @@ function AdminProduct() {
             setTimeout(async () => {
                 try {
                     setStateLoading(false)
-                    await deleteProdMany({ access_token, listId });
+                    await deleteProdMany(listId);
                     stateChecked.clear();
                     reloadData();
                 }
@@ -162,7 +161,6 @@ function AdminProduct() {
     );
 }
 function AddProductModal({ className, reloadData, listType }) {
-    let access_token = localStorage.getItem('access_token')
     let [stateInput, setStateInput] = useState({
         name: '',
         price: '0',
@@ -218,7 +216,7 @@ function AddProductModal({ className, reloadData, listType }) {
     let addProdAdmin = async () => {//add product
         try {
             let fileNameUid = stateInput.fileNameUid
-            await createProd({ access_token, data: stateInput })
+            await createProd(stateInput)
             setTimeout(() => {
                 reloadData(); //cho 500ms de luu data vao db,neu chay ngay co the db chua kip luu da return ve data
             }, 100)

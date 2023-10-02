@@ -7,7 +7,6 @@ import createUserAdmin from '../../services/adminServices';
 import { uploadAvatar } from '../../services/userServices';
 import { uid } from 'uid'
 function ModalInput({ reloadData, listRole, ...obj }) {
-    let access_token = localStorage.getItem('access_token')
     let [stateInput, setStateInput] = useState({
         name: '',
         email: '',
@@ -44,7 +43,7 @@ function ModalInput({ reloadData, listRole, ...obj }) {
     let addUserAdmin = async () => {
         try {
             let fileNameUid = stateInput.fileNameUid
-            await createUserAdmin({ access_token, data: stateInput })
+            await createUserAdmin(stateInput)
             obj.close();
             setStateInput({
                 name: '',

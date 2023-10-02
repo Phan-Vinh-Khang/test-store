@@ -1,5 +1,5 @@
 import axios from "axios"
-import checkToken from "./checkToken"
+import axiosToken from "./interceptor"
 //ref req to controller
 async function resLogin(email, password) {
     return await axios.post('http://localhost:3001/api/check-user-login', {
@@ -21,13 +21,8 @@ async function resSignup(username, email, password, confirmPassword, address) {
 async function detailUser(idUser) {
     return await axios.get('http://localhost:3001/api/detail-user/' + idUser)
 }
-async function AuthenticationUser(access_token) {
-    return await axios.get('http://localhost:3001/api/authentication-user',
-        {
-            headers: {
-                Authorization: `Bearer ${access_token}`
-            }
-        })
+async function AuthenticationUser() {
+    return await axiosToken.get('/authentication-user')
 }
 async function Logout() {
     return await axios.get('http://localhost:3001/api/logout-user', { withCredentials: true })
@@ -35,17 +30,8 @@ async function Logout() {
 async function allUser() {
     return await axios.get('http://localhost:3001/api/all-user')
 }
-async function updateUser(id, access_token, data) {
-    access_token = await checkToken(access_token)
-    return await axios.put('http://localhost:3001/api/update-user/' + id,
-        {
-            data
-        }, {
-        headers: {
-            Authorization: `Bearer ${access_token}`
-        }
-    }
-    )
+async function updateUser(id, data) {
+    return await axiosToken.put(`/update-user/ ${id}`, { data })
 }
 async function uploadAvatar(file, filename) {
     let formData = new FormData();

@@ -1,0 +1,16 @@
+.flex-block {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
+    padding: 0px 1rem;
+
+    >.flex-block2 {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+}
+
+.btn {
+    margin-right: 0.2rem;
+}

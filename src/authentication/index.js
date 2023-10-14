@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { AuthenticationUser, reFreshToken } from '../services/userServices';
+import { AuthenticationUser } from '../services/userServices';
 import { setLoginReducer } from '../redux/reducerLogin';
 async function Authentication() {
     let dispatch = useDispatch();
@@ -8,8 +8,7 @@ async function Authentication() {
         dispatch(setLoginReducer(data.user))
     }
     catch (e) {
-        //ko tim thay user
-        //logout khi refresh token loi hoac het han
+        //ko tim thay user hoac logout khi refresh token loi hoac het han
         dispatch(setLoginReducer())
     }
 }

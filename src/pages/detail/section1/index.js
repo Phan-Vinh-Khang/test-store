@@ -4,6 +4,7 @@ import classNames from 'classnames/bind'
 import Slider from "react-slick";
 import objStyle from './index.module.scss'
 import { LeftArrow, RightArrow } from '../../home/section';
+import Star from './star';
 function Section1(obj) {
     let cv = classNames.bind(objStyle);
     let [stateInput, setStateInput] = useState(1);
@@ -61,26 +62,9 @@ function Section1(obj) {
                 <div className={cv('wrap-flex')}>
                     <div className={cv('wrap-star')}>
                         <span>5.0</span>
-                        <svg>
-                            <polygon points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-                            />
-                        </svg>
-                        <svg>
-                            <polygon points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-                            />
-                        </svg>
-                        <svg>
-                            <polygon points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-                            />
-                        </svg>
-                        <svg>
-                            <polygon points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-                            />
-                        </svg>
-                        <svg>
-                            <polygon points="7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4"
-                            />
-                        </svg>
+                        <Star
+                            rating={2}
+                        />
                     </div>
                     <div className={cv('wrap-feedback')}>
                         <span>7 đánh giá</span>

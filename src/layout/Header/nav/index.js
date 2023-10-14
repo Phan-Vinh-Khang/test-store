@@ -12,31 +12,28 @@ function NavHeader() {
     let cv = classNames.bind(objStyle)
     let cv2 = classNames.bind(objGlobalStyle)
     let dispatch = useDispatch();
-    // let [stateLogged, setStateLogged] = useState(JSON.parse(localStorage.getItem("logged")).name)
-    let Logged = useSelector((state) => {
-        return state.dataLogged.name;
+    let userLogged = useSelector((state) => {
+        return state.dataLogged;
     })
     let Logout = async () => {
         await LogoutAuth();
         localStorage.setItem('access_token', '')
         dispatch(setLoginReducer())
     }
-    // let Logout = () => {
-    //     localStorage.setItem("logged", JSON.stringify({
-    //         id: undefined,
-    //         name: undefined
-    //     }))
-    //     setStateLogged(undefined)
-    // }
+    const userExist = Object.keys(userLogged).length
     return (
         <div className={cv('wrapper-nav')}>
             <div className={cv('content-nav1')}>
-                <span>
-                    <a href='/'>Kênh người bán</a>
-                </span>
-                <span>
-                    <a href='/'>Trở thành Người bán Shopee</a>
-                </span>
+                {userLogged.iscollab &&
+                    <span>
+                        <a href='/'>Kênh người bán</a>
+                    </span>
+                }
+                {!userLogged.iscollab &&
+                    <span>
+                        <Link to='/userShop'>Trở thành Người bán Shopee</Link>
+                    </span>
+                }
                 <span>
                     <a href='/'>Tải ứng dụng</a>
                 </span>
@@ -57,7 +54,7 @@ function NavHeader() {
                     Tiếng Việt
                 </span>
                 {
-                    (Logged != undefined) ? (
+                    (userExist) ? (
                         <Tippy
                             interactive
                             delay={[null, 50]}
@@ -74,7 +71,7 @@ function NavHeader() {
                             <div className={cv('user')}>
                                 <span>
                                     <i class="fa-regular fa-user"></i>
-                                    {Logged}
+                                    {userLogged.name}
                                 </span>
                             </div>
                         </Tippy>

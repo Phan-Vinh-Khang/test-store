@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/test-store/static/css/main.b4f2219d.css",
+    "main.js": "/test-store/static/js/main.66501e77.js",
+    "static/js/787.4f6d1040.chunk.js": "/test-store/static/js/787.4f6d1040.chunk.js",
+    "static/media/slide-Login.jpg": "/test-store/static/media/slide-Login.3d95c71993b021dfc66b.jpg",
+    "index.html": "/test-store/index.html",
+    "main.b4f2219d.css.map": "/test-store/static/css/main.b4f2219d.css.map",
+    "main.66501e77.js.map": "/test-store/static/js/main.66501e77.js.map",
+    "787.4f6d1040.chunk.js.map": "/test-store/static/js/787.4f6d1040.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b4f2219d.css",
+    "static/js/main.66501e77.js"
+  ]
+}

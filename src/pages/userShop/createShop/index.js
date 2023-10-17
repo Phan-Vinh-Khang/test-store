@@ -20,17 +20,16 @@ function CreateShop() {
     let data = useSelector((data) => {
         return data.dataLogged
     })
-    data = {
-        ...data,
-        iscollab: 1
-    }
     let dispatch = useDispatch();//return ve 1 datastatic function dispatch
-    dispatch(setLoginReducer(data))
-    console.log('data', data)
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const addUserShop = async (data) => {
         try {
             await createUserShop(data)
+            data = {
+                ...data,
+                iscollab: 1
+            }
+            dispatch(setLoginReducer(data))
             navigate('/')
         } catch (e) {
             alert(e.respose.data)

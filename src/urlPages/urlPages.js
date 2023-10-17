@@ -34,7 +34,7 @@ const urlPages = [
 
     },
     {
-        path: '/Detail',
+        path: '/DetailProduct/:id',
         element: WrapperDetail,
         layout: MainLayout
 

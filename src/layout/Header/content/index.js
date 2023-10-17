@@ -47,7 +47,7 @@ function ContentHeader() {
             <div className={cv('wrapper-logo')}>
                 <a href='/'>
                     {/* <div className={cv('logo-img')}></div> */}
-                    <img src='./ShopeeMainLogo.png'></img>
+                    <img src='/ShopeeMainLogo.png'></img>
                 </a>
             </div>
 
@@ -87,7 +87,7 @@ function ContentHeader() {
                     )}
                 >
                     <a href='/'>
-                        <img src='./cart.png'></img>
+                        <img src='/cart.png'></img>
                     </a>
                 </Tippy>
             </div>

@@ -43,7 +43,7 @@ function Section() {
                     <div>
                         <a href='/Detail'>
                             <div className={cv('item')}>
-                                <img src={'./iconSection1/' + arr[i].toString() + '.png'} />
+                                <img src={'/iconSection1/' + arr[i].toString() + '.png'} />
                                 <p>{arrDes[i]}</p>
                             </div>
                         </a>
@@ -51,7 +51,7 @@ function Section() {
                             nextIdx < arr.length ?
                                 <a href='/Detail'>
                                     <div className={cv('item')}>
-                                        <a href='/Detail'><img src={'./iconSection1/' + arr[nextIdx] + '.png'} /></a>
+                                        <a href='/Detail'><img src={'/iconSection1/' + arr[nextIdx] + '.png'} /></a>
                                         <p>{arrDes[nextIdx]}</p>
                                     </div>
                                 </a> : <div></div>

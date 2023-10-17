@@ -5,8 +5,25 @@ import Slider from "react-slick";
 import objStyle from './index.module.scss'
 import { LeftArrow, RightArrow } from '../../home/section';
 import Star from './star';
+import { useParams } from 'react-router-dom';
+import { detailProduct } from '../../../services/productServices';
+let cv = classNames.bind(objStyle);
+const url = 'http://localhost:3001/img/products/'
 function Section1(obj) {
-    let cv = classNames.bind(objStyle);
+    const { id } = useParams(); //parmas sẽ ref vào :id của url
+    let [stateProduct, setStateProduct] = useState({});
+    console.log(stateProduct)
+    useEffect(() => {
+        let fetchData = async () => {
+            try {
+                const product = (await detailProduct(id)).data.product;
+                setStateProduct(product)
+            } catch (e) {
+                alert(e.response.data)
+            }
+        }
+        fetchData();
+    }, [])
     let [stateInput, setStateInput] = useState(1);
     let increment = () => {
         setStateInput(stateInput + 1)
@@ -33,14 +50,13 @@ function Section1(obj) {
 
     };
     let arrImg = [];
-    for (let i = 0; i < 20; i++) {
-        arrImg.push(1)
-    }
+    arrImg.push(stateProduct.image)
+    console.log(arrImg[0])
     let listImgSlider = () => {
-        return arrImg.map(() => {
+        return arrImg.map((item) => {
             return (
                 <div className={cv('item-img')}>
-                    <img src='./DetailProduct/Section1-img/img1.jpg' />
+                    <img src={url + item} />
                 </div>
             )
         })
@@ -48,7 +64,7 @@ function Section1(obj) {
     return (
         <div className={cv('section-1')}>
             <div className={cv('section-1-image')}>
-                <img src='./DetailProduct/Section1-img/img1.jpg' />
+                <img src='/DetailProduct/Section1-img/img1.jpg' />
                 <div className={cv('section-1-image-slider')}>
                     <Slider {...settings}>
                         {listImgSlider()}
@@ -57,25 +73,27 @@ function Section1(obj) {
             </div>
             <div className={cv('section-1-detail-product')}>
                 <div className={cv('title')}>
-                    Bộ Thun polo thích hợp mặc đi chơi, dã ngoại phong cách Ulzzang AO11
+                    {
+                        stateProduct.name
+                    }
                 </div>
                 <div className={cv('wrap-flex')}>
                     <div className={cv('wrap-star')}>
-                        <span>5.0</span>
+                        <span>{stateProduct.star}</span>
                         <Star
-                            rating={2}
+                            rating={stateProduct.star}
                         />
                     </div>
                     <div className={cv('wrap-feedback')}>
                         <span>7 đánh giá</span>
                     </div>
                     <div className={cv('wrap-sold')}>
-                        <span>95 đã bán</span>
+                        <span>{stateProduct.sold}</span>
                     </div>
                 </div>
                 <div className={cv('wrap-select')}>
                     <div className={cv('wrap-price')}>
-                        <div>đ70.000</div>
+                        <div>{stateProduct.price}</div>
                     </div>
 
                     <div className={cv('wrap-flex') + ' ' + cv('flex-gap')}>
@@ -103,7 +121,7 @@ function Section1(obj) {
                             />
                             <button onClick={increment}>+</button>
                         </div>
-                        <div>60041 sản phẩm có sẵn</div>
+                        <div>{stateProduct.quantity}</div>
                     </div>
                     <div>
                         <button className={cv('btn1')}>Thêm vào giỏ hàng</button>

@@ -3,6 +3,7 @@ import axios from 'axios';
 import classNames from 'classnames/bind'
 import objStyle from './index.module.scss'
 import allproduct from '../../../services/productServices';
+import { useNavigate } from 'react-router-dom';
 let cv = classNames.bind(objStyle);
 let count = 0;
 function Products() {
@@ -19,10 +20,14 @@ function Products() {
         }
         fetchDataProd();//sau khi vừa call func sẽ tiep tục chạy
     }, [])
+    let navigate = useNavigate()
+    let selectProduct = (id) => {
+        navigate(`/DetailProduct/${id}`)
+    }
     let listProduct = () => {
         return stateListProd.map((item) => {
             return (
-                <div className={cv('wrap-product')}>
+                <div onClick={() => selectProduct(item.id)} className={cv('wrap-product')}>
                     <img src='./Section-Products/img1.jpg' />
                     <div className={cv('wrap-info-product')}>
                         <div className={cv('product-name')}>

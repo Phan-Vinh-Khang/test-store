@@ -27,6 +27,9 @@ async function deleteProd(id) {
 async function deleteProdMany(listId) {
     return await axiosToken.post('/delete-product-many/', { listId })
 }
+async function detailProduct(id) {
+    return await axios.get(`http://localhost:3001/api/detail-product/${id}`)
+}
 export default allProduct
 export {
     allTypeProd,
@@ -34,5 +37,6 @@ export {
     uploadImgProd,
     updateProd,
     deleteProd,
-    deleteProdMany
+    deleteProdMany,
+    detailProduct
 }

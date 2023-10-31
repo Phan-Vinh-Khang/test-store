@@ -9,6 +9,7 @@ async function Authentication() {
     }
     catch (e) {
         //ko tim thay user hoac logout khi refresh token loi hoac het han
+        localStorage.setItem('access_token', '')
         dispatch(setLoginReducer())
     }
 }

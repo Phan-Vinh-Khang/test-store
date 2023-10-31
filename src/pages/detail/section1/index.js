@@ -1,23 +1,39 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import classNames from 'classnames/bind'
 import Slider from "react-slick";
 import objStyle from './index.module.scss'
 import { LeftArrow, RightArrow } from '../../home/section';
 import Star from './star';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { detailProduct } from '../../../services/productServices';
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
+import { setlistOrder } from '../../../redux/reduxOrder'
+import lodash from 'lodash'
 let cv = classNames.bind(objStyle);
 const url = 'http://localhost:3001/img/products/'
 function Section1(obj) {
     const { id } = useParams(); //parmas sẽ ref vào :id của url
+    let navigate = useNavigate()
     let [stateProduct, setStateProduct] = useState({});
-    console.log(stateProduct)
+    let [stateidxSlide, setStateidxSlide] = useState(0);
+    const sliderRef = useRef(0);
+    let dispatch = useDispatch()
+    if (sliderRef.current) {
+        sliderRef.current.slickGoTo(stateidxSlide);
+    }
+    let listorder = useSelector((state) => {
+        return state.listOrder.listOrder;
+    })
+    console.log('listorder', listorder)
     useEffect(() => {
         let fetchData = async () => {
             try {
-                const product = (await detailProduct(id)).data.product;
-                setStateProduct(product)
+                let data = (await detailProduct(id)).data;
+                setStateProduct(data.product)
+                data.listproduct = listorder[0].listproduct
+                dispatch(setlistOrder([data]))
             } catch (e) {
                 alert(e.response.data)
             }
@@ -26,20 +42,28 @@ function Section1(obj) {
     }, [])
     let [stateInput, setStateInput] = useState(1);
     let increment = () => {
-        setStateInput(stateInput + 1)
+        if (stateInput + 1 <= stateProduct.quantity)
+            setStateInput(stateInput + 1)
     }
     let decrement = () => {
         if (stateInput > 1)
             setStateInput(stateInput - 1)
     }
     let incrementByAmount = (e) => {
-        let isNumber = Number.isSafeInteger(Number(e.target.value))
-        console.log(typeof (isNumber))
+        let number = Number(e.target.value);
+        let isNumber = Number.isSafeInteger(number)
         if (isNumber) {
-            setStateInput(Number(e.target.value)) //neu input a2 sẽ error
+            if (number > 0 && number <= stateProduct.quantity)
+                setStateInput(number) //neu input a2 sẽ error
+            else {
+                if (number > stateProduct.quantity)
+                    setStateInput(stateProduct.quantity)
+                else
+                    setStateInput('')
+            }
         }
     }
-    let settings = {
+    let settingsListImage = {
         dots: false,
         infinite: false,
         speed: 600,
@@ -49,13 +73,34 @@ function Section1(obj) {
         nextArrow: <RightArrow className1={cv('slick-arrow') + ' ' + cv('right')} /> //properties ref vào sẽ thêm vào các properties có sẵn vào funcreturnvềelement
 
     };
+    let settingsImage = {
+        dots: false,
+        infinite: true,
+        speed: 600,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        prevArrow: <LeftArrow className1={cv('slick-arrow') + ' ' + cv('left')} />, //properties ref vào sẽ thêm vào các properties có sẵn vào funcreturnvềelement
+        nextArrow: <RightArrow className1={cv('slick-arrow') + ' ' + cv('right')} /> //properties ref vào sẽ thêm vào các properties có sẵn vào funcreturnvềelement
+
+    };
     let arrImg = [];
-    arrImg.push(stateProduct.image)
-    console.log(arrImg[0])
+    for (let i = 0; i < 20; i++) {
+        arrImg.push(stateProduct.image)
+    }
+    let selectImage = (idx) => {
+        setStateidxSlide(idx)
+    }
+    let navigateCheckout = () => {
+        let listorder2 = lodash.cloneDeep(listorder[0])
+        listorder2.product.selectQuantity = stateInput;
+        listorder2.listproduct = [listorder2.product]
+        dispatch(setlistOrder([listorder2]))
+        navigate('/checkout')
+    }
     let listImgSlider = () => {
-        return arrImg.map((item) => {
+        return arrImg.map((item, idx) => {
             return (
-                <div className={cv('item-img')}>
+                <div onClick={() => selectImage(idx)} className={cv('item-img')}>
                     <img src={url + item} />
                 </div>
             )
@@ -64,9 +109,14 @@ function Section1(obj) {
     return (
         <div className={cv('section-1')}>
             <div className={cv('section-1-image')}>
-                <img src='/DetailProduct/Section1-img/img1.jpg' />
+                <Slider ref={sliderRef} {...settingsImage}>
+                    <img src={url + stateProduct.image} />
+                    <img src={url + stateProduct.image} />
+                    <img src={url + stateProduct.image} />
+                    <img src={url + stateProduct.image} />
+                </Slider>
                 <div className={cv('section-1-image-slider')}>
-                    <Slider {...settings}>
+                    <Slider {...settingsListImage}>
                         {listImgSlider()}
                     </Slider>
                 </div>
@@ -125,7 +175,10 @@ function Section1(obj) {
                     </div>
                     <div>
                         <button className={cv('btn1')}>Thêm vào giỏ hàng</button>
-                        <button className={cv('btn2')}>Mua ngay</button>
+                        <button
+                            className={cv('btn2')}
+                            onClick={() => { navigateCheckout() }}
+                        >Mua ngay</button>
                     </div>
                 </div>
             </div>

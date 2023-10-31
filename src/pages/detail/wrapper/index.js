@@ -9,11 +9,8 @@ import Section2 from '../section2';
 let w = 1;
 function WrapperDetail(obj) {
     let dispatch = useDispatch();
-    console.log('detail: ', useSelector((state) => {
-        return state.checkStickyHeader;
-    }))
     if (w == 1) {
-        dispatch(unStickyHeader())
+        dispatch(unStickyHeader()) //useEffect
         w++;
     }
     let cv = classNames.bind(objStyle);

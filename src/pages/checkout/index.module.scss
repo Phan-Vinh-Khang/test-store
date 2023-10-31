@@ -1,0 +1,96 @@
+.wrapper {
+    width: 75%;
+    min-width: 50rem;
+    height: 100vh;
+
+    &-address {
+        display: flex;
+        flex-wrap: wrap;
+        height: 112px;
+        padding: 1.5rem 1.9rem;
+        margin-bottom: 24px;
+        border-radius: 6px;
+        background-color: #ffff;
+
+        >div:first-child {
+            width: 100%;
+            color: #ee4d2d;
+        }
+
+        >div:nth-child(2) {
+            font-weight: bold;
+        }
+
+        >div:nth-child(n+3) {
+            margin-left: 24px;
+        }
+    }
+
+    &-product {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 1.5rem 1.9rem;
+        margin-bottom: 24px;
+        border-radius: 6px;
+        background-color: #ffff;
+        height: 200px;
+
+        .block-product1 {
+            display: flex;
+            flex-wrap: wrap;
+            width: 50%;
+            align-items: center;
+
+            >div {
+                width: 100%;
+            }
+
+            .detail-product {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            img {
+                width: 3rem;
+                height: 3rem;
+            }
+        }
+
+        .block-product2 {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            width: 50%;
+
+            >div {
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+
+                >div {
+                    display: flex;
+                    width: 100%;
+                    justify-content: center;
+                }
+            }
+        }
+
+        .total-price {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+
+            >div:first-child {
+                flex-basis: 16rem;
+            }
+        }
+    }
+
+    .vtrWey {
+        height: 2px;
+        width: 100%;
+        background-position-x: -30px;
+        background-size: 116px 3px;
+        background-image: repeating-linear-gradient(45deg, #6fa6d6, #6fa6d6 33px, transparent 0, transparent 41px, #f18d9b 0, #f18d9b 74px, transparent 0, transparent 82px);
+    }
+}

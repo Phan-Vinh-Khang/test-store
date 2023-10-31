@@ -1,5 +1,6 @@
 .section-2 {
     display: flex;
+    min-width: 45rem;
     background-color: white;
     margin-top: 20px;
 
@@ -10,13 +11,14 @@
 
     .block-shop1 {
         display: flex;
-        flex-wrap: wrap;
+        // flex-wrap: wrap;
         gap: 20px;
         align-items: center;
         width: 30%;
 
         .shop-avatar {
-            width: 25%;
+            width: 5rem;
+            min-width: 4rem;
 
             img {
                 width: 100%;
@@ -56,8 +58,7 @@
 
     }
 
-    .block-shop-info {
-        width: 70%;
-        background-color: cornflowerblue;
+    .block-shop1-info {
+        min-width: 14rem;
     }
 }

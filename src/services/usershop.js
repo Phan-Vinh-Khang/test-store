@@ -9,4 +9,12 @@ async function updateUserShop(id, data) {
 async function deleteUserShop(id) {
     return await axiosToken.post('/delete-user-shop' + id)
 }
-export { createUserShop, updateUserShop, deleteUserShop }
+async function getShopByProduct(id) {
+    return await axios.get(`http://localhost:3001/api/get-shop-by-product/${id}`)
+}
+export {
+    createUserShop,
+    updateUserShop,
+    deleteUserShop,
+    getShopByProduct
+}

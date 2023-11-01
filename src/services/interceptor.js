@@ -5,7 +5,6 @@ const axiosToken = axios.create({
 })
 axiosToken.interceptors.request.use(
     async (config) => {
-        console.log('interceptor')
         const access_token = localStorage.getItem('access_token')
         config.headers.Authorization = `Bearer ${access_token}`;
         return config;

@@ -11,28 +11,21 @@ import reducer from './reducer2'
 import reducerChangeLabelLogin from './reducerChangeLabelLogin'
 import reduxLogin from './reducerLogin'
 import reduxOrder from './reduxOrder'
+import reduxSearch from './reduxSearch';
 const persisConfigLocal = {
     key: 'root',
-    storage: storage,
-    whitelist: [
-        'dataLogged',
-        // 'listOrder'//neu vay thi khi thuc thi /product roi mo lai tab /checkout se err
-        // /product state redux se la dang object ko phai arr ohject va propertie la product ko phai listproduct, neu thuc thi /checkout se err
-    ],
+    storage: storage
 }
 const persisConfigSession = {
     key: 'root',
-    storage: sessionStorage,
-    stateReconciler: autoMergeLevel2,
-    whitelist: [
-        'listOrder'
-    ],
+    storage: sessionStorage
 }
 let dataReducer = combineReducers({
     checkStickyHeader: reducer,
     changeLabelLogin: reducerChangeLabelLogin,
     dataLogged: persistReducer(persisConfigLocal, reduxLogin),
-    listOrder: persistReducer(persisConfigSession, reduxOrder)
+    listOrder: persistReducer(persisConfigSession, reduxOrder),
+    search: reduxSearch
 })//obj datastatic reducer
 const store = configureStore({
     reducer: dataReducer

@@ -21,5 +21,5 @@ export const reducer = createSlice({
         },
     } //export properties ref den func trong var reducer ra để sử dụng trong func dispatch
 })
-export const { setLoginReducer, setLogoutReducer } = reducer.actions
+export const { setLoginReducer } = reducer.actions
 export default reducer.reducer

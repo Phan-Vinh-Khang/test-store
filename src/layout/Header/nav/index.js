@@ -20,7 +20,7 @@ function NavHeader() {
         localStorage.setItem('access_token', '')
         dispatch(setLoginReducer())
     }
-    const userExist = Object.keys(userLogged).length
+    const userExist = Object.keys(userLogged).length;
     return (
         <div className={cv('wrapper-nav')}>
             <div className={cv('content-nav1')}>
@@ -54,15 +54,15 @@ function NavHeader() {
                     Tiếng Việt
                 </span>
                 {
-                    (userExist) ? (
+                    (userExist > 1) ? (
                         <Tippy
                             interactive
                             delay={[null, 50]}
                             render={attrs => (
                                 <div className={cv2('showbox') + ' ' + cv('pd-5-10')}>
-                                    <div>test</div>
-                                    <div>test2</div>
-                                    <div onClick={Logout}>Logout
+                                    <div>Tài khoản của tôi</div>
+                                    <div>Đơn mua</div>
+                                    <div onClick={Logout}>Đăng xuất
                                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
                                     </div>
                                 </div>

@@ -5,43 +5,38 @@ import objGlobalStyle from '../../../GlobalStyle/index.module.scss'
 import classNames from 'classnames/bind'
 import Tippy from '@tippyjs/react/headless';
 import TippyCart from './tippy-cart/index ';
+import { useDispatch } from 'react-redux';
+import { setSearch } from '../../../redux/reduxSearch';
 function ContentHeader() {
     let cv = classNames.bind(objStyle)
     let cv2 = classNames.bind(objGlobalStyle)
     const [stateVisible, setStateVisible] = useState(false);
-    const show = () => setStateVisible(true);
-    const hide = () => setStateVisible(false);
-    let listarr = ['testaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'test2', 'test3', 'test4', 'test5']
-    const [stateCart, setStateCart] = useState(
-        // [
-        //     {
-        //         type: 'language',
-        //         datalist: [
-        //             {
-        //                 name: 'tieng viet'
-        //             },
-        //             {
-        //                 name: 'tieng anh'
-        //             },
-        //             {
-        //                 name: 'tieng trung',
-        //                 child: {
-        //                     type: 'china language',
-        //                     datalist: [
-        //                         {
-        //                             name: 'tieng trung 1'
-        //                         },
-        //                         {
-        //                             name: 'tieng trung 2'
-        //                         }
-        //                     ]
-        //                 }
-        //             }
-        //         ]
-        //     }
-        // ]
-        ''
-    )
+    const hide = () => setStateVisible(!stateVisible);
+    let [stateSearch, setStateSearch] = useState('');
+    let dispatch = useDispatch();
+    let listSearch = JSON.parse(localStorage.getItem('listSearch'))
+    if (!listSearch) listSearch = [];
+    let setInput = (e) => {
+        setStateSearch(e.target.value);
+    }
+    useEffect(() => {
+        let timeout = setTimeout(() => {
+            dispatch(setSearch(stateSearch))
+        }, 2000)
+        return () => clearTimeout(timeout)
+    }, [stateSearch])
+    let searchBtn = () => {
+        const isExistSearch = listSearch.indexOf(stateSearch)
+        if (isExistSearch > -1) {
+            listSearch.splice(isExistSearch, 1)
+        }
+        else {
+            if (listSearch.length >= 5) listSearch.shift();
+        }
+        listSearch.push(stateSearch)
+        localStorage.setItem('listSearch', JSON.stringify(listSearch))
+    }
+    const [stateCart, setStateCart] = useState('')
     return (
         <div className={cv('wrapper-header')}>
             <div className={cv('wrapper-logo')}>
@@ -59,19 +54,20 @@ function ContentHeader() {
                     render={attrs => (
                         <div className={cv2('showbox') + ' ' + cv('size-search')} tabIndex="-1" {...attrs}>
                             {
-                                listarr.map(item => (
-                                    <a href='/'>
+                                [...listSearch].reverse().map((item) => {
+                                    return (<a href='/'>
                                         {item}
                                     </a>
-                                ))
+                                    )
+                                })
                             }
 
                         </div>
                     )}
                 >
-                    <input onClick={stateVisible ? hide : show} type='text' placeholder='Đăng ký và nhận voucher bạn mới đến 70k!' ></input>
+                    <input onChange={(e) => setInput(e)} onClick={hide} type='text' placeholder='Đăng ký và nhận voucher bạn mới đến 70k!' ></input>
                 </Tippy>
-                <span>
+                <span onClick={searchBtn}>
                     <i class="fa-solid fa-magnifying-glass" Style="color: #eceff3;"></i>
                 </span>
             </div >

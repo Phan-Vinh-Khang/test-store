@@ -4,21 +4,21 @@ import classNames from 'classnames/bind'
 import objStyle from './index.module.scss'
 import allproduct from '../../../services/productServices';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 let cv = classNames.bind(objStyle);
 let count = 0;
 function Products() {
     let [stateListProd, setStateListProd] = useState([]);
-    // let fetchData = async () => {
-    //     let listprod = await allproduct();
-    //     setStateListProd(listprod.data);//sau khi element return dc 5s,func ở đây mới return về staticdata và console.log() ra
-    // }// nếu sử dụng setState sẽ reload liên tục,sử dụng useEffect sẽ chỉ reload lại 1 lần
-    // fetchData();//call func và tiếp tuc chạy,sẽ return về element trước,sau đó 5s sau mới console.log() ra
-    useEffect(() => { //useEffect chỉ chạy 1 lần nếu có [] (có setState() vẫn chỉ chạy setState 1 lần)
+    let search = useSelector((state) => {
+        return state.search.data;
+    })
+    console.log(search)
+    useEffect(() => {
         async function fetchDataProd() {
-            let listprod = (await allproduct()).data; //call func func dc call sẽ chạy nhưng 5s sau mới return. await chờ func return mới ref var vào staticdata
+            let listprod = (await allproduct()).data;
             setStateListProd(listprod.listProduct)
         }
-        fetchDataProd();//sau khi vừa call func sẽ tiep tục chạy
+        fetchDataProd();
     }, [])
     let navigate = useNavigate()
     let selectProduct = (id) => {

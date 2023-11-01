@@ -26,7 +26,6 @@ function Section1(obj) {
     let listorder = useSelector((state) => {
         return state.listOrder.listOrder;
     })
-    console.log('listorder', listorder)
     useEffect(() => {
         let fetchData = async () => {
             try {

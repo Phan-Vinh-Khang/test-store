@@ -1,7 +1,7 @@
 import axios from "axios"
 import axiosToken from "./interceptor"
-async function allProduct() {
-    return await axios.get('http://localhost:3001/api/all-product')
+async function allProduct(search = '', page = 1) {
+    return await axios.get(`http://localhost:3001/api/all-product/?search=${search}&page=${page}`)
 }
 async function allTypeProd() {
     return await axios.get('http://localhost:3001/api/all-type-product')
@@ -32,6 +32,7 @@ async function detailProduct(id) {
 }
 export default allProduct
 export {
+    allProduct,
     allTypeProd,
     createProd,
     uploadImgProd,

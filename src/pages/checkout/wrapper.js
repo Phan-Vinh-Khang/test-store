@@ -9,7 +9,6 @@ import _ from 'lodash'
 import { useNavigate } from 'react-router-dom';
 let cv = classNames.bind(objStyle);
 const url = 'http://localhost:3001/img/products/'
-let count = 1;
 function WrapperCheckout() {
     let navigate = useNavigate();
     const user = useSelector((state) => {
@@ -24,7 +23,7 @@ function WrapperCheckout() {
         currency: 'VND',
     });
     let totalPrice = 0;
-    let totalProduct = 0
+    let totalProduct = 0;
     return (
         <div className={cv('wrapper')}>
             <div className={cv('vtrWey')}>

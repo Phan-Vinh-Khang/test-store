@@ -13,7 +13,6 @@ function Section2() {
     let listOrder = useSelector((state) => {
         return state.listOrder.listOrder;
     })
-    console.log(listOrder)
     return (
         <div div className={cv('section-2')} >
             <div className={cv('block-shop1')}>

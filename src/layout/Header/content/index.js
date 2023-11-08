@@ -22,7 +22,7 @@ function ContentHeader() {
     useEffect(() => {
         let timeout = setTimeout(() => {
             dispatch(setSearch(stateSearch))
-        }, 2000)
+        }, 500)
         return () => clearTimeout(timeout)
     }, [stateSearch])
     let searchBtn = () => {

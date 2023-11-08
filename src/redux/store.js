@@ -12,20 +12,23 @@ import reducerChangeLabelLogin from './reducerChangeLabelLogin'
 import reduxLogin from './reducerLogin'
 import reduxOrder from './reduxOrder'
 import reduxSearch from './reduxSearch';
+import reduxPages from './reduxPages';
 const persisConfigLocal = {
     key: 'root',
-    storage: storage
+    storage: storage,
+    whitelist: ['dataLogged']
 }
 const persisConfigSession = {
     key: 'root',
-    storage: sessionStorage
+    storage: sessionStorage,
 }
 let dataReducer = combineReducers({
     checkStickyHeader: reducer,
     changeLabelLogin: reducerChangeLabelLogin,
     dataLogged: persistReducer(persisConfigLocal, reduxLogin),
     listOrder: persistReducer(persisConfigSession, reduxOrder),
-    search: reduxSearch
+    search: persistReducer(persisConfigSession, reduxSearch),
+    page: persistReducer(persisConfigSession, reduxPages)
 })//obj datastatic reducer
 const store = configureStore({
     reducer: dataReducer

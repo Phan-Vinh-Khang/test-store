@@ -4,7 +4,9 @@ import classNames from 'classnames/bind'
 import objStyle from './index.module.scss'
 import allproduct from '../../../services/productServices';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Pagination from 'react-bootstrap/Pagination';
+import { setPage } from '../../../redux/reduxPages';
 let cv = classNames.bind(objStyle);
 let count = 0;
 function Products() {
@@ -15,13 +17,15 @@ function Products() {
     console.log(search)
     useEffect(() => {
         async function fetchDataProd() {
-            let listprod = (await allproduct()).data;
+            let listprod = (await allproduct(search)).data;
             setStateListProd(listprod.listProduct)
         }
         fetchDataProd();
-    }, [])
+    }, [search])
     let navigate = useNavigate()
     let selectProduct = (id) => {
+        //dispatch default data redux page và redux search truoc khi chuyen trang
+        //khi ve lai trang se la data default
         navigate(`/DetailProduct/${id}`)
     }
     let listProduct = () => {
@@ -53,8 +57,69 @@ function Products() {
             <div className={cv('wrap-flex')}>
                 {listProduct()}
             </div>
+            <PaginationProduct pageCount={3000} />
         </div>
     );
 }
-
+function PaginationProduct({ pageCount }) {
+    let dispatch = useDispatch()
+    if (pageCount % 30 != 0)
+        pageCount += 30;
+    pageCount = Math.floor(pageCount / 30);
+    let [stateStart, setStateStart] = useState(1);
+    let [stateEnd, setStateEnd] = useState(pageCount > 11 ? 11 : pageCount);
+    let [statePage, setStatePage] = useState();
+    let listPagination = () => {
+        let items = [];
+        for (let i = stateStart; i <= stateEnd; i++) {
+            items.push(<Pagination.Item onClick={() => { selectpage(i) }}>{i}</Pagination.Item>)
+        }
+        if (stateEnd != pageCount) {
+            items.push(<>
+                <Pagination.Ellipsis />
+                <Pagination.Item>{pageCount}</Pagination.Item>
+            </>)
+        }
+        return items;
+    }
+    let selectpage = (select) => {
+        let mid = (stateEnd + stateStart) / 2;
+        if (select > mid) {
+            let distance = (select - mid);
+            let nextPage = stateEnd + distance;
+            if (nextPage > pageCount) {
+                distance = pageCount - stateEnd;
+            }
+            setStateEnd(stateEnd + distance)
+            setStateStart(stateStart + distance)
+        }
+        else {
+            let distance = (mid - select);
+            let prePage = stateStart - distance;
+            if (prePage <= 0) distance = stateStart - 1
+            setStateStart(stateStart - distance)
+            setStateEnd(stateEnd - distance)
+        }
+        dispatch(setPage(select))
+    }
+    let pageStart = () => {
+        setStateStart(1)
+        setStateEnd(11)
+    }
+    let pageEnd = () => {
+        setStateStart(pageCount - 10)
+        setStateEnd(pageCount)
+    }
+    return (
+        <Pagination>
+            <Pagination.First onClick={pageStart} />
+            <Pagination.Prev />
+            {
+                listPagination()
+            }
+            <Pagination.Next />
+            <Pagination.Last onClick={pageEnd} />
+        </Pagination>
+    );
+}
 export default Products;

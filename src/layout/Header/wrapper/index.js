@@ -7,10 +7,9 @@ import ContentHeader from '../content';
 import { useSelector, useDispatch } from 'react-redux';
 function WrapperHeader() {
     let cv = classNames.bind(objStyle)
-    let checkStickyHeader = useSelector(
-        (state) => {
-            return state.checkStickyHeader.checkStickyHeader
-        })
+    let checkStickyHeader = useSelector((state) => {
+        return state.checkStickyHeader.checkStickyHeader
+    })
     return (
         <div className={checkStickyHeader ? cv('wrapper') + ' ' + cv('stickyHeader') : cv('wrapper')}>
             <div className={cv('wrapper-center')}>

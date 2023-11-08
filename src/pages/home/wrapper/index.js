@@ -7,16 +7,12 @@ import Products from '../Section-Products';
 
 import objStyle from './index.module.scss'
 import { StickyHeader } from '../../../redux/reducer2';
-let w = 1;
+import { useEffect } from 'react';
 function WrapperHome() {
     let dispatch = useDispatch();
-    console.log('home: ', useSelector((state) => {
-        return state;
-    }))
-    if (w == 1) {
+    useEffect(() => {
         dispatch(StickyHeader())
-        w++;
-    }
+    }, [])
     let cv = classNames.bind(objStyle)
     return (
         <div>

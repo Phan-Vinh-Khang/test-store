@@ -6,13 +6,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { unStickyHeader } from '../../../redux/reducer2';
 import Section1 from '../section1';
 import Section2 from '../section2';
-let w = 1;
 function WrapperDetail(obj) {
     let dispatch = useDispatch();
-    if (w == 1) {
-        dispatch(unStickyHeader()) //useEffect
-        w++;
-    }
+    useEffect(() => {
+        dispatch(unStickyHeader())
+    }, [])
     let cv = classNames.bind(objStyle);
     return (
         <div className={cv('wrapper')}>

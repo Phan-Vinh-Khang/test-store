@@ -7,12 +7,13 @@ import Tippy from '@tippyjs/react/headless';
 import TippyCart from './tippy-cart/index ';
 import { useDispatch } from 'react-redux';
 import { setSearch } from '../../../redux/reduxSearch';
+import { setPage } from '../../../redux/reduxPages';
 function ContentHeader() {
     let cv = classNames.bind(objStyle)
     let cv2 = classNames.bind(objGlobalStyle)
     const [stateVisible, setStateVisible] = useState(false);
     const hide = () => setStateVisible(!stateVisible);
-    let [stateSearch, setStateSearch] = useState('');
+    let [stateSearch, setStateSearch] = useState(sessionStorage.getItem('search'));
     let dispatch = useDispatch();
     let listSearch = JSON.parse(localStorage.getItem('listSearch'))
     if (!listSearch) listSearch = [];
@@ -22,19 +23,22 @@ function ContentHeader() {
     useEffect(() => {
         let timeout = setTimeout(() => {
             dispatch(setSearch(stateSearch))
+            dispatch(setPage(1))
         }, 500)
         return () => clearTimeout(timeout)
     }, [stateSearch])
     let searchBtn = () => {
-        const isExistSearch = listSearch.indexOf(stateSearch)
-        if (isExistSearch > -1) {
-            listSearch.splice(isExistSearch, 1)
+        if (stateSearch != '') {
+            const isExistSearch = listSearch.indexOf(stateSearch)
+            if (isExistSearch > -1) {
+                listSearch.splice(isExistSearch, 1)
+            }
+            else {
+                if (listSearch.length >= 5) listSearch.shift();
+            }
+            listSearch.push(stateSearch)
+            localStorage.setItem('listSearch', JSON.stringify(listSearch))
         }
-        else {
-            if (listSearch.length >= 5) listSearch.shift();
-        }
-        listSearch.push(stateSearch)
-        localStorage.setItem('listSearch', JSON.stringify(listSearch))
     }
     const [stateCart, setStateCart] = useState('')
     return (
@@ -65,7 +69,12 @@ function ContentHeader() {
                         </div>
                     )}
                 >
-                    <input onChange={(e) => setInput(e)} onClick={hide} type='text' placeholder='Đăng ký và nhận voucher bạn mới đến 70k!' ></input>
+                    <input onKeyDown={(e) => {
+                        if (e.key == 'Enter') {
+                            searchBtn()
+                            setStateVisible(!stateVisible)
+                        }
+                    }} value={stateSearch} onChange={(e) => setInput(e)} onClick={hide} type='text' placeholder='Đăng ký và nhận voucher bạn mới đến 70k!' ></input>
                 </Tippy>
                 <span onClick={searchBtn}>
                     <i class="fa-solid fa-magnifying-glass" Style="color: #eceff3;"></i>
@@ -82,7 +91,7 @@ function ContentHeader() {
                         </div>
                     )}
                 >
-                    <a href='/'>
+                    <a href='/cart'>
                         <img src='/cart.png'></img>
                     </a>
                 </Tippy>

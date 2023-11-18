@@ -1,0 +1,86 @@
+.wrapper {
+    width: 75%;
+    position: relative;
+
+    .distance {
+        background-color: #fffefb;
+        margin: 5px 0px;
+        padding: 0.75rem 1rem;
+        min-width: 75rem;
+        border-radius: 4px;
+        border: 1px solid rgba(224, 168, 0, .4);
+
+        .flex-block {
+            display: flex;
+            align-items: center;
+        }
+
+        .flex-block1 {
+            display: flex;
+            width: 100%;
+        }
+
+        .flex-block2 {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .flex-block3 {
+            display: flex;
+            justify-content: end;
+            width: 100%;
+        }
+
+        .block1 {
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(0, 0, 0, .09);
+        }
+
+        .shopname {
+            width: 70px;
+            height: 16px;
+            background-color: rgb(238, 77, 45);
+            font-size: 12px;
+            color: #fffefb;
+            border-radius: 2px;
+            text-align: center;
+            margin-right: 12px;
+        }
+
+        .shopname:hover {
+            cursor: pointer;
+        }
+
+        .shopname2 {
+            color: rgba(0, 0, 0, .90);
+        }
+
+        .shopname2:hover {
+            cursor: pointer;
+        }
+
+        .product:hover {
+            cursor: pointer;
+        }
+
+        .product-name {
+            display: inline-block;
+            color: rgba(0, 0, 0, .87);
+            width: 15rem;
+            height: 50px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .order {
+        position: sticky;
+        background-color: mediumseagreen;
+
+        .btn-order {}
+    }
+}

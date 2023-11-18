@@ -1,10 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
+if (!sessionStorage.getItem('page')) {
+    sessionStorage.setItem('page', 1)
+}
 export const redux = createSlice({
     name: 'reduxPages',
-    initialState: {},
+    initialState: { page: sessionStorage.getItem('page') },
     reducers: {
         setPage: (state, action) => {
             state.page = action.payload
+            sessionStorage.setItem('page', action.payload)
         }
     }
 })

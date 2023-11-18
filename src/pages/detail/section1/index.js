@@ -11,6 +11,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { setlistOrder } from '../../../redux/reduxOrder'
 import lodash from 'lodash'
+import { addCart } from '../../../services/orders';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 let cv = classNames.bind(objStyle);
 const url = 'http://localhost:3001/img/products/'
 function Section1(obj) {
@@ -18,6 +21,8 @@ function Section1(obj) {
     let navigate = useNavigate()
     let [stateProduct, setStateProduct] = useState({});
     let [stateidxSlide, setStateidxSlide] = useState(0);
+    let [stateInput, setStateInput] = useState(1);
+    let [stateNofication, setStateNofication] = useState('');
     const sliderRef = useRef(0);
     let dispatch = useDispatch()
     if (sliderRef.current) {
@@ -39,7 +44,9 @@ function Section1(obj) {
         }
         fetchData();
     }, [])
-    let [stateInput, setStateInput] = useState(1);
+    if (stateProduct.quantity < 1) {
+        stateInput = 0;
+    }
     let increment = () => {
         if (stateInput + 1 <= stateProduct.quantity)
             setStateInput(stateInput + 1)
@@ -90,11 +97,15 @@ function Section1(obj) {
         setStateidxSlide(idx)
     }
     let navigateCheckout = () => {
-        let listorder2 = lodash.cloneDeep(listorder[0])
-        listorder2.product.selectQuantity = stateInput;
-        listorder2.listproduct = [listorder2.product]
-        dispatch(setlistOrder([listorder2]))
-        navigate('/checkout')
+        if (stateInput != 0) {
+            let listorder2 = lodash.cloneDeep(listorder[0])
+            listorder2.product.selectQuantity = stateInput;
+            listorder2.listproduct = [listorder2.product]
+            dispatch(setlistOrder([listorder2]))
+            navigate('/checkout')
+        } else {
+            toast.error('san pham ko du so luong')
+        }
     }
     let listImgSlider = () => {
         return arrImg.map((item, idx) => {
@@ -104,6 +115,32 @@ function Section1(obj) {
                 </div>
             )
         })
+    }
+    let addcart = async (id, selectQuantity) => {
+        try {
+            await addCart({ id, selectQuantity })
+            toast.success('đã thêm vào giỏ hàng', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
+        } catch (e) {
+            toast.error(e.response.data.message, {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
+        }
     }
     return (
         <div className={cv('section-1')}>
@@ -173,7 +210,8 @@ function Section1(obj) {
                         <div>{stateProduct.quantity}</div>
                     </div>
                     <div>
-                        <button className={cv('btn1')}>Thêm vào giỏ hàng</button>
+                        <ToastContainer />
+                        <button onClick={() => { addcart(stateProduct.id, stateInput) }} className={cv('btn1')}>Thêm vào giỏ hàng</button>
                         <button
                             className={cv('btn2')}
                             onClick={() => { navigateCheckout() }}

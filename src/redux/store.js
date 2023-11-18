@@ -25,13 +25,13 @@ const persisConfigSession = {
 let dataReducer = combineReducers({
     checkStickyHeader: reducer,
     changeLabelLogin: reducerChangeLabelLogin,
-    dataLogged: persistReducer(persisConfigLocal, reduxLogin),
-    listOrder: persistReducer(persisConfigSession, reduxOrder),
-    search: persistReducer(persisConfigSession, reduxSearch),
-    page: persistReducer(persisConfigSession, reduxPages)
+    dataLogged: reduxLogin,
+    listOrder: reduxOrder,
+    search: reduxSearch,
+    page: reduxPages
 })//obj datastatic reducer
 const store = configureStore({
-    reducer: dataReducer
+    reducer: persistReducer(persisConfigLocal, dataReducer)
     // reducer: {
     //     checkStickyHeader: reducer,
     //     changeLabelLogin: reducerChangeLabelLogin

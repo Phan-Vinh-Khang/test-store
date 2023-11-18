@@ -8,6 +8,7 @@ import NotFound from "../pages/notfound"
 import WrapperAdmin from "../pages/admin/wrapper"
 import WrapperUserShop from "../pages/userShop/wrapperUserShop"
 import WrapperCheckout from "../pages/checkout/wrapper"
+import WrapperCart from "../pages/cart/wrapper"
 //Layout website
 import MainLayout from "../layout/mainLayout" //layout header and footer
 import LoginLayout from "../layout/loginLayout" //layout header and footer
@@ -55,6 +56,12 @@ const urlPages = [
     {
         path: '/checkout',
         element: WrapperCheckout,
+        layout: MainLayout
+
+    },
+    {
+        path: '/cart',
+        element: WrapperCart,
         layout: MainLayout
 
     },

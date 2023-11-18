@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setlistOrder } from '../../redux/reduxOrder';
 import _ from 'lodash'
 import { useNavigate } from 'react-router-dom';
+import { checkout } from '../../services/orders';
 let cv = classNames.bind(objStyle);
 const url = 'http://localhost:3001/img/products/'
 function WrapperCheckout() {
@@ -17,13 +18,24 @@ function WrapperCheckout() {
     let listOrder = useSelector((state) => {
         return state.listOrder.listOrder;
     })
-    console.log('listorder', listOrder)
+    console.log(listOrder)
+    if (!listOrder[0].listproduct) {
+        navigate('/')
+    }
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'VND',
     });
     let totalPrice = 0;
     let totalProduct = 0;
+    console.log(listOrder)
+    let order = async () => {
+        try {
+            await checkout(listOrder)
+        } catch (e) {
+            console.log(e.response.data)
+        }
+    }
     return (
         <div className={cv('wrapper')}>
             <div className={cv('vtrWey')}>
@@ -37,7 +49,8 @@ function WrapperCheckout() {
             <div className={cv('wrapper-product')}>
                 <div className={cv('block-product1')}>
                     {
-                        listOrder.map((item) => {
+
+                        listOrder[0].listproduct && listOrder.map((item) => {
                             return (<>
                                 <div>Sản phẩm</div>
                                 <div>{item.shop.name}|chat ngay
@@ -64,7 +77,7 @@ function WrapperCheckout() {
                         <div>Thành tiền</div>
                     </div>
                     {
-                        listOrder.map((item) => {
+                        listOrder[0].listproduct && listOrder.map((item) => {
                             return item.listproduct.map((product) => {
                                 totalProduct += product.selectQuantity;
                                 const lastPrice = product.price - product.price / 100 * product.discount
@@ -91,7 +104,7 @@ function WrapperCheckout() {
                 </div>
             </div>
             <div className={cv('wrapper-payment')}>
-                <div>Đặt hàng</div>
+                <button onClick={order}>Đặt hàng</button>
             </div>
         </div>
     );

@@ -40,7 +40,7 @@ function Section() {
             let nextIdx = (i + 1).toString();
             if (i % 2 == 0) {
                 return (
-                    <div>
+                    <div key={i}>
                         <a href='/Detail'>
                             <div className={cv('item')}>
                                 <img src={'/iconSection1/' + arr[i].toString() + '.png'} />

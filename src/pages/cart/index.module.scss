@@ -17,19 +17,26 @@
 
         .flex-block1 {
             display: flex;
-            width: 100%;
+            width: 75%;
         }
 
         .flex-block2 {
             display: flex;
             justify-content: space-between;
             width: 100%;
+
         }
 
         .flex-block3 {
             display: flex;
             justify-content: end;
             width: 100%;
+        }
+
+        .flex-block4 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .block1 {
@@ -77,10 +84,33 @@
         }
     }
 
+    .block-text {
+        width: 9.375rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     .order {
         position: sticky;
-        background-color: mediumseagreen;
 
         .btn-order {}
+    }
+
+    .amount {
+        flex-shrink: 300;
+
+        >input {
+            width: 20%;
+            height: 31px;
+            text-align: center;
+            border: solid 1px gainsboro;
+        }
+
+        >button {
+            background-color: white;
+            border: solid 1px gainsboro;
+            width: 32px;
+            height: 32px;
+        }
     }
 }

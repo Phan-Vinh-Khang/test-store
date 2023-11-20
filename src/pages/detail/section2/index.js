@@ -20,7 +20,8 @@ function Section2() {
                     <a href='/DetailShop'> <img src='/DetailProduct/Section2-img/img1.jpg' /></a>
                 </div>
                 <div className={cv('block-shop1-info')}>
-                    <div>{listOrder[0].shop.name}</div>
+                    <div>{listOrder[0]?.shop.name}</div>
+                    {/* nếu listOrder[0] ton tai thì sẽ luon có propertie shop và name */}
                     <div>Online 5 Giờ Trước</div>
                     <div className={cv('block-shop1-info-btn')}>
                         <button>Chat Ngay</button>

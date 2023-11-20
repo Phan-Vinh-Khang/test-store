@@ -33,9 +33,9 @@ function Products() {
         navigate(`/DetailProduct/${id}`)
     }
     let listProduct = () => {
-        return stateListProd.map((item) => {
+        return stateListProd.map((item, i) => {
             return (
-                <div onClick={() => selectProduct(item.id)} className={cv('wrap-product')}>
+                <div key={i} onClick={() => selectProduct(item.id)} className={cv('wrap-product')}>
                     <img src='./Section-Products/img1.jpg' />
                     <div className={cv('wrap-info-product')}>
                         <div className={cv('product-name')}>
@@ -61,10 +61,13 @@ function Products() {
             <div className={cv('wrap-flex')}>
                 {listProduct()}
             </div>
-            {statePageCount && <PaginationProduct
-                pageCount={statePageCount}
-                select={page}
-            />
+            {statePageCount &&
+                <div className={cv('wrap-flex')}>
+                    <PaginationProduct
+                        pageCount={statePageCount}
+                        select={page}
+                    />
+                </div>
             }
         </div>
     );

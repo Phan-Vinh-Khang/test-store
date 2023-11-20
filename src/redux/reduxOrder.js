@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 if (!sessionStorage.getItem('listOrder')) {
-    sessionStorage.setItem('listOrder', JSON.stringify({ listOrder: [{ shop: {} }] }))
+    sessionStorage.setItem('listOrder', JSON.stringify({ listOrder: [] }))
 }
 export const redux = createSlice({
     name: 'reduxListOrder',

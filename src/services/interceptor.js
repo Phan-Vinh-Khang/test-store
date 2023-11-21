@@ -1,7 +1,7 @@
 import axios from "axios"
 import { reFreshToken } from "./userServices";
 const axiosToken = axios.create({
-    baseURL: 'http://localhost:3001/api'
+    baseURL: 'http://localhost:3306/api'
 })
 axiosToken.interceptors.request.use(
     async (config) => {

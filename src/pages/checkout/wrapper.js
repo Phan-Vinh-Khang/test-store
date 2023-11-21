@@ -8,6 +8,7 @@ import _ from 'lodash'
 import { useNavigate } from 'react-router-dom';
 import { checkout } from '../../services/orders';
 import Button from 'react-bootstrap/Button';
+import { ToastContainer, toast } from 'react-toastify';
 
 let cv = classNames.bind(objStyle);
 const url = 'http://localhost:3001/img/products/'
@@ -32,6 +33,16 @@ function WrapperCheckout() {
     let order = async () => {
         try {
             await checkout(listOrder)
+            toast.success('đã đặt hàng,ban co thể kiểm tra đơn hàng', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
         } catch (e) {
             alert(e.response.data.message)
         }
@@ -216,6 +227,7 @@ function WrapperCheckout() {
             </div>
             {listorder2()}
             <div className={cv('wrapper-payment')}>
+                <ToastContainer></ToastContainer>
                 <Button onClick={order}
                     Style='margin-left:12px'
                     className={cv('btn-order')}

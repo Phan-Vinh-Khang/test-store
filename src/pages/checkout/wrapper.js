@@ -39,7 +39,7 @@ function WrapperCheckout() {
     let listorder2 = () => {
         let totalPrice = 0;
         return <>{
-            listOrder.map((item, i) => {
+            listOrder?.map((item, i) => {
                 return <div Style={i == 0 && `margin-top: 0;border-top: 0;
             border-top-left-radius: 0;
             border-top-right-radius: 0;`}

@@ -35,20 +35,18 @@ function Section1(obj) {
         let fetchData = async () => {
             try {
                 let data = (await detailProduct(id)).data;
-                setStateProduct(data.product)
-                data.listproduct = listorder[0].listproduct
-                dispatch(setlistOrder([data]))
+                setStateProduct(data)
             } catch (e) {
                 alert(e.response.data)
             }
         }
         fetchData();
     }, [])
-    if (stateProduct.quantity < 1) {
+    if (stateProduct.product?.quantity < 1) {
         stateInput = 0;
     }
     let increment = () => {
-        if (stateInput + 1 <= stateProduct.quantity)
+        if (stateInput + 1 <= stateProduct.product.quantity)
             setStateInput(stateInput + 1)
     }
     let decrement = () => {
@@ -59,11 +57,11 @@ function Section1(obj) {
         let number = Number(e.target.value);
         let isNumber = Number.isSafeInteger(number)
         if (isNumber) {
-            if (number > 0 && number <= stateProduct.quantity)
+            if (number > 0 && number <= stateProduct.product.quantity)
                 setStateInput(number) //neu input a2 sẽ error
             else {
-                if (number > stateProduct.quantity)
-                    setStateInput(stateProduct.quantity)
+                if (number > stateProduct.product.quantity)
+                    setStateInput(stateProduct.product.quantity)
                 else
                     setStateInput('')
             }
@@ -91,17 +89,16 @@ function Section1(obj) {
     };
     let arrImg = [];
     for (let i = 0; i < 20; i++) {
-        arrImg.push(stateProduct.image)
+        arrImg.push(stateProduct.product?.image)
     }
     let selectImage = (idx) => {
         setStateidxSlide(idx)
     }
     let navigateCheckout = () => {
         if (stateInput != 0) {
-            let listorder2 = lodash.cloneDeep(listorder[0])
-            listorder2.product.selectQuantity = stateInput;
-            listorder2.listproduct = [listorder2.product]
-            dispatch(setlistOrder([listorder2]))
+            stateProduct.listproduct = [stateProduct.product]
+            stateProduct.listproduct[0].selectQuantity = stateInput
+            dispatch(setlistOrder([stateProduct]))
             navigate('/checkout')
         } else {
             toast.error('san pham ko du so luong')
@@ -146,10 +143,10 @@ function Section1(obj) {
         <div className={cv('section-1')}>
             <div className={cv('section-1-image')}>
                 <Slider ref={sliderRef} {...settingsImage}>
-                    <img src={url + stateProduct.image} />
-                    <img src={url + stateProduct.image} />
-                    <img src={url + stateProduct.image} />
-                    <img src={url + stateProduct.image} />
+                    <img src={url + stateProduct.product?.image} />
+                    <img src={url + stateProduct.product?.image} />
+                    <img src={url + stateProduct.product?.image} />
+                    <img src={url + stateProduct.product?.image} />
                 </Slider>
                 <div className={cv('section-1-image-slider')}>
                     <Slider {...settingsListImage}>
@@ -160,26 +157,26 @@ function Section1(obj) {
             <div className={cv('section-1-detail-product')}>
                 <div className={cv('title')}>
                     {
-                        stateProduct.name
+                        stateProduct.product?.name
                     }
                 </div>
                 <div className={cv('wrap-flex')}>
                     <div className={cv('wrap-star')}>
-                        <span>{stateProduct.star}</span>
+                        <span>{stateProduct.product?.star}</span>
                         <Star
-                            rating={stateProduct.star}
+                            rating={stateProduct.product?.star}
                         />
                     </div>
                     <div className={cv('wrap-feedback')}>
                         <span>7 đánh giá</span>
                     </div>
                     <div className={cv('wrap-sold')}>
-                        <span>{stateProduct.sold}</span>
+                        <span>{stateProduct.product?.sold}</span>
                     </div>
                 </div>
                 <div className={cv('wrap-select')}>
                     <div className={cv('wrap-price')}>
-                        <div>{stateProduct.price}</div>
+                        <div>{stateProduct.product?.price}</div>
                     </div>
 
                     <div className={cv('wrap-flex') + ' ' + cv('flex-gap')}>
@@ -207,11 +204,11 @@ function Section1(obj) {
                             />
                             <button onClick={increment}>+</button>
                         </div>
-                        <div>{stateProduct.quantity}</div>
+                        <div>{stateProduct.product?.quantity}</div>
                     </div>
                     <div>
                         <ToastContainer />
-                        <button onClick={() => { addcart(stateProduct.id, stateInput) }} className={cv('btn1')}>Thêm vào giỏ hàng</button>
+                        <button onClick={() => { addcart(stateProduct.product?.id, stateInput) }} className={cv('btn1')}>Thêm vào giỏ hàng</button>
                         <button
                             className={cv('btn2')}
                             onClick={() => { navigateCheckout() }}

@@ -111,7 +111,7 @@ function AdminProduct() {
                 listTypeProd: listTypeProd
             }
         }
-        hostName='http://localhost:3001/img/products/'
+        hostName='https://shopserver-iv0u.onrender.com/img/products/'
         ElementTag={['input', 'input', 'input', 'input', InputFile, 'input', '', '', 'select', '', '', '', '']}
         className={cv('modify-user')}
         handleDelete={handleDeleteProduct}

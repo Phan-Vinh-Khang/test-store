@@ -15,7 +15,7 @@ import { addCart } from '../../../services/orders';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 let cv = classNames.bind(objStyle);
-const url = 'http://localhost:3001/img/products/'
+const url = 'https://shopserver-iv0u.onrender.com/img/products/'
 function Section1(obj) {
     const { id } = useParams(); //parmas sẽ ref vào :id của url
     let navigate = useNavigate()

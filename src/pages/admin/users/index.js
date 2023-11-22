@@ -110,7 +110,7 @@ function AdminUser() {
                 handleDelete={handleDeleteUser}
                 handleUpdate={handleUpdateUser}
                 handleRemoveMany={handleRemoveMany}
-                hostName='http://localhost:3001/avatar/'
+                hostName='https://shopserver-iv0u.onrender.com/avatar/'
             />
             <Button variant="primary" onClick={() => setShow(true)}>
                 <i Style='margin-right:4px' class="fa-sharp fa-solid fa-plus" /> Thêm người dùng

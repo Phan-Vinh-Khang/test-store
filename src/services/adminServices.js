@@ -11,7 +11,7 @@ async function deleteUserMany(listId) {
     return await axiosToken.post('/delete-user-many/', { listId })
 }
 async function allRole() {
-    return await axios.get('https://shopserver-iv0u.onrender.com/api/all-role')
+    return await axios.get('http://localhost:3001/api/all-role')
 }
 export default createUserAdmin
 export { allRole, deleteUser, deleteUserMany }

@@ -10,7 +10,7 @@ async function deleteUserShop(id) {
     return await axiosToken.post('/delete-user-shop' + id)
 }
 async function getShopByProduct(id) {
-    return await axios.get(`http://localhost:3001/api/get-shop-by-product/${id}`)
+    return await axios.get(`https://shopserver-iv0u.onrender.com/api/get-shop-by-product/${id}`)
 }
 export {
     createUserShop,

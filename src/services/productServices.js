@@ -1,10 +1,10 @@
 import axios from "axios"
 import axiosToken from "./interceptor"
 async function allProduct(search = '', page = 1) {
-    return await axios.get(`http://localhost:3001/api/all-product/?search=${search}&page=${page}`)
+    return await axios.get(`https://shopserver-iv0u.onrender.com/api/all-product/?search=${search}&page=${page}`)
 }
 async function allTypeProd() {
-    return await axios.get('http://localhost:3001/api/all-type-product')
+    return await axios.get('https://shopserver-iv0u.onrender.com/api/all-type-product')
 
 }
 async function createProd(data) {
@@ -13,7 +13,7 @@ async function createProd(data) {
 async function uploadImgProd(file, filename) {
     let formData = new FormData();
     formData.append('image', file, filename)
-    return await axios.post('http://localhost:3001/api/uploadImgProd',
+    return await axios.post('https://shopserver-iv0u.onrender.com/api/uploadImgProd',
         formData
     )
 
@@ -28,7 +28,7 @@ async function deleteProdMany(listId) {
     return await axiosToken.post('/delete-product-many/', { listId })
 }
 async function detailProduct(id) {
-    return await axios.get(`http://localhost:3001/api/detail-product/${id}`)
+    return await axios.get(`https://shopserver-iv0u.onrender.com/api/detail-product/${id}`)
 }
 export default allProduct
 export {

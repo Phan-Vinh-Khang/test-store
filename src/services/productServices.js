@@ -1,10 +1,10 @@
 import axios from "axios"
 import axiosToken from "./interceptor"
 async function allProduct(search = '', page = 1) {
-    return await axios.get(`usershttps://shopserver-iv0u.onrender.com/api/all-product/?search=${search}&page=${page}`)
+    return await axios.get(`https://shopserver-iv0u.onrender.com/api/all-product/?search=${search}&page=${page}`)
 }
 async function allTypeProd() {
-    return await axios.get('usershttps://shopserver-iv0u.onrender.com/api/all-type-product')
+    return await axios.get('https://shopserver-iv0u.onrender.com/api/all-type-product')
 
 }
 async function createProd(data) {
@@ -13,7 +13,7 @@ async function createProd(data) {
 async function uploadImgProd(file, filename) {
     let formData = new FormData();
     formData.append('image', file, filename)
-    return await axios.post('usershttps://shopserver-iv0u.onrender.com/api/uploadImgProd',
+    return await axios.post('https://shopserver-iv0u.onrender.com/api/uploadImgProd',
         formData
     )
 

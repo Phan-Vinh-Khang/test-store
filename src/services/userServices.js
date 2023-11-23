@@ -1,8 +1,10 @@
 import axios from "axios"
 import axiosToken from "./interceptor"
+import { axios2 } from './interceptor'
+
 //ref req to controller
 async function resLogin(email, password) {
-    return await axios.post('https://shopserver-iv0u.onrender.com/api/check-user-login', {
+    return await axios2.post('/check-user-login', {
         email: email,
         password: password
     }, {
@@ -10,7 +12,7 @@ async function resLogin(email, password) {
     })
 }
 async function resSignup(username, email, password, confirmPassword, address) {
-    return await axios.post('https://shopserver-iv0u.onrender.com/api/create-user', {
+    return await axios2.post('/create-user', {
         name: username,
         email: email,
         password: password,
@@ -19,27 +21,27 @@ async function resSignup(username, email, password, confirmPassword, address) {
     })
 }
 async function detailUser(idUser) {
-    return await axios.get('https://shopserver-iv0u.onrender.com/api/detail-user/' + idUser)
+    return await axios2.get('api/detail-user/' + idUser)
 }
 async function AuthenticationUser() {
-    return await axiosToken.get('/authentication-user')
+    return await axiosToken.get('api/authentication-user')
 }
 async function Logout() {
-    return await axios.get('https://shopserver-iv0u.onrender.com/api/logout-user', { withCredentials: true })
+    return await axios2.get('api/logout-user', { withCredentials: true })
 }
 async function allUser() {
-    return await axios.get('https://shopserver-iv0u.onrender.com/api/all-user')
+    return await axios2.get('api/all-user')
 }
 async function updateUser(id, data) {
-    return await axiosToken.put(`/update-user/ ${id}`, { data })
+    return await axiosToken.put(`api/update-user/ ${id}`, { data })
 }
 async function uploadAvatar(file, filename) {
     let formData = new FormData();
     formData.append('image', file, filename)
-    return await axios.post('https://shopserver-iv0u.onrender.com/api/uploadAvatar/', formData)
+    return await axios2.post('api/uploadAvatar/', formData)
 }
 async function reFreshToken() {
-    return await axios.get('https://shopserver-iv0u.onrender.com/api/reFresh-token', {
+    return await axios2.get('api/reFresh-token', {
         withCredentials: true
     })
 }

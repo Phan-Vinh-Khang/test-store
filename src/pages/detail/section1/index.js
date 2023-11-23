@@ -14,8 +14,9 @@ import lodash from 'lodash'
 import { addCart } from '../../../services/orders';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../urlServer';
 let cv = classNames.bind(objStyle);
-const url = 'https://shopserver-iv0u.onrender.com/img/products/'
+const url = REACT_APP_API_SERVER + 'img/products/'
 function Section1(obj) {
     const { id } = useParams(); //parmas sẽ ref vào :id của url
     let navigate = useNavigate()

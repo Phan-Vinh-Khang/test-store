@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Pagination from 'react-bootstrap/Pagination';
 import { setSearch } from '../../../redux/reduxSearch';
 import { setPage } from '../../../redux/reduxPages';
+import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../urlServer';
 let cv = classNames.bind(objStyle);
 function Products() {
     let [stateListProd, setStateListProd] = useState([]);
@@ -15,7 +16,6 @@ function Products() {
     let search = useSelector((state) => {
         return state.search.data;
     })
-
     let page = useSelector((state) => {
         return Number(state.page.page)
     })

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setlistOrder } from '../../redux/reduxOrder';
 import _, { cloneDeep } from 'lodash'
 import { useNavigate } from 'react-router-dom';
+import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../urlServer';
 let cv = classNames.bind(objStyle);
 function WrapperCart() {
     let [stateCart, setStateCart] = useState([])
@@ -103,7 +104,6 @@ function WrapperCart() {
         setStateChexkbox([...stateChexkbox])
 
     }
-    console.log(stateChexkbox)
     let selectlistproduct = (e, i, z) => {
         if (e.target.checked) {
             stateChexkbox[i].listproduct[z] = true
@@ -162,12 +162,14 @@ function WrapperCart() {
                                     Style='margin-right:12px'
                                     aria-label="option 1" />
                                 <div className={cv('product', 'flex-block')}>
-                                    <img src='/' />
+                                    <img
+                                        className={cv('product-image')}
+                                        src={REACT_APP_API_SERVER + 'img/products/' + itemShop.image} />
                                     <span className={cv('product-name')} Style='margin-right:12px'>
                                         {`${itemShop.name} (-${itemShop.discount}%)`}
                                     </span>
                                 </div>
-                                <div>
+                                <div className={cv('flex-block4')} >
                                     select type
                                 </div>
                             </div>

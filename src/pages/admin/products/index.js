@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 import { uid } from 'uid';
 import TableBootstrap from '../table';
 import InputFile from '../../../elements/inputFile';
+import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../urlServer';
 import allProduct,
 {
     allTypeProd,
@@ -111,7 +112,7 @@ function AdminProduct() {
                 listTypeProd: listTypeProd
             }
         }
-        hostName='https://shopserver-iv0u.onrender.com/img/products/'
+        hostName={REACT_APP_API_SERVER + 'img/products/'}
         ElementTag={['input', 'input', 'input', 'input', InputFile, 'input', '', '', 'select', '', '', '', '']}
         className={cv('modify-user')}
         handleDelete={handleDeleteProduct}

@@ -3,7 +3,7 @@ import axios from 'axios';
 import objStyle from './index.module.scss'
 import objGlobalStyle from '../../../GlobalStyle/index.module.scss'
 import classNames from 'classnames/bind'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Tippy from '@tippyjs/react/headless';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoginReducer } from '../../../redux/reducerLogin';
@@ -21,6 +21,7 @@ function NavHeader() {
         dispatch(setLoginReducer())
     }
     const userExist = Object.keys(userLogged).length;
+    let navigate = useNavigate()
     return (
         <div className={cv('wrapper-nav')}>
             <div className={cv('content-nav1')}>
@@ -61,7 +62,7 @@ function NavHeader() {
                             render={attrs => (
                                 <div className={cv2('showbox') + ' ' + cv('pd-5-10')}>
                                     <div>Tài khoản của tôi</div>
-                                    <div>Đơn mua</div>
+                                    <div onClick={() => { navigate('/order') }}>Đơn mua</div>
                                     <div onClick={Logout}>Đăng xuất
                                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
                                     </div>

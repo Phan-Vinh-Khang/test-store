@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { checkout } from '../../services/orders';
 import Button from 'react-bootstrap/Button';
 import { ToastContainer, toast } from 'react-toastify';
-
+import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../urlServer';
 let cv = classNames.bind(objStyle);
 const url = 'http://localhost:3001/img/products/'
 function WrapperCheckout() {
@@ -24,12 +24,11 @@ function WrapperCheckout() {
         if (listOrder.length == 0)
             navigate('/')
     }, [])
+    let lastPrice = 0;
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'VND',
     });
-    let totalPrice = 0;
-    let totalProduct = 0;
     let order = async () => {
         try {
             await checkout(listOrder)
@@ -48,9 +47,9 @@ function WrapperCheckout() {
         }
     }
     let listorder2 = () => {
-        let totalPrice = 0;
         return <>{
             listOrder?.map((item, i) => {
+                let totalPriceShop = 0;
                 return <div Style={i == 0 && `margin-top: 0;border-top: 0;
             border-top-left-radius: 0;
             border-top-right-radius: 0;`}
@@ -65,7 +64,8 @@ function WrapperCheckout() {
                             {
                                 item.listproduct.map((itemShop) => {
                                     return <div className={cv('flex-block1', 'distance-b-10')}>
-                                        <img className={cv('distance-r-10')} src='/' />
+                                        <img className={cv('distance-r-10', 'product-image')}
+                                            src={REACT_APP_API_SERVER + 'img/products/' + itemShop.image} />
                                         <div className={cv('distance-r-10', 'product-block')}>{itemShop.name}</div>
                                         <div className={cv('distance-r-10', 'product-block')}>select type</div>
                                     </div>
@@ -76,7 +76,7 @@ function WrapperCheckout() {
                             <div Style='width:100%;height:16px'></div>
                             {
                                 item.listproduct.map((itemShop) => {
-                                    totalPrice += (itemShop.price - (itemShop.price / 100 * itemShop.discount)) * itemShop.selectQuantity
+                                    totalPriceShop += (itemShop.price - (itemShop.price / 100 * itemShop.discount)) * itemShop.selectQuantity
                                     return <>
                                         <div className={cv('product-block')}>
                                             <span>{`${formatter.format(itemShop.price)}(-${itemShop.discount}%)`}</span>
@@ -89,6 +89,9 @@ function WrapperCheckout() {
                                         </div>
                                     </>
                                 })//
+                            }
+                            {
+                                lastPrice += totalPriceShop
                             }
                             {/* <div className={cv('product-block')}>
                                 <span>₫60.000</span>
@@ -122,11 +125,11 @@ function WrapperCheckout() {
                     <div className={cv('block1')}></div>
                     <div className={cv('flex-block3')}>
                         <div>Lời nhắn:
-                            <input></input>
+                            <input Style='padding:6px 16px;margin-left:16px;border-radius: 6px;border:1px solid rgba(0, 0, 0, 0.4)'></input>
                         </div>
                         <div>
                             <span className={cv('distance-r-10')}>{`Tổng số tiền (${listOrder[i].listproduct.length} sản phẩm):`}</span>
-                            <span>{formatter.format(totalPrice)}</span>
+                            <span>{formatter.format(totalPriceShop)}</span>
                         </div>
                     </div>
                 </div>
@@ -226,14 +229,51 @@ function WrapperCheckout() {
                 </div>
             </div>
             {listorder2()}
-            <div className={cv('wrapper-payment')}>
-                <ToastContainer></ToastContainer>
-                <Button onClick={order}
-                    Style='margin-left:12px'
-                    className={cv('btn-order')}
-                    variant="warning">Đặt hàng</Button>{' '}
+            <div className={cv('distance')}>
+                <div className={cv('flex-block5', 'block1')}>
+                    <div>
+                        Phương thức thanh toán
+                    </div>
+                    <div className={cv('flex-block4')}>
+                        <div Style='padding-left:120px'>Thay đổi</div>
+                        <div>Thanh toán khi nhận hàng</div>
+                    </div>
+                </div>
+                <div className={cv('flex-block4', 'block1')}>
+                    <div Style='padding-left:120px'>
+                        <div>{formatter.format(lastPrice)}</div>
+                        <div>{formatter.format(31000)}</div>
+                        <div>{formatter.format(lastPrice + 31000)}</div>
+                    </div>
+                    <div>
+                        <div>
+                            Tổng tiền hàng
+                        </div>
+                        <div>
+                            Phí vận chuyển
+                        </div>
+                        <div>
+                            Tổng thanh toán:
+                        </div>
+                    </div>
+                </div>
+                <div className={cv('flex-block6')}>
+                    <div>
+                        Nhấn "Đặt hàng" đồng nghĩa với việc bạn đồng ý tuân theo Điều khoản Shopee
+                    </div>
+                    <div>
+                        <ToastContainer></ToastContainer>
+                        <Button onClick={order}
+                            Style='margin-left:12px'
+                            className={cv('btn-order')}
+                            variant="warning">Đặt hàng
+                        </Button>{' '}
+                    </div>
+                </div>
+
 
             </div>
+
         </div>
     );
 }

@@ -10,6 +10,7 @@ import { allRole } from '../../../services/adminServices';
 import { updateUser, uploadAvatar } from "../../../services/userServices";
 import { deleteUser, deleteUserMany } from '../../../services/adminServices';
 import InputFile from '../../../elements/inputFile';
+import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../urlServer';
 let cv = classNames.bind(objStyle);
 let count = 0;
 function AdminUser() {
@@ -110,7 +111,7 @@ function AdminUser() {
                 handleDelete={handleDeleteUser}
                 handleUpdate={handleUpdateUser}
                 handleRemoveMany={handleRemoveMany}
-                hostName='https://shopserver-iv0u.onrender.com/avatar/'
+                hostName={REACT_APP_API_SERVER + 'avatar/'}
             />
             <Button variant="primary" onClick={() => setShow(true)}>
                 <i Style='margin-right:4px' class="fa-sharp fa-solid fa-plus" /> Thêm người dùng

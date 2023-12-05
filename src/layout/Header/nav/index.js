@@ -8,6 +8,7 @@ import Tippy from '@tippyjs/react/headless';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoginReducer } from '../../../redux/reducerLogin';
 import { Logout as LogoutAuth } from '../../../services/userServices';
+import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../urlServer';
 function NavHeader() {
     let cv = classNames.bind(objStyle)
     let cv2 = classNames.bind(objGlobalStyle)
@@ -71,8 +72,15 @@ function NavHeader() {
                         >
                             <div className={cv('user')}>
                                 <span>
-                                    <i class="fa-regular fa-user"></i>
-                                    {userLogged.name}
+                                    {
+                                        (userLogged.image && <img
+                                            src={REACT_APP_API_SERVER_LOCAL + 'avatar/' + userLogged.image}
+                                            className={cv('avatar')}
+                                        />)
+                                    }
+                                    <span>
+                                        {userLogged.name}
+                                    </span>
                                 </span>
                             </div>
                         </Tippy>

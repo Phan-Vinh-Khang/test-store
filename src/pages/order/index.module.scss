@@ -1,123 +1,34 @@
 .wrapper {
-    width: 75%;
-    position: relative;
+    min-width: 90rem;
 
-    .distance {
-        background-color: #fffefb;
-        margin: 5px 0px;
-        padding: 0.75rem 1rem;
-        min-width: 75rem;
-        border-radius: 4px;
-        border: 1px solid rgba(224, 168, 0, .4);
+    .user-avatar {
+        box-sizing: border-box;
+        padding: 5px;
+        width: 6rem;
+        height: 6rem;
+        margin-right: 6px;
+        border-radius: 50%;
+        border: 1px solid rgba(0, 0, 0, .09);
+    }
 
-        .flex-block {
-            display: flex;
-            align-items: center;
-        }
+    .user-block {
+        width: 65%;
+        padding-top: 26px;
 
-        .flex-block1 {
-            display: flex;
-            width: 75%;
-        }
-
-        .flex-block2 {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-
-        }
-
-        .flex-block3 {
-            display: flex;
-            justify-content: end;
-            width: 100%;
-        }
-
-        .flex-block4 {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .block1 {
-            padding-bottom: 12px;
-            border-bottom: 1px solid rgba(0, 0, 0, .09);
-        }
-
-        .product-image {
-            width: 50px;
-            height: 75px;
-            border-radius: 6px;
-        }
-
-        .shopname {
-            width: 70px;
-            height: 16px;
-            background-color: rgb(238, 77, 45);
-            font-size: 12px;
-            color: #fffefb;
-            border-radius: 2px;
-            text-align: center;
-            margin-right: 12px;
-        }
-
-        .shopname:hover {
-            cursor: pointer;
-        }
-
-        .shopname2 {
-            color: rgba(0, 0, 0, .90);
-        }
-
-        .shopname2:hover {
-            cursor: pointer;
-        }
-
-        .product:hover {
-            cursor: pointer;
-        }
-
-        .product-name {
-            color: rgba(0, 0, 0, .87);
-            width: 15rem;
-            height: 50px;
-            display: -webkit-box;
+        .user-name {
+            font-weight: bold;
             -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 1;
             overflow: hidden;
             text-overflow: ellipsis;
-            display: flex;
-            align-items: center;
-        }
-    }
-
-    .block-text {
-        width: 9.375rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .order {
-        position: sticky;
-
-        .btn-order {}
-    }
-
-    .amount {
-        flex-shrink: 300;
-
-        >input {
-            width: 20%;
-            height: 31px;
-            text-align: center;
-            border: solid 1px gainsboro;
         }
 
-        >button {
-            background-color: white;
-            border: solid 1px gainsboro;
-            width: 32px;
-            height: 32px;
+        .user-option:hover {
+            cursor: pointer;
         }
     }
+}
+
+.flex-block {
+    display: flex;
 }

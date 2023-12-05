@@ -99,8 +99,14 @@
 
     .order {
         position: sticky;
+        top: 0;
 
-        .btn-order {}
+        .btn-order {
+            margin-left: 12px;
+            width: 12rem;
+            height: 3rem;
+            border-radius: 4px;
+        }
     }
 
     .amount {
@@ -111,13 +117,6 @@
             height: 31px;
             text-align: center;
             border: solid 1px gainsboro;
-        }
-
-        >button {
-            background-color: white;
-            border: solid 1px gainsboro;
-            width: 32px;
-            height: 32px;
         }
     }
 }

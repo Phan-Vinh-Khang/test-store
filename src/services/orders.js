@@ -11,8 +11,12 @@ async function addCart(data) {
 async function getcart() {
     return await axiosToken.get('api/getcart')
 }
+async function getorder() {
+    return await axiosToken.get('api/getorder')
+}
 export {
     checkout,
     addCart,
-    getcart
+    getcart,
+    getorder,
 }

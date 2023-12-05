@@ -65,7 +65,7 @@ function WrapperCheckout() {
                                 item.listproduct.map((itemShop) => {
                                     return <div className={cv('flex-block1', 'distance-b-10')}>
                                         <img className={cv('distance-r-10', 'product-image')}
-                                            src={REACT_APP_API_SERVER + 'img/products/' + itemShop.image} />
+                                            src={REACT_APP_API_SERVER_LOCAL + 'img/products/' + itemShop.image} />
                                         <div className={cv('distance-r-10', 'product-block')}>{itemShop.name}</div>
                                         <div className={cv('distance-r-10', 'product-block')}>select type</div>
                                     </div>
@@ -264,7 +264,6 @@ function WrapperCheckout() {
                     <div>
                         <ToastContainer></ToastContainer>
                         <Button onClick={order}
-                            Style='margin-left:12px'
                             className={cv('btn-order')}
                             variant="warning">Đặt hàng
                         </Button>{' '}

@@ -164,7 +164,7 @@ function WrapperCart() {
                                 <div className={cv('product', 'flex-block')}>
                                     <img
                                         className={cv('product-image')}
-                                        src={REACT_APP_API_SERVER + 'img/products/' + itemShop.image} />
+                                        src={REACT_APP_API_SERVER_LOCAL + 'img/products/' + itemShop.image} />
                                     <span className={cv('product-name')} Style='margin-right:12px'>
                                         {`${itemShop.name} (-${itemShop.discount}%)`}
                                     </span>
@@ -284,12 +284,14 @@ function WrapperCart() {
                         <div Style='margin-left:12px'>
                             {formatter.format(totalPrice)}
                         </div>
-                        <Button onClick={order} disabled={stateBtn} Style='margin-left:12px' className={cv('btn-order')} variant="warning">Mua hàng</Button>{' '}
+                        <Button onClick={order}
+                            disabled={stateBtn}
+                            className={cv('btn-order')} variant="warning">Mua hàng</Button>{' '}
                     </div>
 
                 </div>
             </div>
-        </div >
+        </div>
     );
 }
 export default WrapperCart;

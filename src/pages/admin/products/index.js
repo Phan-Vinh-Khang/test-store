@@ -112,7 +112,7 @@ function AdminProduct() {
                 listTypeProd: listTypeProd
             }
         }
-        hostName={REACT_APP_API_SERVER + 'img/products/'}
+        hostName={REACT_APP_API_SERVER_LOCAL + 'img/products/'}
         ElementTag={['input', 'input', 'input', 'input', InputFile, 'input', '', '', 'select', '', '', '', '']}
         className={cv('modify-user')}
         handleDelete={handleDeleteProduct}

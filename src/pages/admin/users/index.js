@@ -111,7 +111,7 @@ function AdminUser() {
                 handleDelete={handleDeleteUser}
                 handleUpdate={handleUpdateUser}
                 handleRemoveMany={handleRemoveMany}
-                hostName={REACT_APP_API_SERVER + 'avatar/'}
+                hostName={REACT_APP_API_SERVER_LOCAL + 'avatar/'}
             />
             <Button variant="primary" onClick={() => setShow(true)}>
                 <i Style='margin-right:4px' class="fa-sharp fa-solid fa-plus" /> Thêm người dùng

@@ -5,9 +5,7 @@ import Slider from "react-slick";
 import objStyle from './index.module.scss'
 import { LeftArrow, RightArrow } from '../../home/section';
 import Star from './star';
-import { useLocation, useParams } from 'react-router-dom';
-import { detailProduct } from '../../../services/productServices';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { setlistOrder } from '../../../redux/reduxOrder'
 import lodash from 'lodash'
@@ -16,33 +14,16 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../urlServer';
 let cv = classNames.bind(objStyle);
-const url = REACT_APP_API_SERVER + 'img/products/'
-function Section1(obj) {
-    const { id } = useParams(); //parmas sẽ ref vào :id của url
+const url = REACT_APP_API_SERVER_LOCAL + 'img/products/'
+function Section1({ stateProduct }) {
     let navigate = useNavigate()
-    let [stateProduct, setStateProduct] = useState({});
     let [stateidxSlide, setStateidxSlide] = useState(0);
     let [stateInput, setStateInput] = useState(1);
-    let [stateNofication, setStateNofication] = useState('');
     const sliderRef = useRef(0);
     let dispatch = useDispatch()
     if (sliderRef.current) {
         sliderRef.current.slickGoTo(stateidxSlide);
     }
-    let listorder = useSelector((state) => {
-        return state.listOrder.listOrder;
-    })
-    useEffect(() => {
-        let fetchData = async () => {
-            try {
-                let data = (await detailProduct(id)).data;
-                setStateProduct(data)
-            } catch (e) {
-                alert(e.response.data)
-            }
-        }
-        fetchData();
-    }, [])
     if (stateProduct.product?.quantity < 1) {
         stateInput = 0;
     }

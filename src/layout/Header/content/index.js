@@ -40,7 +40,6 @@ function ContentHeader() {
             localStorage.setItem('listSearch', JSON.stringify(listSearch))
         }
     }
-    const [stateCart, setStateCart] = useState('')
     return (
         <div className={cv('wrapper-header')}>
             <div className={cv('wrapper-logo')}>
@@ -87,7 +86,9 @@ function ContentHeader() {
                     delay={[null, 50]}
                     render={attrs => (
                         <div className={cv2('showbox')}>
-                            <TippyCart data={stateCart} />
+                            <TippyCart
+                            // data={stateCart}
+                            />
                         </div>
                     )}
                 >

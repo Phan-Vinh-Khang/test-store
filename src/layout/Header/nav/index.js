@@ -26,15 +26,15 @@ function NavHeader() {
     return (
         <div className={cv('wrapper-nav')}>
             <div className={cv('content-nav1')}>
-                {userLogged.iscollab &&
+                {userLogged.iscollab == 1 ?
                     <span>
                         <a href='/'>Kênh người bán</a>
-                    </span>
+                    </span> : null
                 }
-                {!userLogged.iscollab &&
+                {userLogged.iscollab == 0 ?
                     <span>
                         <Link to='/userShop'>Trở thành Người bán Shopee</Link>
-                    </span>
+                    </span> : null
                 }
                 <span>
                     <a href='/'>Tải ứng dụng</a>
@@ -74,9 +74,9 @@ function NavHeader() {
                                 <span>
                                     {
                                         (userLogged.image && <img
-                                            src={REACT_APP_API_SERVER_LOCAL + 'avatar/' + userLogged.image}
+                                            src={REACT_APP_API_SERVER + 'avatar/' + userLogged.image}
                                             className={cv('avatar')}
-                                        />)
+                                        />) || <i class="fa-regular fa-user"></i>
                                     }
                                     <span>
                                         {userLogged.name}

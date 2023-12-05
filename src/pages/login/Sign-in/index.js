@@ -8,6 +8,8 @@ import resLogin, { AuthenticationUser } from '../../../services/userServices';
 import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoginReducer } from '../../../redux/reducerLogin';
+sessionStorage.setItem('sessionEmail', '')
+sessionStorage.setItem('sessionPassword', '')
 function SignIn(obj) {
     let dispatch = useDispatch();
     let logged = useSelector((state) => {

@@ -98,6 +98,26 @@
             text-overflow: ellipsis;
         }
 
+        .product-name:hover {
+            cursor: pointer;
+        }
+
+        .product-pre-discount:hover {
+            cursor: pointer;
+        }
+
+        .product-quantity:hover {
+            cursor: pointer;
+        }
+
+        .product-price:hover {
+            cursor: pointer;
+        }
+
+        .shop-name:hover {
+            cursor: pointer;
+        }
+
         .price-block {
             width: 45%;
         }
@@ -106,6 +126,10 @@
             width: 50px;
             height: 75px;
             border-radius: 6px;
+        }
+
+        .product-image:hover {
+            cursor: pointer;
         }
 
         .shopname {

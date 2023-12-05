@@ -4,7 +4,7 @@ import { axios2 } from './interceptor'
 
 //ref req to controller
 async function resLogin(email, password) {
-    return await axios2.post('/check-user-login', {
+    return await axios2.post('api/check-user-login', {
         email: email,
         password: password
     }, {
@@ -12,7 +12,7 @@ async function resLogin(email, password) {
     })
 }
 async function resSignup(username, email, password, confirmPassword, address) {
-    return await axios2.post('/create-user', {
+    return await axios2.post('api/create-user', {
         name: username,
         email: email,
         password: password,

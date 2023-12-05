@@ -69,7 +69,7 @@ function WrapperPurchase() {
                                     return <div className={cv('flex-block', 'block1')}>
                                         <div Style='flex-grow:1'>
                                             <img className={cv('product-image')}
-                                                src={REACT_APP_API_SERVER_LOCAL + 'img/products/' + itemProductDetailOrder.Product.image} />
+                                                src={REACT_APP_API_SERVER + 'img/products/' + itemProductDetailOrder.Product.image} />
                                         </div>
                                         <div Style='flex-grow:200;padding-left:10px'>
                                             <div className={cv('product-name')}>

@@ -14,13 +14,17 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../urlServer';
 let cv = classNames.bind(objStyle);
-const url = REACT_APP_API_SERVER_LOCAL + 'img/products/'
+const url = REACT_APP_API_SERVER + 'img/products/'
 function Section1({ stateProduct }) {
     let navigate = useNavigate()
     let [stateidxSlide, setStateidxSlide] = useState(0);
     let [stateInput, setStateInput] = useState(1);
     const sliderRef = useRef(0);
     let dispatch = useDispatch()
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'VND',
+    });
     if (sliderRef.current) {
         sliderRef.current.slickGoTo(stateidxSlide);
     }
@@ -137,7 +141,9 @@ function Section1({ stateProduct }) {
                 </div>
             </div>
             <div className={cv('section-1-detail-product')}>
-                <div className={cv('title')}>
+                <div className={cv('title')}
+                    title={stateProduct.product?.name}
+                >
                     {
                         stateProduct.product?.name
                     }
@@ -158,7 +164,14 @@ function Section1({ stateProduct }) {
                 </div>
                 <div className={cv('wrap-select')}>
                     <div className={cv('wrap-price')}>
-                        <div>{stateProduct.product?.price}</div>
+                        <div>
+                            <span className={cv('price-pre-discount')}>
+                                {formatter.format(stateProduct.product?.price)}</span>
+                            <span Style='font-weight: 500;'>
+                                {formatter.format(stateProduct.product?.price - (stateProduct.product?.price / 100 * stateProduct.product?.discount))}
+                            </span>
+                            <span className={cv('discount')}> -{stateProduct.product?.discount}%</span>
+                        </div>
                     </div>
 
                     <div className={cv('wrap-flex') + ' ' + cv('flex-gap')}>

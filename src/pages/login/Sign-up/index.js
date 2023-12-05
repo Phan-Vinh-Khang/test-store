@@ -3,8 +3,9 @@ import axios from 'axios';
 import objStyle from './index.module.scss'
 import classNames from 'classnames/bind'
 import { resSignup } from '../../../services/userServices';
+import { useNavigate } from 'react-router-dom';
+let cv = classNames.bind(objStyle)
 function Signup(obj) {
-    let cv = classNames.bind(objStyle)
     let [state, setState] = useState({
         name: '',
         email: '',
@@ -33,6 +34,7 @@ function Signup(obj) {
     const submitAction = async () => {
         try {
             let data = await resSignup(state.name, state.email, state.password, state.confirmPassword, state.address)
+            obj.switchForm()
         } catch (e) {
             setStateSignupMessage(e.response.data.message)
             if (e.response.status == 409)//password not correct
@@ -79,7 +81,7 @@ function Signup(obj) {
                             </span>
                         </div>
                         <input onChange={(e) => getValue(e, 'address')} class="form-control" type="text" placeholder="Địa chỉ...." aria-label="default input example" />
-                        <span>{stateSignupMessage}</span>
+                        <span Style='color:#ee4d2d'>{stateSignupMessage}</span>
 
                         <div className="d-grid gap-2">
                             <button onClick={submitAction} class="btn" type="button">Đăng ký</button>

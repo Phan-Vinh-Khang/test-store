@@ -25,10 +25,11 @@
         box-shadow: 0 3px 3px 0px rgba(0, 0, 0, .125);
         border-radius: 5px;
 
-        img {
+        .image-product {
             border-top-right-radius: 5px;
             border-top-left-radius: 5px;
             width: 100%;
+            height: 70%;
         }
 
         .wrap-info-product {
@@ -54,11 +55,17 @@
                 justify-content: space-between;
 
                 .price-item {
+                    width: 60%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                     font-size: 1rem;
                     color: rgb(238, 77, 45);
                 }
 
                 .sold-amount {
+                    // width: 40%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                     color: rgba(0, 0, 0, .54)
                 }
             }

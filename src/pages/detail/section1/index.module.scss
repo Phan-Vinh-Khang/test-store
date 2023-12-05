@@ -98,10 +98,27 @@
             }
 
             .wrap-price {
+                display: flex;
+                align-items: center;
                 padding: 10px 30px;
                 margin-top: 20px;
                 background-color: rgba(208, 1, 27, 0.08);
                 font-size: 1.8rem;
+                color: #ee4d2d;
+
+                .price-pre-discount {
+                    font-size: 20px;
+                    text-decoration: line-through;
+                    padding-right: 10px;
+                    color: #757575;
+                }
+
+                .discount {
+                    position: relative;
+                    top: -12px;
+                    font-size: 15px;
+                    color: #ee4d2d;
+                }
             }
 
             .amount {

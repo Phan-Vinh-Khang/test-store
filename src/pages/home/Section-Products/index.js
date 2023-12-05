@@ -19,6 +19,10 @@ function Products() {
     let page = useSelector((state) => {
         return Number(state.page.page)
     })
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'VND',
+    });
     useEffect(() => {
         async function fetchDataProd() {
             let listprod = (await allproduct(search, page)).data;
@@ -36,17 +40,23 @@ function Products() {
         return stateListProd.map((item, i) => {
             return (
                 <div key={i} onClick={() => selectProduct(item.id)} className={cv('wrap-product')}>
-                    <img src='./Section-Products/img1.jpg' />
+                    <img className={cv('image-product')} src={REACT_APP_API_SERVER + 'img/products/' + item.image} />
                     <div className={cv('wrap-info-product')}>
-                        <div className={cv('product-name')}>
+                        <div className={cv('product-name')}
+                            title={item.name}
+                        >
                             {item.name}
                         </div>
                         <div className={cv('product-more')}>
                             {/* các icon discount,.... neu có */}
                         </div>
                         <div className={cv('flex')}>
-                            <div className={cv('price-item')}>{item.price}</div>
-                            <div className={cv('sold-amount')}>{item.sold}</div>
+                            <div className={cv('price-item')}
+                                title={item.price}
+                            >{formatter.format(item.price - (item.price / 100 * item.discount))}</div>
+                            <div className={cv('sold-amount')}
+                                title={item.sold}
+                            >Đã bán {item.sold}</div>
                         </div>
                     </div>
                 </div>

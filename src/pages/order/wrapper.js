@@ -17,7 +17,13 @@ function WrapperOrder() {
         <div className={cv('wrapper', 'flex-block')}>
             <div Style='width:17%'>
                 <div Style='padding:24px 0px' className={cv('flex-block')}>
-                    <img className={cv('user-avatar')} src={REACT_APP_API_SERVER_LOCAL + 'avatar/' + user.image} />
+                    {(user.image && <img
+                        className={cv('user-avatar')}
+                        src={REACT_APP_API_SERVER + 'avatar/' + user.image}
+                    />) || <i className={cv('user-avatar') + " fa-regular fa-circle-user fa-2xl"}
+                        Style="color: #c8d8f4;border: none;"
+                        />
+                    }
                     <div className={cv('user-block')}>
                         <div
                             title={user.name}

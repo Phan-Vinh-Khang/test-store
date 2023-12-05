@@ -46,6 +46,9 @@ function WrapperCheckout() {
             alert(e.response.data.message)
         }
     }
+    let price = (totalPrice, totalPriceShop) => {
+        totalPrice += totalPriceShop
+    }
     let listorder2 = () => {
         return <>{
             listOrder?.map((item, i) => {
@@ -58,16 +61,27 @@ function WrapperCheckout() {
                         <div className={cv('flex-block1')}>
                             <div className={cv('flex-block1')}>
                                 <span className={cv('shopname')}>Yêu thích+</span>
-                                <span className={cv('')}>{item.shop.name}</span>
+                                <span className={cv('shop-name')}
+                                    title={item.shop.name}>
+                                    {item.shop.name}
+                                </span>
 
                             </div>
                             {
-                                item.listproduct.map((itemShop) => {
+                                item.listproduct.map((itemProduct) => {
                                     return <div className={cv('flex-block1', 'distance-b-10')}>
                                         <img className={cv('distance-r-10', 'product-image')}
-                                            src={REACT_APP_API_SERVER_LOCAL + 'img/products/' + itemShop.image} />
-                                        <div className={cv('distance-r-10', 'product-block')}>{itemShop.name}</div>
-                                        <div className={cv('distance-r-10', 'product-block')}>select type</div>
+                                            src={REACT_APP_API_SERVER + 'img/products/' + itemProduct.image}
+                                        />
+                                        <div className={cv('distance-r-10', 'product-block')}
+                                            title={itemProduct.name}>
+                                            <span className={cv('product-name')}>
+                                                {itemProduct.name}
+                                            </span>
+                                        </div>
+                                        <div className={cv('distance-r-10', 'product-block')}>
+                                            select type
+                                        </div>
                                     </div>
                                 })
                             }
@@ -75,23 +89,34 @@ function WrapperCheckout() {
                         <div className={cv('flex-block2')}>
                             <div Style='width:100%;height:16px'></div>
                             {
-                                item.listproduct.map((itemShop) => {
-                                    totalPriceShop += (itemShop.price - (itemShop.price / 100 * itemShop.discount)) * itemShop.selectQuantity
+                                item.listproduct.map((itemProduct) => {
+                                    totalPriceShop += (itemProduct.price - (itemProduct.price / 100 * itemProduct.discount)) * itemProduct.selectQuantity
                                     return <>
                                         <div className={cv('product-block')}>
-                                            <span>{`${formatter.format(itemShop.price)}(-${itemShop.discount}%)`}</span>
+                                            <span className={cv('product-pre-discount')}
+                                                title={formatter.format(itemProduct.price)}
+                                            >
+                                                {`${formatter.format(itemProduct.price)}(-${itemProduct.discount}%)`}
+                                            </span>
                                         </div>
                                         <div>
-                                            <span>{itemShop.selectQuantity}</span>
+                                            <span className={cv('product-quantity')}
+                                                title={itemProduct.selectQuantity}
+                                            >
+                                                {itemProduct.selectQuantity}</span>
                                         </div>
                                         <div Style='text-align:right' className={cv('product-block')}>
-                                            <span>{formatter.format(itemShop.price - (itemShop.price / 100 * itemShop.discount))}</span>
+                                            <span className={cv('product-price')}
+                                                title={formatter.format(itemProduct.price - (itemProduct.price / 100 * itemProduct.discount))}
+                                            >
+                                                {formatter.format(itemProduct.price - (itemProduct.price / 100 * itemProduct.discount))}
+                                            </span>
                                         </div>
                                     </>
-                                })//
+                                })
                             }
                             {
-                                lastPrice += totalPriceShop
+                                price(lastPrice, totalPriceShop)
                             }
                             {/* <div className={cv('product-block')}>
                                 <span>₫60.000</span>
@@ -213,8 +238,12 @@ function WrapperCheckout() {
             </div>
             <div className={cv('wrapper-address')}>
                 <div>Địa Chỉ Nhận Hàng</div>
-                <div>{user.name}</div>
-                <div>{user.adress}</div>
+                <div title={user.name}>
+                    {user.name}
+                </div>
+                <div title={user.adress}>
+                    {user.adress}
+                </div>
                 <div>Option</div>
             </div>
             <div Style='margin-bottom: 0;border-bottom: 0;border-bottom-left-radius: 0;border-bottom-right-radius: 0;'

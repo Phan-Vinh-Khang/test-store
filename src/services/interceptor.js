@@ -2,17 +2,16 @@ import axios from "axios"
 import { reFreshToken } from "./userServices";
 import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from "../urlServer";
 const axiosToken = axios.create({
-    baseURL: REACT_APP_API_SERVER
+    baseURL: REACT_APP_API_SERVER_LOCAL
 })
 const axios2 = axios.create({
-    baseURL: REACT_APP_API_SERVER
+    baseURL: REACT_APP_API_SERVER_LOCAL
 })
 axiosToken.interceptors.request.use(
     async (config) => {
         const access_token = localStorage.getItem('access_token')
         config.headers.Authorization = `Bearer ${access_token}`;
         config.headers['Content-Type'] = 'application/json';
-
         return config;
     },
     (error) => {

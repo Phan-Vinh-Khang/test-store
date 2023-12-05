@@ -11,7 +11,6 @@ import Button from 'react-bootstrap/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../urlServer';
 let cv = classNames.bind(objStyle);
-const url = 'http://localhost:3001/img/products/'
 function WrapperCheckout() {
     let navigate = useNavigate();
     const user = useSelector((state) => {
@@ -71,7 +70,7 @@ function WrapperCheckout() {
                                 item.listproduct.map((itemProduct) => {
                                     return <div className={cv('flex-block1', 'distance-b-10')}>
                                         <img className={cv('distance-r-10', 'product-image')}
-                                            src={REACT_APP_API_SERVER + 'img/products/' + itemProduct.image}
+                                            src={REACT_APP_API_SERVER_LOCAL + 'img/products/' + itemProduct.image}
                                         />
                                         <div className={cv('distance-r-10', 'product-block')}
                                             title={itemProduct.name}>

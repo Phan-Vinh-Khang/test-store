@@ -40,7 +40,7 @@ function Products() {
         return stateListProd.map((item, i) => {
             return (
                 <div key={i} onClick={() => selectProduct(item.id)} className={cv('wrap-product')}>
-                    <img className={cv('image-product')} src={REACT_APP_API_SERVER + 'img/products/' + item.image} />
+                    <img className={cv('image-product')} src={REACT_APP_API_SERVER_LOCAL + 'img/products/' + item.image} />
                     <div className={cv('wrap-info-product')}>
                         <div className={cv('product-name')}
                             title={item.name}

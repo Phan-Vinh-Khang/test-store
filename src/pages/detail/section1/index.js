@@ -14,7 +14,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../urlServer';
 let cv = classNames.bind(objStyle);
-const url = REACT_APP_API_SERVER + 'img/products/'
+const url = REACT_APP_API_SERVER_LOCAL + 'img/products/'
 function Section1({ stateProduct }) {
     let navigate = useNavigate()
     let [stateidxSlide, setStateidxSlide] = useState(0);

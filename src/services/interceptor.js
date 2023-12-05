@@ -11,6 +11,8 @@ axiosToken.interceptors.request.use(
     async (config) => {
         const access_token = localStorage.getItem('access_token')
         config.headers.Authorization = `Bearer ${access_token}`;
+        config.headers['Content-Type'] = 'application/json';
+
         return config;
     },
     (error) => {

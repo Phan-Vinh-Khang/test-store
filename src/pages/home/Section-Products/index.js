@@ -6,12 +6,14 @@ import allproduct from '../../../services/productServices';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Pagination from 'react-bootstrap/Pagination';
-import { setSearch } from '../../../redux/reduxSearch';
 import { setPage } from '../../../redux/reduxPages';
 import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../urlServer';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
 let cv = classNames.bind(objStyle);
 function Products() {
-    let [stateListProd, setStateListProd] = useState([]);
+    let [stateListProd, setStateListProd] = useState(new Array(30).fill({}));
     let [statePageCount, setStatePageCount] = useState(0);
     let search = useSelector((state) => {
         return state.search.data;
@@ -19,18 +21,39 @@ function Products() {
     let page = useSelector((state) => {
         return Number(state.page.page)
     })
+
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'VND',
     });
-    useEffect(() => {
-        async function fetchDataProd() {
-            let listprod = (await allproduct(search, page)).data;
-            setStateListProd(listprod.listProduct)
-            setStatePageCount(listprod.productCount)
+    // useEffect(() => {
+    //     async function fetchDataProd() {
+    //         let listprod = (await allproduct(search, page)).data;
+    //         setStateListProd(listprod.listProduct)
+    //         setStatePageCount(listprod.productCount)
+    //     }
+    //     setTimeout(() => {
+    //         fetchDataProd();
+    //     }, 2000)
+    // }, [search, page])
+    let [stateIsLoad, setstateIsLoad] = useState(false)
+    let func = () => {
+        if (window.pageYOffset > 300 && !stateIsLoad) {
+            async function fetchDataProd() {
+                let listprod = (await allproduct(search, page)).data;
+                setStateListProd(listprod.listProduct)
+                setStatePageCount(listprod.productCount)
+            }
+            stateIsLoad = true
+            fetchDataProd();
         }
-        fetchDataProd();
-    }, [search, page])
+    }
+    console.log('Y extent function', window.pageYOffset)
+
+    useEffect(() => {
+        window.addEventListener('scroll', func)
+        return () => window.removeEventListener('scroll', func)
+    }, [])
     //them sau khi search se quay ve page1
     let navigate = useNavigate()
     let selectProduct = (id) => {
@@ -40,23 +63,31 @@ function Products() {
         return stateListProd.map((item, i) => {
             return (
                 <div key={i} onClick={() => selectProduct(item.id)} className={cv('wrap-product')}>
-                    <img className={cv('image-product')} src={REACT_APP_API_SERVER_LOCAL + 'img/products/' + item.image} />
+                    {(item.id && <img
+                        className={cv('image-product')}
+                        src={REACT_APP_API_SERVER + 'img/products/' + item.image}
+                    />) || <Skeleton className={cv('image-product')}></Skeleton>}
                     <div className={cv('wrap-info-product')}>
-                        <div className={cv('product-name')}
+                        {item.id && <div className={cv('product-name')}
                             title={item.name}
                         >
                             {item.name}
-                        </div>
+                        </div> || <Skeleton />}
                         <div className={cv('product-more')}>
                             {/* các icon discount,.... neu có */}
                         </div>
                         <div className={cv('flex')}>
-                            <div className={cv('price-item')}
+                            {(item.id && <div className={cv('price-item')}
                                 title={item.price}
-                            >{formatter.format(item.price - (item.price / 100 * item.discount))}</div>
-                            <div className={cv('sold-amount')}
+                            >{formatter.format(item.price - (item.price / 100 * item.discount))}
+                            </div>) ||
+                                <Skeleton className={cv('price-item')} />
+                            }
+                            {(item.id && <div className={cv('sold-amount')}
                                 title={item.sold}
-                            >Đã bán {item.sold}</div>
+                            >Đã bán {item.sold}</div>) ||
+                                <Skeleton />
+                            }
                         </div>
                     </div>
                 </div>

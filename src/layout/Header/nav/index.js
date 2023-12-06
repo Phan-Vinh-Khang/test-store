@@ -74,7 +74,7 @@ function NavHeader() {
                                 <span>
                                     {
                                         (userLogged.image && <img
-                                            src={REACT_APP_API_SERVER_LOCAL + 'avatar/' + userLogged.image}
+                                            src={REACT_APP_API_SERVER + 'avatar/' + userLogged.image}
                                             className={cv('avatar')}
                                         />) || <i class="fa-regular fa-user"></i>
                                     }

@@ -31,10 +31,10 @@ function NavHeader() {
                         <a href='/'>Kênh người bán</a>
                     </span> : null
                 }
-                {userLogged.iscollab == 0 ?
+                {!userLogged.iscollab &&
                     <span>
                         <Link to='/userShop'>Trở thành Người bán Shopee</Link>
-                    </span> : null
+                    </span>
                 }
                 <span>
                     <a href='/'>Tải ứng dụng</a>

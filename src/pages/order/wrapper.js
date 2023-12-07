@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../urlServer';
 import WrapperPurchase from './purchase/wrapper';
 let cv = classNames.bind(objStyle);
+const url = REACT_APP_API_SERVER;
 function WrapperOrder() {
     const user = useSelector((state) => {
         return state.dataLogged
@@ -19,7 +20,7 @@ function WrapperOrder() {
                 <div Style='padding:24px 0px' className={cv('flex-block')}>
                     {(user.image && <img
                         className={cv('user-avatar')}
-                        src={REACT_APP_API_SERVER + 'avatar/' + user.image}
+                        src={url + 'avatar/' + user.image}
                     />) || <i className={cv('user-avatar') + " fa-regular fa-circle-user fa-2xl"}
                         Style="color: #c8d8f4;border: none;"
                         />

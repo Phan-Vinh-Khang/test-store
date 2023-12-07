@@ -18,6 +18,7 @@ import allProduct,
     updateProd
 } from '../../../services/productServices';
 let cv = classNames.bind(objStyle);
+const url = REACT_APP_API_SERVER;
 function AdminProduct() {
     let [stateIdx, setStateIdx] = useState(0)
     let [stateClassName, setStateClassName] = useState('')
@@ -112,7 +113,7 @@ function AdminProduct() {
                 listTypeProd: listTypeProd
             }
         }
-        hostName={REACT_APP_API_SERVER + 'img/products/'}
+        hostName={url + 'img/products/'}
         ElementTag={['input', 'input', 'input', 'input', InputFile, 'input', '', '', 'select', '', '', '', '']}
         className={cv('modify-user')}
         handleDelete={handleDeleteProduct}

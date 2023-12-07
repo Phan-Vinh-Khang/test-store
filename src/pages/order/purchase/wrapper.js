@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../urlServer';
 import { getorder } from '../../../services/orders';
 let cv = classNames.bind(objStyle);
+const url = REACT_APP_API_SERVER;
 function WrapperPurchase() {
     let [stateLocationY, setStateLocationY] = useState(300)
     let [stateListOrder, setStateListOrder] = useState();
@@ -69,7 +70,7 @@ function WrapperPurchase() {
                                     return <div className={cv('flex-block', 'block1')}>
                                         <div Style='flex-grow:1'>
                                             <img className={cv('product-image')}
-                                                src={REACT_APP_API_SERVER + 'img/products/' + itemProductDetailOrder.Product.image} />
+                                                src={url + 'img/products/' + itemProductDetailOrder.Product.image} />
                                         </div>
                                         <div Style='flex-grow:200;padding-left:10px'>
                                             <div className={cv('product-name')}>

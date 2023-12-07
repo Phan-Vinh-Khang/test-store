@@ -12,6 +12,7 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 let cv = classNames.bind(objStyle);
+const url = REACT_APP_API_SERVER;
 function Products() {
     let [stateListProd, setStateListProd] = useState(new Array(30).fill({}));
     let [statePageCount, setStatePageCount] = useState(0);
@@ -26,16 +27,14 @@ function Products() {
         style: 'currency',
         currency: 'VND',
     });
-    // useEffect(() => {
-    //     async function fetchDataProd() {
-    //         let listprod = (await allproduct(search, page)).data;
-    //         setStateListProd(listprod.listProduct)
-    //         setStatePageCount(listprod.productCount)
-    //     }
-    //     setTimeout(() => {
-    //         fetchDataProd();
-    //     }, 2000)
-    // }, [search, page])
+    useEffect(() => {
+        async function fetchDataProd() {
+            let listprod = (await allproduct(search, page)).data;
+            setStateListProd(listprod.listProduct)
+            setStatePageCount(listprod.productCount)
+        }
+        fetchDataProd();
+    }, [search, page])
     let [stateIsLoad, setstateIsLoad] = useState(false)
     let func = () => {
         if (window.pageYOffset > 300 && !stateIsLoad) {
@@ -48,8 +47,6 @@ function Products() {
             fetchDataProd();
         }
     }
-    console.log('Y extent function', window.pageYOffset)
-
     useEffect(() => {
         window.addEventListener('scroll', func)
         return () => window.removeEventListener('scroll', func)
@@ -65,7 +62,7 @@ function Products() {
                 <div key={i} onClick={() => selectProduct(item.id)} className={cv('wrap-product')}>
                     {(item.id && <img
                         className={cv('image-product')}
-                        src={REACT_APP_API_SERVER + 'img/products/' + item.image}
+                        src={url + 'img/products/' + item.image}
                     />) || <Skeleton className={cv('image-product')}></Skeleton>}
                     <div className={cv('wrap-info-product')}>
                         {item.id && <div className={cv('product-name')}

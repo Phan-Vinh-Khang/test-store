@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLoginReducer } from '../../../redux/reducerLogin';
 import { Logout as LogoutAuth } from '../../../services/userServices';
 import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../urlServer';
+const url = REACT_APP_API_SERVER;
 function NavHeader() {
     let cv = classNames.bind(objStyle)
     let cv2 = classNames.bind(objGlobalStyle)
@@ -74,7 +75,7 @@ function NavHeader() {
                                 <span>
                                     {
                                         (userLogged.image && <img
-                                            src={REACT_APP_API_SERVER + 'avatar/' + userLogged.image}
+                                            src={url + 'avatar/' + userLogged.image}
                                             className={cv('avatar')}
                                         />) || <i class="fa-regular fa-user"></i>
                                     }

@@ -12,7 +12,7 @@ import { deleteUser, deleteUserMany } from '../../../services/adminServices';
 import InputFile from '../../../elements/inputFile';
 import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../urlServer';
 let cv = classNames.bind(objStyle);
-let count = 0;
+const url = REACT_APP_API_SERVER;
 function AdminUser() {
     let [stateDataUsers, setStateDataUsers] = useState({
         listUser: Array(20).fill(0),
@@ -111,7 +111,7 @@ function AdminUser() {
                 handleDelete={handleDeleteUser}
                 handleUpdate={handleUpdateUser}
                 handleRemoveMany={handleRemoveMany}
-                hostName={REACT_APP_API_SERVER_LOCAL + 'avatar/'}
+                hostName={url + 'avatar/'}
             />
             <Button variant="primary" onClick={() => setShow(true)}>
                 <i Style='margin-right:4px' class="fa-sharp fa-solid fa-plus" /> Thêm người dùng

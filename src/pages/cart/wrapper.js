@@ -10,6 +10,7 @@ import _, { cloneDeep } from 'lodash'
 import { useNavigate } from 'react-router-dom';
 import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../urlServer';
 let cv = classNames.bind(objStyle);
+const url = REACT_APP_API_SERVER;
 function WrapperCart() {
     let [stateCart, setStateCart] = useState([])
     let [stateBtn, setStateBtn] = useState(true)
@@ -164,7 +165,7 @@ function WrapperCart() {
                                 <div className={cv('product', 'flex-block')}>
                                     <img
                                         className={cv('product-image')}
-                                        src={REACT_APP_API_SERVER + 'img/products/' + itemShop.image} />
+                                        src={url + 'img/products/' + itemShop.image} />
                                     <span className={cv('product-name')} Style='margin-right:12px'>
                                         {`${itemShop.name} (-${itemShop.discount}%)`}
                                     </span>

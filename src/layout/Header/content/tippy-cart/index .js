@@ -5,6 +5,7 @@ import objStyle from './index.module.scss'
 import { getcart } from '../../../../services/orders';
 import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../../urlServer'
 let cv = classNames.bind(objStyle)
+const url = REACT_APP_API_SERVER;
 function TippyCart() {
     let [stateCart, setStateCart] = useState([])
     useEffect(() => {
@@ -38,7 +39,7 @@ function TippyCart() {
                     return <div className={cv('cart')}>
                         <div className={cv('product')}>
                             <img className={cv('product-image')}
-                                src={REACT_APP_API_SERVER + 'img/products/' + itemProduct.image} />
+                                src={url + 'img/products/' + itemProduct.image} />
                             <span className={cv('product-name')}>
                                 {itemProduct.name}
                             </span>

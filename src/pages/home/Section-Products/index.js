@@ -22,18 +22,27 @@ function Products() {
     let page = useSelector((state) => {
         return Number(state.page.page)
     })
-
+    let [state, setState] = useState({
+        search: '',
+        page: 1
+    })
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'VND',
     });
     useEffect(() => {
+        setStateListProd(new Array(30).fill({}))
         async function fetchDataProd() {
             let listprod = (await allproduct(search, page)).data;
             setStateListProd(listprod.listProduct)
             setStatePageCount(listprod.productCount)
         }
-        fetchDataProd();
+        if (search != state.search || page != state.page) {
+            setState({ search: search, page: page })
+            setTimeout(() => {
+                fetchDataProd();
+            }, 300)
+        }
     }, [search, page])
     let [stateIsLoad, setstateIsLoad] = useState(false)
     let func = () => {
@@ -44,7 +53,9 @@ function Products() {
                 setStatePageCount(listprod.productCount)
             }
             stateIsLoad = true
-            fetchDataProd();
+            setTimeout(() => {
+                fetchDataProd();
+            }, 1500)
         }
     }
     useEffect(() => {

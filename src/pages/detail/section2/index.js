@@ -21,8 +21,46 @@ function Section2({ shop }) {
                     </div>
                 </div>
             </div>
-            <div className={cv('block-shop2')}>
-                a
+            <div Style='width:70%;
+            border-left:1px solid rgba(224, 168, 0, .4);'>
+                <div className={cv('shop2')}>
+                    <div className={cv('pd')}>
+                        <span>
+                            Đánh Giá
+                        </span>
+                        <span>235</span>
+                    </div>
+                    <div className={cv('pd')}>
+                        <soan>
+                            Tỉ Lệ Phản Hồi
+                        </soan>
+                        <span>
+                            95%
+                        </span>
+                    </div>
+                    <div className={cv('pd')}>
+                        <soan>
+                            Tham gia
+                        </soan>
+                        <span>
+                            15 ngày trước
+                        </span>
+                    </div>
+                </div>
+                <div className={cv('shop2')}>
+                    <div className={cv('pd')}>
+                        <span>Sản Phẩm</span>
+                        <span>40</span>
+                    </div>
+                    <div className={cv('pd')}>
+                        <span>hời Gian Phản Hồi</span>
+                        <span>trong vài phút</span>
+                    </div>
+                    <div className={cv('pd')}>
+                        <span>Người Theo Dõi</span>
+                        <span>2,6k</span>
+                    </div>
+                </div>
             </div>
         </div >
     );

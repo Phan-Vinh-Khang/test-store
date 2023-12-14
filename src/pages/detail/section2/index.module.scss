@@ -61,4 +61,16 @@
     .block-shop1-info {
         min-width: 14rem;
     }
+
+    .shop2 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .pd {
+            >span {
+                padding: 0px 10px;
+            }
+        }
+    }
 }

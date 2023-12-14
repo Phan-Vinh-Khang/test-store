@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { unStickyHeader } from '../../../redux/reducer2';
 import Section1 from '../section1';
 import Section2 from '../section2';
+import Section3 from '../section3';
 import { useParams } from 'react-router-dom';
 import { detailProduct } from '../../../services/productServices';
 let cv = classNames.bind(objStyle);
@@ -39,6 +40,7 @@ function WrapperDetail() {
             <div className={cv('wrap-content')}>
                 <Section1 stateProduct={stateProduct} ></Section1>
                 <Section2 shop={stateProduct.shop}></Section2>
+                <Section3 stateProduct={stateProduct.product}></Section3>
             </div>
         </div>
     );

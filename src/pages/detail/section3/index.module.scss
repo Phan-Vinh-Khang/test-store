@@ -1,0 +1,66 @@
+.gray-color {
+    color: #757575;
+}
+
+.section-3 {
+    min-width: 45rem;
+    background-color: white;
+    margin-top: 20px;
+    box-sizing: border-box;
+    padding: 24px 24px;
+
+    .des-title {
+        background-color: rgba($color: (
+                #000000),
+            $alpha: .04
+        );
+    border-radius: 6px;
+    font-size: 24px;
+    padding: 6px 6px;
+}
+}
+
+.slick-arrow {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: whitesmoke;
+    z-index: 1;
+    font-size: 150%;
+
+    &.right {
+        top: calc(50% - 12px);
+        right: 9px;
+
+        i {
+            text-shadow: 3px 0px 5px rgba(0, 0, 0, .3);
+        }
+    }
+
+    &.left {
+        top: calc(50% - 12px);
+        left: 9px;
+
+        i {
+            text-shadow: -3px 0px 5px rgba(0, 0, 0, .3);
+        }
+    }
+}
+
+@keyframes animation {
+    from {
+        font-size: 150%;
+    }
+
+    to {
+        font-size: 180%;
+    }
+}
+
+.slick-arrow:hover {
+    font-size: 180%;
+    animation-name: animation;
+    animation-duration: .08s;
+}

@@ -10,9 +10,9 @@ import { allRole } from '../../../services/adminServices';
 import { updateUser, uploadAvatar } from "../../../services/userServices";
 import { deleteUser, deleteUserMany } from '../../../services/adminServices';
 import InputFile from '../../../elements/inputFile';
-import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../urlServer';
+import { REACT_APP_API_SERVER_URL } from '../../../urlServer';
 let cv = classNames.bind(objStyle);
-const url = REACT_APP_API_SERVER;
+const url = REACT_APP_API_SERVER_URL;
 function AdminUser() {
     let [stateDataUsers, setStateDataUsers] = useState({
         listUser: Array(20).fill(0),

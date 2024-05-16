@@ -6,10 +6,10 @@ import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import _, { cloneDeep } from 'lodash'
 import { useNavigate } from 'react-router-dom';
-import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../urlServer';
+import { REACT_APP_API_SERVER_URL } from '../../../urlServer';
 import { getorder } from '../../../services/orders';
 let cv = classNames.bind(objStyle);
-const url = REACT_APP_API_SERVER;
+const url = REACT_APP_API_SERVER_URL;
 function WrapperPurchase() {
     let [stateLocationY, setStateLocationY] = useState(300)
     let [stateListOrder, setStateListOrder] = useState();

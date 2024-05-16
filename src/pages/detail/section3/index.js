@@ -6,9 +6,9 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../urlServer';
+import { REACT_APP_API_SERVER_URL } from '../../../urlServer';
 let cv = classNames.bind(objStyle);
-const url = REACT_APP_API_SERVER + 'img/products/'
+const url = REACT_APP_API_SERVER_URL + 'img/products/'
 function Section3({ stateProduct }) {
     console.log('a', stateProduct)
     return (

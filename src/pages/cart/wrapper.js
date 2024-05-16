@@ -8,9 +8,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setlistOrder } from '../../redux/reduxOrder';
 import _, { cloneDeep } from 'lodash'
 import { useNavigate } from 'react-router-dom';
-import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../urlServer';
+import { REACT_APP_API_SERVER_URL } from '../../urlServer';
 let cv = classNames.bind(objStyle);
-const url = REACT_APP_API_SERVER;
+const url = REACT_APP_API_SERVER_URL;
 function WrapperCart() {
     let [stateCart, setStateCart] = useState([])
     let [stateBtn, setStateBtn] = useState(true)

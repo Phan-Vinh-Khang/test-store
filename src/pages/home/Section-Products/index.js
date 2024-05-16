@@ -7,12 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Pagination from 'react-bootstrap/Pagination';
 import { setPage } from '../../../redux/reduxPages';
-import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../urlServer';
+import { REACT_APP_API_SERVER_URL } from '../../../urlServer';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 let cv = classNames.bind(objStyle);
-const url = REACT_APP_API_SERVER;
+const url = REACT_APP_API_SERVER_URL;
 function Products() {
     let [stateListProd, setStateListProd] = useState(new Array(30).fill({}));
     let [statePageCount, setStatePageCount] = useState(0);

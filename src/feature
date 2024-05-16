@@ -1,0 +1,4 @@
+feature logout sẽ redirect về trang home hoặc login tránh trường hợp đang ở giỏ hàng
+ấn logout vẫn còn hiện những data của giỏ hàng
+
+feature ấn vào sản phẩm khi redirect đến trang detail sẽ lướt lên trang top

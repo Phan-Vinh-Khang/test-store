@@ -8,8 +8,8 @@ import Tippy from '@tippyjs/react/headless';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoginReducer } from '../../../redux/reducerLogin';
 import { Logout as LogoutAuth } from '../../../services/userServices';
-import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../urlServer';
-const url = REACT_APP_API_SERVER;
+import { REACT_APP_API_SERVER_URL } from '../../../urlServer';
+const url = REACT_APP_API_SERVER_URL;
 function NavHeader() {
     let cv = classNames.bind(objStyle)
     let cv2 = classNames.bind(objGlobalStyle)

@@ -9,9 +9,9 @@ import { useNavigate } from 'react-router-dom';
 import { checkout } from '../../services/orders';
 import Button from 'react-bootstrap/Button';
 import { ToastContainer, toast } from 'react-toastify';
-import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../urlServer';
+import { REACT_APP_API_SERVER_URL } from '../../urlServer';
 let cv = classNames.bind(objStyle);
-const url = REACT_APP_API_SERVER;
+const url = REACT_APP_API_SERVER_URL;
 function WrapperCheckout() {
     let navigate = useNavigate();
     const user = useSelector((state) => {

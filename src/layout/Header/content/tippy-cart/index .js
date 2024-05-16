@@ -3,9 +3,9 @@ import axios from 'axios';
 import classNames from 'classnames/bind'
 import objStyle from './index.module.scss'
 import { getcart } from '../../../../services/orders';
-import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../../urlServer'
+import { REACT_APP_API_SERVER_URL } from '../../../../urlServer'
 let cv = classNames.bind(objStyle)
-const url = REACT_APP_API_SERVER;
+const url = REACT_APP_API_SERVER_URL;
 function TippyCart() {
     let [stateCart, setStateCart] = useState([])
     useEffect(() => {

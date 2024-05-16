@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import { uid } from 'uid';
 import TableBootstrap from '../table';
 import InputFile from '../../../elements/inputFile';
-import { REACT_APP_API_SERVER, REACT_APP_API_SERVER_LOCAL } from '../../../urlServer';
+import { REACT_APP_API_SERVER_URL } from '../../../urlServer';
 import allProduct,
 {
     allTypeProd,
@@ -18,7 +18,7 @@ import allProduct,
     updateProd
 } from '../../../services/productServices';
 let cv = classNames.bind(objStyle);
-const url = REACT_APP_API_SERVER;
+const url = REACT_APP_API_SERVER_URL;
 function AdminProduct() {
     let [stateIdx, setStateIdx] = useState(0)
     let [stateClassName, setStateClassName] = useState('')

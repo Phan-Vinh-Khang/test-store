@@ -15,48 +15,48 @@ let cv = classNames.bind(objStyle);
 const url = REACT_APP_API_SERVER_URL;
 function Products() {
     let [stateListProd, setStateListProd] = useState(new Array(30).fill({}));
-    let [statePageCount, setStatePageCount] = useState(0);
+    let [stateTotalProducts, setStateTotalProducts] = useState(0);
     let search = useSelector((state) => {
         return state.search.data;
     })
     let pageSelected = useSelector((state) => {
-        return Number(state.page.page)
-    })
-    let [state, setState] = useState({
-        search: '',
-        page: 1
+        return state.page.page;
     })
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'VND',
     });
+    let [isLoading, setIsLoading] = useState(false)
     useEffect(() => {
+        setStateListProd(new Array(30).fill({}))
         async function fetchDataProd() {
             let listprod = (await allproduct(search, pageSelected)).data;
             setStateListProd(listprod.listProduct)
-            setStatePageCount(listprod.productCount)
+            setStateTotalProducts(listprod.productCount)
         }
-        fetchDataProd();
+        if (isLoading) {
+            setTimeout(() => {
+                fetchDataProd();
+            }, 1000)
+        }
     }, [search, pageSelected])
-    // let [stateIsLoad, setstateIsLoad] = useState(false)
-    // let func = () => {
-    //     if (window.scrollY > 300 && !stateIsLoad) {
-    //         async function fetchDataProd() {
-    //             let listprod = (await allproduct(search, page)).data;
-    //             setStateListProd(listprod.listProduct)
-    //             setStatePageCount(listprod.productCount)
-    //         }
-    //         stateIsLoad = true
-    //         setTimeout(() => {
-    //             fetchDataProd();
-    //         }, 1500)
-    //     }
-    // }
-    // useEffect(() => {
-    //     window.addEventListener('scroll', func)
-    //     return () => window.removeEventListener('scroll', func)
-    // }, [])
-    //them sau khi search se quay ve page1
+    let funcScrollEvent = () => {
+        if (window.scrollY >= 250 && !isLoading) {
+            let fetchDataProd = async () => {
+                let data = await allproduct(search, pageSelected)
+                setStateListProd(data.data.listProduct)
+                setStateTotalProducts(data.data.productCount)
+            }
+            setIsLoading(true)
+            fetchDataProd();
+        }
+        else if (window.scrollY < 250 && isLoading)
+            setIsLoading(false)
+    }
+    useEffect(() => {
+        window.addEventListener('scroll', funcScrollEvent)
+        return () => window.removeEventListener('scroll', funcScrollEvent)
+    })
     let navigate = useNavigate()
     let selectProduct = (id) => {
         navigate(`/DetailProduct/${id}`)
@@ -68,27 +68,24 @@ function Products() {
                     {(item.id && <img
                         className={cv('image-product')}
                         src={url + 'img/products/' + item.image}
-                    />) || <Skeleton className={cv('image-product')}></Skeleton>}
+                    />) || <Skeleton className={cv('image-product')} />}
                     <div className={cv('wrap-info-product')}>
                         {item.id && <div className={cv('product-name')}
                             title={item.name}
                         >
                             {item.name}
-                        </div> || <Skeleton />}
-                        <div className={cv('product-more')}>
-                            {/* các icon discount,.... neu có */}
-                        </div>
+                        </div> || <Skeleton borderRadius='0.5rem' />}
                         <div className={cv('flex')}>
                             {(item.id && <div className={cv('price-item')}
                                 title={item.price}
                             >{formatter.format(item.price - (item.price / 100 * item.discount))}
                             </div>) ||
-                                <Skeleton className={cv('price-item')} />
+                                <Skeleton borderRadius='0.5rem' width={60} />
                             }
                             {(item.id && <div className={cv('sold-amount')}
                                 title={item.sold}
                             >Đã bán {item.sold}</div>) ||
-                                <Skeleton />
+                                <Skeleton borderRadius='0.5rem' width={40} />
                             }
                         </div>
                     </div>
@@ -96,7 +93,6 @@ function Products() {
             )
         })
     }
-    console.log('imagePage', pageSelected)
     /*sau khi dispatch sẽ reload function và sẽ hiển thị paganition với selectPage đã chọn và nó sẽ dc đặt vào DOM
     nhưng lúc này vẫn chưa có những products tương ứng với pageSelect dc chọn do useEffect() chưa dc chạy
     sau khi useEffect chạy và reload 1 lần nữa mới có data product tương ứng với pageSelect dc chọn
@@ -109,10 +105,10 @@ function Products() {
             <div className={cv('wrap-flex')}>
                 {listProduct()}
             </div>
-            {statePageCount &&
+            {stateTotalProducts &&
                 <div className={cv('wrap-flex')}>
                     <PaginationProduct
-                        totalProducts={statePageCount}
+                        totalProducts={stateTotalProducts}
                         selected={pageSelected}
                     />
                 </div>
@@ -121,11 +117,6 @@ function Products() {
     );
 }
 function PaginationProduct({ totalProducts, selected }) {
-    /*
-    có thể thay đổi lại de tan dung load lại của function paren vi khi dispatch paren sẽ load lại và pagination cũng sẽ load lại
-    co thể set Start và End ở function Paren
-    hoac select ở function này +5 và -5
-    */
     let dispatch = useDispatch();
     let totalPage = Math.ceil(totalProducts / 30);
     let pageStart = Math.max(selected - 5, 1);
@@ -147,4 +138,13 @@ function PaginationProduct({ totalProducts, selected }) {
         <Pagination.Last onClick={() => dispatch(setPage(totalPage))} />
     </Pagination>
 }
+// let dispatch = useDispatch();
+//     let totalPage = totalProducts / 30;
+//     if (totalPage % 30 != 0) totalPage += 1;
+//     totalPage = Math.floor(totalPage)
+//     let pageStart = selected - 5;
+//     if (pageStart < 1) pageStart = 1;
+//     if (10 + pageStart > totalPage) pageStart = totalPage - 10 > 0 ? totalPage - 10 : 1;
+//     let pageEnd = (10 + pageStart > totalPage) ? totalPage : 10 + pageStart;
+//     let listPage = [];
 export default Products;

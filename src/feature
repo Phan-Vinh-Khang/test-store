@@ -2,3 +2,6 @@ feature logout sẽ redirect về trang home hoặc login tránh trường hợp
 ấn logout vẫn còn hiện những data của giỏ hàng
 
 feature ấn vào sản phẩm khi redirect đến trang detail sẽ lướt lên trang top
+
+feature ấn vào trang 4,5.... và search text sau đó reload hoac ấn vào home sẽ giữ dc data trước đó(su dung redux ref vào local storage)
+feature ấn vào trang 4,5.... sau đó redirect trang và quay lại về trang 1,tương tự với text search

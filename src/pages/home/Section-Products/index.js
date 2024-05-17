@@ -19,7 +19,7 @@ function Products() {
     let search = useSelector((state) => {
         return state.search.data;
     })
-    let page = useSelector((state) => {
+    let pageSelected = useSelector((state) => {
         return Number(state.page.page)
     })
     let [state, setState] = useState({
@@ -31,37 +31,31 @@ function Products() {
         currency: 'VND',
     });
     useEffect(() => {
-        setStateListProd(new Array(30).fill({}))
         async function fetchDataProd() {
-            let listprod = (await allproduct(search, page)).data;
+            let listprod = (await allproduct(search, pageSelected)).data;
             setStateListProd(listprod.listProduct)
             setStatePageCount(listprod.productCount)
         }
-        if (search != state.search || page != state.page) {
-            setState({ search: search, page: page })
-            setTimeout(() => {
-                fetchDataProd();
-            }, 300)
-        }
-    }, [search, page])
-    let [stateIsLoad, setstateIsLoad] = useState(false)
-    let func = () => {
-        if (window.pageYOffset > 300 && !stateIsLoad) {
-            async function fetchDataProd() {
-                let listprod = (await allproduct(search, page)).data;
-                setStateListProd(listprod.listProduct)
-                setStatePageCount(listprod.productCount)
-            }
-            stateIsLoad = true
-            setTimeout(() => {
-                fetchDataProd();
-            }, 1500)
-        }
-    }
-    useEffect(() => {
-        window.addEventListener('scroll', func)
-        return () => window.removeEventListener('scroll', func)
-    }, [])
+        fetchDataProd();
+    }, [search, pageSelected])
+    // let [stateIsLoad, setstateIsLoad] = useState(false)
+    // let func = () => {
+    //     if (window.scrollY > 300 && !stateIsLoad) {
+    //         async function fetchDataProd() {
+    //             let listprod = (await allproduct(search, page)).data;
+    //             setStateListProd(listprod.listProduct)
+    //             setStatePageCount(listprod.productCount)
+    //         }
+    //         stateIsLoad = true
+    //         setTimeout(() => {
+    //             fetchDataProd();
+    //         }, 1500)
+    //     }
+    // }
+    // useEffect(() => {
+    //     window.addEventListener('scroll', func)
+    //     return () => window.removeEventListener('scroll', func)
+    // }, [])
     //them sau khi search se quay ve page1
     let navigate = useNavigate()
     let selectProduct = (id) => {
@@ -102,6 +96,11 @@ function Products() {
             )
         })
     }
+    console.log('imagePage', pageSelected)
+    /*sau khi dispatch sẽ reload function và sẽ hiển thị paganition với selectPage đã chọn và nó sẽ dc đặt vào DOM
+    nhưng lúc này vẫn chưa có những products tương ứng với pageSelect dc chọn do useEffect() chưa dc chạy
+    sau khi useEffect chạy và reload 1 lần nữa mới có data product tương ứng với pageSelect dc chọn
+    */
     return (
         <div className={cv('wrapper')}>
             <div className={cv('text-title')}>
@@ -113,101 +112,39 @@ function Products() {
             {statePageCount &&
                 <div className={cv('wrap-flex')}>
                     <PaginationProduct
-                        pageCount={statePageCount}
-                        select={page}
+                        totalProducts={statePageCount}
+                        selected={pageSelected}
                     />
                 </div>
             }
         </div>
     );
 }
-function PaginationProduct({ pageCount, select }) {
+function PaginationProduct({ totalProducts, selected }) {
     /*
     có thể thay đổi lại de tan dung load lại của function paren vi khi dispatch paren sẽ load lại và pagination cũng sẽ load lại
     co thể set Start và End ở function Paren
     hoac select ở function này +5 và -5
     */
-
-    let dispatch = useDispatch()
-    if (pageCount % 30 != 0) {
-        pageCount = (pageCount + (30 - (pageCount % 30)));
+    let dispatch = useDispatch();
+    let totalPage = Math.ceil(totalProducts / 30);
+    let pageStart = Math.max(selected - 5, 1);
+    let pageEnd = Math.min(totalPage, pageStart + 10)
+    if (10 + pageStart > totalPage) pageStart = Math.max(1, totalPage - 10)
+    let listPage = [];
+    for (let i = pageStart; i <= pageEnd; i++) {
+        if (i != selected)
+            listPage.push(<Pagination.Item onClick={() => dispatch(setPage(i))} >{i}</Pagination.Item>)
+        else listPage.push(<Pagination.Item active>{i}</Pagination.Item>)
     }
-    pageCount /= 30;
-    let stateStart = select - 5, stateEnd = select + 5;
-
-    if (stateStart < 1) {
-        stateStart = 1
-        stateEnd += Math.abs(select - 5) + 1
-
-    }
-    if (stateEnd > pageCount) {
-        stateStart = pageCount - 10;
-        stateEnd = pageCount
-    }
-    // let [stateStart, setStateStart] = useState(1);
-    // let [stateEnd, setStateEnd] = useState(pageCount > 11 ? 11 : pageCount);
-    let listPagination = () => {
-        let items = [];
-        for (let i = stateStart; i <= stateEnd; i++) {
-            if (i == select)
-                items.push(<Pagination.Item Style='background-color:rgba(225, 153, 153, 1)' onClick={() => { selectpage(i) }}>{i}</Pagination.Item>)
-            else {
-                items.push(<Pagination.Item onClick={() => { selectpage(i) }}>{i}</Pagination.Item>)
-            }
-        }
-        if (stateEnd != pageCount) {
-            items.push(<>
-                <Pagination.Ellipsis />
-                <Pagination.Item onClick={() => { selectpage(pageCount) }}>{pageCount}</Pagination.Item>
-            </>)
-        }
-        return items;
-    }
-    let selectpage = (select) => {
-        // let mid = Math.floor((stateEnd + stateStart) / 2);
-        // if (select > mid) {
-        //     let distance = (select - mid);
-        //     let nextPage = stateEnd + distance;
-        //     if (nextPage > pageCount) {
-        //         distance = pageCount - stateEnd;
-        //     }
-        //     setStateEnd(stateEnd + distance)
-        //     setStateStart(stateStart + distance)
-        // }
-        // else {
-        //     let distance = (mid - select);
-        //     let prePage = stateStart - distance;
-        //     if (prePage <= 0) distance = stateStart - 1
-        //     setStateStart(stateStart - distance)
-        //     setStateEnd(stateEnd - distance)
-        // }
-        dispatch(setPage(select))
-    }
-    let pageStart = () => {
-        // if (pageCount > 11) {
-        //     setStateStart(1)
-        //     setStateEnd(11)
-        // }
-        dispatch(setPage(1))
-    }
-    let pageEnd = () => {
-        // if (pageCount > 11) {
-        //     setStateStart(pageCount - 10)
-        //     setStateEnd(pageCount)
-        // }
-        dispatch(setPage(pageCount))
-
-    }
-    return (
-        <Pagination>
-            <Pagination.First onClick={pageStart} />
-            <Pagination.Prev />
-            {
-                listPagination()
-            }
-            <Pagination.Next />
-            <Pagination.Last onClick={pageEnd} />
-        </Pagination>
-    );
+    return <Pagination>
+        <Pagination.First onClick={() => dispatch(setPage(1))} />
+        <Pagination.Prev onClick={() => dispatch(setPage(Math.max(1, selected - 1)))} />
+        {pageStart > 1 ? <Pagination.Ellipsis /> : ''}
+        {listPage}
+        {pageEnd < totalPage ? <Pagination.Ellipsis /> : ''}
+        <Pagination.Next onClick={() => dispatch(setPage(Math.min(totalPage, selected + 1)))} />
+        <Pagination.Last onClick={() => dispatch(setPage(totalPage))} />
+    </Pagination>
 }
 export default Products;

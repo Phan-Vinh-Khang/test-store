@@ -6,9 +6,9 @@ import Button from 'react-bootstrap/Button';
 import { getcart } from '../../services/orders';
 import { useDispatch, useSelector } from 'react-redux';
 import { setlistOrder } from '../../redux/reduxOrder';
-import _, { cloneDeep } from 'lodash'
 import { useNavigate } from 'react-router-dom';
 import { REACT_APP_API_SERVER_URL } from '../../urlServer';
+import { isInteger, isNumber } from 'lodash';
 let cv = classNames.bind(objStyle);
 const url = REACT_APP_API_SERVER_URL;
 function WrapperCart() {
@@ -29,12 +29,12 @@ function WrapperCart() {
         let fetchData = async () => {
             try {
                 let data = await (await getcart()).data.listCart;
-                let arr = []
+                let arr = [];
                 for (let i = 0; i < data.length; i++) {
                     arr.push({ shop: false, checkQuantity: 0, listproduct: new Array(data[i].listproduct.length).fill(false) })
                 }
-                setStateChexkbox(arr)
-                setStateCart(data)
+                setStateChexkbox(arr);
+                setStateCart(data);
             }
             catch (e) {
                 console.log(e.response.data)
@@ -54,26 +54,12 @@ function WrapperCart() {
             setStateCart([...stateCart])
         }
     }
-    // let incrementByAmount = (e) => {
-    //         let number = Number(e.target.value);
-    //         let isNumber = Number.isSafeInteger(number)
-    //         if (isNumber) {
-    //             if (number > 0 && number <= stateProduct.quantity)
-    //                 setStateInput(number) //neu input a2 sẽ error
-    //             else {
-    //                 if (number > stateProduct.quantity)
-    //                     setStateInput(stateProduct.quantity)
-    //                 else
-    //                     setStateInput('')
-    //             }
-    //         }
-    //     }
     for (let i = 0; i < stateChexkbox.length; i++) {
         if (stateChexkbox[i].checkQuantity > 0) {
             stateBtn = false;
             break;
         }
-        stateBtn = true//
+        stateBtn = true
     }
     let selectall = (e) => {
         if (e.target.checked) {
@@ -90,6 +76,16 @@ function WrapperCart() {
             })
         }
         setStateChexkbox([...stateChexkbox])
+    }
+    let setInput = (i, z, input) => {
+        input = Number(input)
+        if (input > -1) {
+            if (input <= stateCart[i].listproduct[z].quantity)
+                stateCart[i].listproduct[z].cartQuantity = input;
+            else
+                stateCart[i].listproduct[z].cartQuantity = stateCart[i].listproduct[z].quantity;
+            setStateCart([...stateCart])
+        }
     }
     let selectshop = (e, i) => {
         if (e.target.checked) {
@@ -179,8 +175,9 @@ function WrapperCart() {
                                 <div className={cv('flex-block4', 'amount')}>
                                     <button onClick={() => decrement(i, z)}>-</button>
                                     <input
-                                        // onChange={(e) => incrementByAmount(e)}
+                                        onChange={({ target }) => setInput(i, z, target.value)}
                                         value={itemShop.cartQuantity}
+
                                     />
                                     <button onClick={() => increment(i, z)}>+</button>
                                 </div>

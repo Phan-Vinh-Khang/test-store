@@ -101,8 +101,8 @@ function Section1({ stateProduct }) {
     }
     let addcart = async (id, selectQuantity) => {
         try {
-            await addCart({ id, selectQuantity })
-            toast.success('đã thêm vào giỏ hàng', {
+            const { data } = await addCart({ id, selectQuantity })
+            toast.success(data.message, {
                 position: "top-right",
                 autoClose: 2000,
                 hideProgressBar: false,

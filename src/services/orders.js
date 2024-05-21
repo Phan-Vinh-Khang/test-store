@@ -14,9 +14,13 @@ async function getcart() {
 async function getorder() {
     return await axiosToken.get('api/getorder')
 }
+async function deleteCartAPI(listId) {
+    return await axiosToken.post('api/deletecart', { listId })
+}
 export {
     checkout,
     addCart,
     getcart,
     getorder,
+    deleteCartAPI
 }

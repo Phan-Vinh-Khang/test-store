@@ -8,11 +8,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setlistOrder } from '../../redux/reduxOrder';
 import { useNavigate } from 'react-router-dom';
 import { REACT_APP_API_SERVER_URL } from '../../urlServer';
-import { isInteger, isNumber } from 'lodash';
+import { deleteCartAPI } from '../../services/orders';
 let cv = classNames.bind(objStyle);
 const url = REACT_APP_API_SERVER_URL;
 function WrapperCart() {
     let [stateCart, setStateCart] = useState([])
+    let [stateRefresh, setStateRefresh] = useState(false)
     let [stateBtn, setStateBtn] = useState(true)
     let [stateChexkbox, setStateChexkbox] = useState([{}])
     let dispatch = useDispatch()
@@ -21,7 +22,7 @@ function WrapperCart() {
     })
     let navigate = useNavigate()
     let totalPrice = 0;
-    const formatter = new Intl.NumberFormat('en-US', {
+    const { format } = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'VND',
     });
@@ -41,7 +42,7 @@ function WrapperCart() {
             }
         }
         fetchData();
-    }, [])
+    }, [stateRefresh])
     let increment = (i, z) => {
         if (stateCart[i].listproduct[z].cartQuantity + 1 <= stateCart[i].listproduct[z].quantity) {
             stateCart[i].listproduct[z].cartQuantity++
@@ -87,6 +88,17 @@ function WrapperCart() {
             setStateCart([...stateCart])
         }
     }
+    let removeCart = async (listProduct) => {
+        let arr = listProduct.map((item) => {
+            return item.id;
+        })
+        try {
+            await deleteCartAPI(arr)
+            setStateRefresh(!stateRefresh)
+        } catch (e) {
+            console.log(e)
+        }
+    }
     let selectshop = (e, i) => {
         if (e.target.checked) {
             stateChexkbox[i].listproduct = new Array(stateChexkbox[i].listproduct.length).fill(true)
@@ -99,7 +111,6 @@ function WrapperCart() {
             stateChexkbox[i].checkQuantity = 0
         }
         setStateChexkbox([...stateChexkbox])
-
     }
     let selectlistproduct = (e, i, z) => {
         if (e.target.checked) {
@@ -143,8 +154,8 @@ function WrapperCart() {
                         onClick={(e) => { selectshop(e, i, item.shop.id) }}
                         Style='margin-right:12px' aria-label="option 1" />
                     <span className={cv('shopname')}>Yêu thích+</span>
-                    <span className={cv('shopname2')}>{item.shop.name}</span>
-
+                    <span Style='width:100%' className={cv('shopname2')}>{item.shop.name}</span>
+                    <i onClick={() => removeCart(stateCart[i].listproduct)} class="fa-solid fa-trash"></i>
                 </div>
                 {
                     item.listproduct.map((itemShop, z) => {
@@ -171,7 +182,7 @@ function WrapperCart() {
                                 </div>
                             </div>
                             <div className={cv('flex-block2')}>
-                                <div className={cv('block-text')}>{itemShop.price}</div>
+                                <div className={cv('block-text')}>{format(itemShop.price)}</div>
                                 <div className={cv('flex-block4', 'amount')}>
                                     <button onClick={() => decrement(i, z)}>-</button>
                                     <input
@@ -182,14 +193,11 @@ function WrapperCart() {
                                     <button onClick={() => increment(i, z)}>+</button>
                                 </div>
                                 <div className={cv('block-text')}>còn {itemShop.quantity} sản phẩm</div>
-                                <div className={cv('block-text')}>{itemShop.price * itemShop.cartQuantity}</div>
-                                <div>option</div>
+                                <div className={cv('block-text')}>{format(itemShop.price * itemShop.cartQuantity)}</div>
+                                <i onClick={() => removeCart([stateCart[i].listproduct[z]])} class="fa-solid fa-trash" />
                             </div>
-
                         </div>
-
                     })
-
                 }
                 <div>
                     <img Style='width:24px;height:20px;margin-right:4px'
@@ -225,8 +233,7 @@ function WrapperCart() {
                             Số Tiền
                         </div>
                         <div>
-                            Thao Tác
-
+                            Xóa
                         </div>
                     </div>
                 </div>
@@ -270,9 +277,6 @@ function WrapperCart() {
                             Chọn Tất Cả
                         </div>
                         <div className={cv('flex-block1')}>
-                            Xóa
-                        </div>
-                        <div className={cv('flex-block1')}>
                             lưu vào mục Đã thích
                         </div>
                     </div>
@@ -280,13 +284,12 @@ function WrapperCart() {
                         <div >Tổng thanh toán (0 Sản phẩm):
                         </div>
                         <div Style='margin-left:12px'>
-                            {formatter.format(totalPrice)}
+                            {format(totalPrice)}
                         </div>
                         <Button onClick={order}
                             disabled={stateBtn}
                             className={cv('btn-order')} variant="warning">Mua hàng</Button>{' '}
                     </div>
-
                 </div>
             </div>
         </div>

@@ -5,7 +5,9 @@ function MainLayout({ children }) {
     return (
         <div>
             <WrapperHeader></WrapperHeader>
-            <WrapperContent>{children}</WrapperContent>
+            <WrapperContent>
+                {children}
+            </WrapperContent>
             <Footer></Footer>
         </div>
     );

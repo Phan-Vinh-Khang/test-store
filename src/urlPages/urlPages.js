@@ -10,6 +10,7 @@ import WrapperUserShop from "../pages/userShop/wrapperUserShop"
 import WrapperCheckout from "../pages/checkout/wrapper"
 import WrapperCart from "../pages/cart/wrapper"
 import WrapperOrder from "../pages/order/wrapper"
+import WrapperProFile from "../pages/profile"
 //Layout website
 import MainLayout from "../layout/mainLayout" //layout header and footer
 import LoginLayout from "../layout/loginLayout" //layout header and footer
@@ -22,12 +23,12 @@ const urlPages = [
     },
     {
         path: '/Search',
-        element: <Search />,
+        element: Search,
         layout: MainLayout
     },
     {
         path: '/Following',
-        element: <Following />,
+        element: Following,
         layout: MainLayout
     },
     {
@@ -71,6 +72,11 @@ const urlPages = [
         element: WrapperOrder,
         layout: MainLayout
 
+    },
+    {
+        path: '/profile/*',
+        element: WrapperProFile,
+        layout: MainLayout
     },
     {
         path: '*',

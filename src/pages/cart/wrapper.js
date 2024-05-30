@@ -12,6 +12,12 @@ import { deleteCartAPI } from '../../services/orders';
 let cv = classNames.bind(objStyle);
 const url = REACT_APP_API_SERVER_URL;
 function WrapperCart() {
+    let isLogin = useSelector((state) => {
+        return state.dataLogged
+    })
+    if (JSON.stringify(isLogin) == '{}') {
+        window.location.href = '/login'
+    }
     let [stateCart, setStateCart] = useState([])
     let [stateRefresh, setStateRefresh] = useState(false)
     let [stateBtn, setStateBtn] = useState(true)
@@ -93,8 +99,10 @@ function WrapperCart() {
             return item.id;
         })
         try {
-            await deleteCartAPI(arr)
-            setStateRefresh(!stateRefresh)
+            if (window.confirm(`Bạn muốn xóa ${arr.length > 1 ? `${arr.length} sản phẩm? ` : `'${listProduct[0].name}'?`}`)) {
+                await deleteCartAPI(arr)
+                setStateRefresh(!stateRefresh)
+            }
         } catch (e) {
             console.log(e)
         }

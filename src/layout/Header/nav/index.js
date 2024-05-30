@@ -14,16 +14,22 @@ function NavHeader() {
     let cv = classNames.bind(objStyle)
     let cv2 = classNames.bind(objGlobalStyle)
     let dispatch = useDispatch();
+    let navigate = useNavigate()
     let userLogged = useSelector((state) => {
         return state.dataLogged;
     })
     let Logout = async () => {
-        await LogoutAuth();
-        localStorage.setItem('access_token', '')
-        dispatch(setLoginReducer())
+        try {
+            await LogoutAuth();
+            localStorage.setItem('access_token', '')
+            dispatch(setLoginReducer())
+            window.location.href = '/'
+        } catch (e) {
+            alert(e)
+        }
     }
+
     const userExist = Object.keys(userLogged).length;
-    let navigate = useNavigate()
     return (
         <div className={cv('wrapper-nav')}>
             <div className={cv('content-nav1')}>
@@ -57,17 +63,17 @@ function NavHeader() {
                     Tiếng Việt
                 </span>
                 {
-                    (userExist > 1) ? (
+                    (userExist > 0) ? (
                         <Tippy
                             interactive
                             delay={[null, 50]}
                             render={attrs => (
                                 <div className={cv2('showbox') + ' ' + cv('pd-5-10')}>
-                                    <div>Tài khoản của tôi</div>
-                                    <div onClick={() => { navigate('/order') }}>Đơn mua</div>
-                                    <div onClick={Logout}>Đăng xuất
+                                    <a href='/profile'>Tài khoản của tôi</a>
+                                    <a href='/profile/purchase'>Đơn mua</a>
+                                    <a href='javascript:void(0);' onClick={Logout}>Đăng xuất
                                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                                    </div>
+                                    </a>
                                 </div>
                             )}
                         >

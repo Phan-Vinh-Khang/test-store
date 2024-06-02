@@ -5,7 +5,7 @@ function WrapperContent({ children }) {
     const Element = children;
     return (
         <div className={cv('wrapper')}>
-            {children()}
+            <Element />
         </div>
     );
 }

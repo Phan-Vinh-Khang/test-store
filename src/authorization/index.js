@@ -3,7 +3,6 @@ let access_token = localStorage.getItem('access_token')
 function Authorization() {
     if (access_token) {
         const isAdmin = jwtDecode(access_token);
-        console.log(isAdmin)
         if (isAdmin.roleid < 3) return true;
         else return false;
     }

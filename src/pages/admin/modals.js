@@ -17,7 +17,6 @@ function ModalInput({ reloadData, listRole, ...obj }) {
         roleid: '',
         fileNameUid: ''
     });
-    console.log(stateInput)
     let [stateFile, setStateFile] = useState({})
     let setInput = async (label, e) => {
         let input = e.target.value;

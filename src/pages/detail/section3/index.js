@@ -10,7 +10,6 @@ import { REACT_APP_API_SERVER_URL } from '../../../urlServer';
 let cv = classNames.bind(objStyle);
 const url = REACT_APP_API_SERVER_URL + 'img/products/'
 function Section3({ stateProduct }) {
-    console.log('a', stateProduct)
     return (
         <div className={cv('section-3')}>
             <div className={cv('des-title')}>

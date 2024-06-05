@@ -26,7 +26,6 @@ const processQueue = (error) => {
     requestQueue.forEach(item => {
         if (!error) item.resolve();
         else item.reject(error);
-        console.log('process2')
     });
     requestQueue = [];
 };
@@ -47,7 +46,6 @@ axiosToken.interceptors.response.use(
                     //đến khi resolve() hoặc reject() dc call thì function Promise() mới kết thúc quá trình thực thi và return về data và sau đó sẽ thực thi data.then() hoặc data.catch()
                     //lúc resolve() hoặc reject() dc call thì đã có newToken rồi
                     //mỗi lần call function sẽ như new 1 function mới với cùng 1 define chứ ko thực thi trên cùng 1 function
-                    console.log(a, 'process')
                     return axiosToken(error.config);
                 } catch (err) {
                     processQueue(err);
@@ -57,12 +55,10 @@ axiosToken.interceptors.response.use(
                 }
             } else {
                 let a;
-                return a = new Promise((resolve, reject) => {
-                    console.log('promise')
+                return new Promise((resolve, reject) => {
                     requestQueue.push({ resolve, reject });
                     //phải call 1 trong 2 function resolve hoặc reject thì function Promise() mới kết thúc quá trình thực thi và return về data
                 }).then(() => {//tham số của callback trong function then() sẽ reference vào đối số resolve() return
-                    console.log(a, 'resolve')
                     // error.config.headers['Authorization'] = 'Bearer ' + token;
                     return axiosToken(error.config);
                 }).catch(err => {

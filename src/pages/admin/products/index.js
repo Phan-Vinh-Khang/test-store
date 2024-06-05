@@ -173,7 +173,6 @@ function AddProductModal({ className, reloadData, listType }) {
         fileNameUid: '',
         typeprodid: ''
     });
-    console.log(stateInput)
     let [stateFile, setStateFile] = useState({})
     let setInput = async (label, e, type = false) => {
         let input = e.target.value;

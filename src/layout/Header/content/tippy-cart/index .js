@@ -28,7 +28,6 @@ function TippyCart() {
         style: 'currency',
         currency: 'VND',
     });
-    console.log(stateCart)
     var listCart = () => {
         return <>
             <div className={cv('name')}>

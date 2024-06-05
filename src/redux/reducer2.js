@@ -7,7 +7,6 @@ export const reducer = createSlice({
     initialState: dataStateWeb,//chỉ ref dc đến obj?
     reducers: { //tuong tu action.type
         unStickyHeader: (state, action) => { //chính tên func này sẽ là type nếu như trong reducer cu
-            console.log(action)
             state.checkStickyHeader = false
         },
         StickyHeader: (state) => {

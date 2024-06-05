@@ -40,7 +40,6 @@ function TableBootstrap({
     let unSelect = () => {
         setState({})
     }
-    console.log(state.dataInput)
     let getDataInput = (label, e) => {
         let input = e.target.value
         state.dataInput[label] = input
@@ -57,8 +56,6 @@ function TableBootstrap({
             disabledButton: false
         })
     }
-    console.log(state.dataInput)
-
     let checkedbox = (e, id) => {
         if (e.target.checked) {
             stateChecked.add(id); //khi add vào k cần reload, khi add sẽ add vào datastatic,value o datastatic se có

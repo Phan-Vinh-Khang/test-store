@@ -10,7 +10,6 @@ const initstate = {
     }
 };
 const rootReducer = (state = initstate, action) => {
-    console.log('test: ', state, action)
     switch (action.type) {
         case 'login':
             return {

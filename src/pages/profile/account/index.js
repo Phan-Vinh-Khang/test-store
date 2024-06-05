@@ -16,7 +16,6 @@ function AccoutManagment() {
         return state;
     });
     let email = maskEmail(user.email);
-    console.log(state, 'state')
     return (
         <div className={cv('container')}>
             <div className={cv('title-account')}>

@@ -50,7 +50,6 @@ function AdminUser() {
         if (window.confirm('Bạn muốn sửa người dùng ' + stateDataUsers.listUser[selectedRow].email + '?\n\n')) {
             try {//su dụng try catch khi return ve client obj err (status 400,403,409) se su dung dc obj err ở catch (var e sẽ ref vào obj err)
                 //su dung e.response.data de ref vao data server return ve (thong thuong neu ko co loi se su dung obj.data nhung neu co loi obj server return ve se dc var propertoes response ref vao)
-                console.log(state.dataInput)
                 await updateUser(id, state.dataInput)
                 if (state.dataInput.fileNameUid != null) {
                     await uploadAvatar(stateFile, state.dataInput.fileNameUid)
@@ -83,7 +82,6 @@ function AdminUser() {
             }, 1000);
         }
     }
-    console.log(stateDataUsers.listUser)
     const arrListRole = stateDataUsers.listRole.map((obj) => {
         return obj.name
     })

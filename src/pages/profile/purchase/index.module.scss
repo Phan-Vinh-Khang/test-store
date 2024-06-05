@@ -1,6 +1,11 @@
 .setWidth {
     width: 100%;
     min-width: 80%;
+
+    .center-block {
+        display: flex;
+        justify-content: center;
+    }
 }
 
 .distance {

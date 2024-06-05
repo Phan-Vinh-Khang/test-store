@@ -11,5 +11,12 @@
 
     .form-container {
         padding: 20px 0px;
+        display: inline-block;
+        text-align: right;
+    }
+
+    .align-last-block {
+        width: auto;
+        text-align: center;
     }
 }

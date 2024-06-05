@@ -69,8 +69,8 @@ function NavHeader() {
                             delay={[null, 50]}
                             render={attrs => (
                                 <div className={cv2('showbox') + ' ' + cv('pd-5-10')}>
-                                    <a href='/profile'>Tài khoản của tôi</a>
-                                    <a href='/profile/purchase'>Đơn mua</a>
+                                    <Link to='/profile'>Tài khoản của tôi</Link>
+                                    <Link to='/profile/purchase'>Đơn mua</Link>
                                     <a href='javascript:void(0);' onClick={Logout}>Đăng xuất
                                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
                                     </a>

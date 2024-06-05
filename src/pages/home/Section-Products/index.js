@@ -37,11 +37,11 @@ function Products() {
         if (isLoading) {
             setTimeout(() => {
                 fetchDataProd();
-            }, 1000)
+            }, 200)
         }
     }, [search, pageSelected])
     let funcScrollEvent = () => {
-        if (window.scrollY >= 250 && !isLoading) {
+        if (window.scrollY >= 250 && !isLoading && !stateListProd[0].id) {
             let fetchDataProd = async () => {
                 let data = await allproduct(search, pageSelected)
                 setStateListProd(data.data.listProduct)
@@ -57,15 +57,12 @@ function Products() {
         window.addEventListener('scroll', funcScrollEvent)
         return () => window.removeEventListener('scroll', funcScrollEvent)
     })
-    let navigate = useNavigate()
-    let selectProduct = (id) => {
-        navigate(`/DetailProduct/${id}`)
-    }
     let listProduct = () => {
         return stateListProd.map((item, i) => {
             return (
-                <div key={i} onClick={() => selectProduct(item.id)} className={cv('wrap-product')}>
+                <a href={'/DetailProduct/' + item.id} key={i} className={cv('wrap-product')}>
                     {(item.id && <img
+                        alt='product'
                         className={cv('image-product')}
                         src={url + 'img/products/' + item.image}
                     />) || <Skeleton className={cv('image-product')} />}
@@ -89,7 +86,7 @@ function Products() {
                             }
                         </div>
                     </div>
-                </div>
+                </a>
             )
         })
     }

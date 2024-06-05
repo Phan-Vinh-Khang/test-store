@@ -8,21 +8,26 @@ import _, { cloneDeep } from 'lodash'
 import { useNavigate } from 'react-router-dom';
 import { REACT_APP_API_SERVER_URL } from '../../../urlServer';
 import { getorder } from '../../../services/orders';
+import { ThreeDots } from 'react-loader-spinner';
 let cv = classNames.bind(objStyle);
 const url = REACT_APP_API_SERVER_URL;
 function WrapperPurchase() {
     let [stateListOrder, setStateListOrder] = useState();
+    let [stateLoading, setStateLoading] = useState(true);
     useEffect(() => {
         let fetchData = async () => {
             try {
                 let data = (await getorder()).data.data;
-                setStateListOrder(data)
+                setStateListOrder(data);
+                setStateLoading(false);
             }
             catch (e) {
                 console.log(e.response.data)
             }
         }
-        fetchData();
+        setTimeout(() => {
+            fetchData();
+        }, 50)
     }, [])
     const listOrder = () => {
         return (
@@ -113,6 +118,16 @@ function WrapperPurchase() {
                     <i class="fa-solid fa-magnifying-glass fa-lg" Style="color: #9baac5;"></i>
                     <input placeholder='Tìm sản phẩm tại đây' className={cv('search-purchase')}></input>
                 </div>
+            </div>
+            <div className={cv('center-block')}>
+                <ThreeDots
+                    visible={stateLoading}
+                    height="80"
+                    width="80"
+                    color="#ee4d2d"
+                    radius="9"
+                    ariaLabel="three-dots-loading"
+                />
             </div>
             {listOrder()}
         </div>

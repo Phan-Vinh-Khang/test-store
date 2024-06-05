@@ -6,18 +6,12 @@ export const reducer = createSlice({
         setLoginReducer: (state, action) => {//state o function này sẽ ref vào initialState
             if (action.payload == undefined)//ko có data để ref vào thì logout
                 return {}
-            const {
-                name,
-                email,
-                image,
-                adress,
-                iscollab
-            } = action.payload
-            state.name = name
-            state.email = email
-            state.image = image
-            state.adress = adress
-            state.iscollab = iscollab
+
+            // Object.assign(state, action.payload)//gán data vào state
+            state = { ...action.payload }
+            console.log(state);
+
+            return state;
         },
     } //export properties ref den func trong var reducer ra để sử dụng trong func dispatch
 })

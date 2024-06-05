@@ -54,16 +54,23 @@
                 justify-content: space-between;
 
                 .price-item {
+                    min-width: 60%;
+                    width: 60%;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    white-space: nowrap;
                     font-size: 1rem;
                     color: rgb(238, 77, 45);
                 }
 
                 .sold-amount {
+                    white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
-                    color: rgba(0, 0, 0, .54)
+                    color: rgba(0, 0, 0, .54);
+                    font-size: .8rem;
+                    text-align: center;
+                    margin-top: auto
                 }
             }
         }

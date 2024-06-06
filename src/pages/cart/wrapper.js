@@ -24,7 +24,7 @@ function WrapperCart() {
     let [stateChexkbox, setStateChexkbox] = useState([{}])
     let dispatch = useDispatch()
     let listorder = useSelector((state) => {
-        return state.listOrder.listOrder
+        return state.listOrder
     })
     let navigate = useNavigate()
     let totalPrice = 0;

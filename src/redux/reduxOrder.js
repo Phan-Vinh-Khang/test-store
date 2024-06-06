@@ -7,8 +7,8 @@ export const redux = createSlice({
     initialState: JSON.parse(sessionStorage.getItem('listOrder')),
     reducers: { //1  object de ref vao init
         setlistOrder: (state, action) => {
-            state.listOrder = action.payload
             sessionStorage.setItem('listOrder', JSON.stringify({ listOrder: action.payload }))
+            return action.payload;
         }
     }
 })

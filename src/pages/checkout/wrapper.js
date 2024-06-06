@@ -18,7 +18,7 @@ function WrapperCheckout() {
         return state.dataLogged
     })
     let listOrder = useSelector((state) => {
-        return state.listOrder.listOrder;
+        return state.listOrder;
     })
     useEffect(() => {
         if (listOrder.length == 0)

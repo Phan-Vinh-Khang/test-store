@@ -17,10 +17,10 @@ function Products() {
     let [stateListProd, setStateListProd] = useState(new Array(30).fill({}));
     let [stateTotalProducts, setStateTotalProducts] = useState(0);
     let search = useSelector((state) => {
-        return state.search.data;
+        return state.search;
     })
     let pageSelected = useSelector((state) => {
-        return state.page.page;
+        return state.page;
     })
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',

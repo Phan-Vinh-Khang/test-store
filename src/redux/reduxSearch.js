@@ -4,11 +4,11 @@ if (!sessionStorage.getItem('search')) {
 }
 export const redux = createSlice({
     name: 'reduxSearch',
-    initialState: { data: sessionStorage.getItem('search') },
+    initialState: sessionStorage.getItem('search'),
     reducers: {
         setSearch: (state, action) => {
-            state.data = action.payload
             sessionStorage.setItem('search', action.payload)
+            return action.payload;
         }
     }
 })

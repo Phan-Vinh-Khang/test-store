@@ -4,11 +4,12 @@ if (!sessionStorage.getItem('page')) {
 }
 export const redux = createSlice({
     name: 'reduxPages',
-    initialState: { page: sessionStorage.getItem('page') },
+    initialState: sessionStorage.getItem('page'),
     reducers: {
         setPage: (state, action) => {
-            state.page = action.payload
+
             sessionStorage.setItem('page', action.payload)
+            return action.payload;
         }
     }
 })

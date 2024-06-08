@@ -67,6 +67,9 @@ function ContentHeader() {
                     <Select
                         value={selectedOption}
                         onChange={(data, action) => {
+                            if (idTimeout) {
+                                clearTimeout(idTimeout);
+                            }
                             console.log(data, 'data')
                             setSelectedOption(data)
                             dispatch(setSearch(data.value))
@@ -76,17 +79,25 @@ function ContentHeader() {
                         placeholder='Tìm sản phẩm...'
                         noOptionsMessage={({ inputValue }) => {
                             console.log(inputValue)//function này chỉ thực thi khi nhập input,set-value sẽ ko thực thi function này
+                            if (idTimeout) {
+                                clearTimeout(idTimeout);
+                            }
+
+                            idTimeout = setTimeout(() => {
+                                dispatch(setSearch(inputValue))
+                            }, 250)
+
                             return null
                         }}
                         onInputChange={(inputValue, { action, prevInputValue }) => {
-                            if (idTimeout && (action == 'input-change' || action == 'set-value')) {
-                                clearTimeout(idTimeout);
-                            }
-                            if (action == 'input-change') {
-                                idTimeout = setTimeout(() => {
-                                    dispatch(setSearch(inputValue))
-                                }, 250)
-                            }
+                            // if (idTimeout && (action == 'input-change' || action == 'set-value')) {
+                            //     clearTimeout(idTimeout);
+                            // }
+                            // if (action == 'input-change') {
+                            //     idTimeout = setTimeout(() => {
+                            //         dispatch(setSearch(inputValue))
+                            //     }, 250)
+                            // }
                             if (action == 'menu-close' && prevInputValue) {
                                 const exist = options.some(({ value }) => { return value == prevInputValue; })
                                 if (!exist) {

@@ -22,9 +22,9 @@ axiosToken.interceptors.request.use(
 let isRefreshing = false;
 let requestQueue = [];
 
-const processQueue = (error) => {
+const processQueue = (error, newToken = null) => {
     requestQueue.forEach(item => {
-        if (!error) item.resolve();
+        if (!error) item.resolve(newToken);
         else item.reject(error);
     });
     requestQueue = [];
@@ -42,24 +42,29 @@ axiosToken.interceptors.response.use(
                     localStorage.setItem('access_token', newToken);
                     axiosToken.defaults.headers.common['Authorization'] = 'Bearer ' + newToken;
                     error.config.headers['Authorization'] = 'Bearer ' + newToken;
-                    let a = processQueue(null);
+                    let a = processQueue(null, newToken);
                     //đến khi resolve() hoặc reject() dc call thì function Promise() mới kết thúc quá trình thực thi và return về data và sau đó sẽ thực thi data.then() hoặc data.catch()
                     //lúc resolve() hoặc reject() dc call thì đã có newToken rồi
                     //mỗi lần call function sẽ như new 1 function mới với cùng 1 define chứ ko thực thi trên cùng 1 function
                     return axiosToken(error.config);
                 } catch (err) {
-                    processQueue(err);
+                    processQueue(err, null);
                     return Promise.reject(err);
                 } finally {
                     isRefreshing = false;
                 }
             } else {
-                let a;
                 return new Promise((resolve, reject) => {
                     requestQueue.push({ resolve, reject });
                     //phải call 1 trong 2 function resolve hoặc reject thì function Promise() mới kết thúc quá trình thực thi và return về data
-                }).then(() => {//tham số của callback trong function then() sẽ reference vào đối số resolve() return
-                    // error.config.headers['Authorization'] = 'Bearer ' + token;
+                    //khi call resolve hoặc reject ở bất cứ đâu thì nó function Promise() của nó cũng sẽ dc return
+                    /*
+                    có thể define function Promise() có 1 obj={} và define function resolve cũng có 1 obj2=obj1={}
+                    và cả 2 đều reference vào cùng 1 obj,khi call resolve obj2 sẽ reference thêm hoac thay đổi data thì obj1 ở define function Promise
+                    cũng thay đổi
+                    */
+                }).then((newToken) => {//tham số của callback trong function then() sẽ reference vào đối số resolve() return
+                    error.config.headers['Authorization'] = 'Bearer ' + newToken;
                     return axiosToken(error.config);
                 }).catch(err => {
                     return Promise.reject(err);

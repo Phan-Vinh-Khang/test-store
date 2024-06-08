@@ -14,7 +14,6 @@ function NavHeader() {
     let cv = classNames.bind(objStyle)
     let cv2 = classNames.bind(objGlobalStyle)
     let dispatch = useDispatch();
-    let navigate = useNavigate()
     let userLogged = useSelector((state) => {
         return state.dataLogged;
     })

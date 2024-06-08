@@ -12,7 +12,7 @@ function WrapperHeader() {
     })
     return (
         <div className={checkStickyHeader ? cv('wrapper') + ' ' + cv('stickyHeader') : cv('wrapper')}>
-            <div className={cv('wrapper-center')}>
+            <div style={{ width: '75%' }}>
                 <NavHeader></NavHeader>
                 <ContentHeader></ContentHeader>
             </div>

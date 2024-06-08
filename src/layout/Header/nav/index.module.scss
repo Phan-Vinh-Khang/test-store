@@ -1,9 +1,9 @@
 .wrapper-nav {
     display: flex;
     justify-content: space-between;
-    font-size: 0.9vw;
-    padding-top: 3px;
-    padding-bottom: 10px;
+    font-size: .8rem;
+    padding-top: .1875rem;
+    padding-bottom: .625rem;
 
     a {
         width: 100%;
@@ -14,7 +14,7 @@
 
     span {
         color: whitesmoke;
-        padding: 0px 5px;
+        padding: 0rem .3125rem;
     }
 
     span:hover {
@@ -22,15 +22,15 @@
     }
 
     span>i {
-        margin-right: 3px;
+        margin-right: .1875rem;
     }
 
     .user {
         cursor: pointer;
 
         .avatar {
-            width: 25px;
-            height: 25px;
+            width: 1.5625rem;
+            height: 1.5625rem;
             border-radius: 50%;
             border: 1px solid rgba($color: (
                     #000000),
@@ -64,6 +64,6 @@
     }
 
     >div {
-        padding: 2px 0px;
+        padding: .125rem 0rem;
     }
 }

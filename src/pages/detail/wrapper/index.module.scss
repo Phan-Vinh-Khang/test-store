@@ -1,20 +1,18 @@
 .wrapper {
     width: 75vw;
 
+    /* Assuming the base font size is 1rem = 16px */
+
     .title-path {
-        padding: 15px 0px;
+        padding: 0.9375rem 0;
+        /* 15px / 16px = 0.9375rem */
         font-size: 0.8125rem;
         color: #05a;
-
     }
 
     span>i {
         color: gray;
-        padding: 0px 4px;
-    }
-
-    .wrap-content {
-        height: 500vh;
-
+        padding: 0 0.25rem;
+        /* 4px / 16px = 0.25rem */
     }
 }

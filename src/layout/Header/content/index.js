@@ -8,7 +8,13 @@ import TippyCart from './tippy-cart/index ';
 import { useDispatch } from 'react-redux';
 import { setSearch } from '../../../redux/reduxSearch';
 import { setPage } from '../../../redux/reduxPages';
+import Select from 'react-select';
+import { set, values } from 'lodash';
+import { isActionAllowed } from 'redux-state-sync';
+const options = [];
+let checkLoadPage = true;
 function ContentHeader() {
+    const [selectedOption, setSelectedOption] = useState(null);
     let cv = classNames.bind(objStyle)
     let cv2 = classNames.bind(objGlobalStyle)
     const [stateVisible, setStateVisible] = useState(false);
@@ -20,13 +26,18 @@ function ContentHeader() {
     let setInput = (e) => {
         setStateSearch(e.target.value);
     }
-    useEffect(() => {
-        let timeout = setTimeout(() => {
-            dispatch(setSearch(stateSearch))
-            dispatch(setPage(1))
-        }, 500)
-        return () => clearTimeout(timeout)
-    }, [stateSearch])
+    // useEffect(() => {
+    //     let timeout = setTimeout(() => {
+    //         dispatch(setSearch(stateSearch))
+    //         if (checkLoadPage) {//có thể sử dụng useRef()
+    //             checkLoadPage = false;
+    //         } else {
+    //             dispatch(setPage(1))
+    //         }
+
+    //     }, 500)
+    //     return () => clearTimeout(timeout)
+    // }, [stateSearch])
     let searchBtn = () => {
         if (stateSearch != '') {
             const isExistSearch = listSearch.indexOf(stateSearch)
@@ -40,6 +51,8 @@ function ContentHeader() {
             localStorage.setItem('listSearch', JSON.stringify(listSearch))
         }
     }
+    console.log('reLoadSelectOption')
+    let idTimeout = null;
     return (
         <div className={cv('wrapper-header')}>
             <div className={cv('wrapper-logo')}>
@@ -50,7 +63,42 @@ function ContentHeader() {
             </div>
 
             <div className={cv('wrapper-searchbar')}>
-                <Tippy
+                <div style={{ width: '100%' }}>
+                    <Select
+                        value={selectedOption}
+                        onChange={(data, action) => {
+                            console.log(data, 'data')
+                            setSelectedOption(data)
+                            dispatch(setSearch(data.value))
+                            // setState là 1 define function,khi call setSate() thì nó mới call và thực thi
+                        }}
+                        options={options}
+                        placeholder='Tìm sản phẩm...'
+                        noOptionsMessage={({ inputValue }) => {
+                            console.log(inputValue)//function này chỉ thực thi khi nhập input,set-value sẽ ko thực thi function này
+                            return null
+                        }}
+                        onInputChange={(inputValue, { action, prevInputValue }) => {
+                            if (idTimeout && (action == 'input-change' || action == 'set-value')) {
+                                clearTimeout(idTimeout);
+                            }
+                            if (action == 'input-change') {
+                                idTimeout = setTimeout(() => {
+                                    dispatch(setSearch(inputValue))
+                                }, 250)
+                            }
+                            if (action == 'menu-close' && prevInputValue) {
+                                const exist = options.some(({ value }) => { return value == prevInputValue; })
+                                if (!exist) {
+                                    options.push({ value: prevInputValue, label: prevInputValue })
+                                }
+                            }
+                        }}
+                    // isSearchable
+                    // noOptionsMessage={() => { return 'Không có kết quả nào' }}
+                    />
+                </div>
+                {/* <Tippy
                     visible={stateVisible}
                     onClickOutside={hide}
                     interactive
@@ -74,7 +122,7 @@ function ContentHeader() {
                             setStateVisible(!stateVisible)
                         }
                     }} value={stateSearch} onChange={(e) => setInput(e)} onClick={hide} type='text' placeholder='Đăng ký và nhận voucher bạn mới đến 70k!' ></input>
-                </Tippy>
+                </Tippy> */}
                 <span onClick={searchBtn}>
                     <i class="fa-solid fa-magnifying-glass" Style="color: #eceff3;"></i>
                 </span>

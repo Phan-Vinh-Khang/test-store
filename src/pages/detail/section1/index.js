@@ -167,7 +167,7 @@ function Section1({ stateProduct }) {
                         <div>
                             <span className={cv('price-pre-discount')}>
                                 {formatter.format(stateProduct.product?.price)}</span>
-                            <span Style='font-weight: 500;'>
+                            <span style={{ fontWeight: '500' }}>
                                 {formatter.format(stateProduct.product?.price - (stateProduct.product?.price / 100 * stateProduct.product?.discount))}
                             </span>
                             <span className={cv('discount')}> -{stateProduct.product?.discount}%</span>

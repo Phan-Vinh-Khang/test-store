@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { reFreshToken } from "./userServices";
 import { REACT_APP_API_SERVER_URL } from "../urlServer";
 const axiosToken = axios.create({
@@ -10,6 +10,10 @@ const axios2 = axios.create({
 axiosToken.interceptors.request.use(
     async (config) => {
         const access_token = localStorage.getItem('access_token')
+        if (!access_token) return Promise.reject('token is not exist');
+        /*nếu Promise.reject() dc thực thi sẽ nó sẽ ko gửi API nữa và
+        interceptor.response sẽ dc call và sẽ nhận dc Promise.reject('token is not exist') trong interceptor.response
+        */
         config.headers.Authorization = `Bearer ${access_token}`;
         config.headers['Content-Type'] = 'application/json';
         return config;
@@ -48,6 +52,11 @@ axiosToken.interceptors.response.use(
                     //mỗi lần call function sẽ như new 1 function mới với cùng 1 define chứ ko thực thi trên cùng 1 function
                     return axiosToken(error.config);
                 } catch (err) {
+                    /*
+                    nếu token ở cookie hết hạn hoặc ko chính xác thì vẫn sẽ vào catch và 
+                    call processQueue(err, null) function Promise dc return
+                    nếu Promise() dc return ko error sẽ vào .then nếu error sẽ vào .catch
+                    */
                     processQueue(err, null);
                     return Promise.reject(err);
                 } finally {
@@ -74,28 +83,6 @@ axiosToken.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-
-// let isRefreshing = false;
-// axiosToken.interceptors.response.use(
-//     (response) => {
-//         return response;
-//     },
-//     async (error) => {
-//         const originalRequest = error.config;
-//         if (error.response.status === 401) { //access token het han hoac ko hop le
-//             try {
-//                 const newToken = (await reFreshToken()).data; // Hàm gọi API để lấy access token mới
-//                 localStorage.setItem('access_token', newToken)
-//                 return axiosToken(originalRequest);
-//             }
-//             catch (e) {
-//                 return Promise.reject(error);
-//             }
-//         }
-
-//         return Promise.reject(error);
-//     }
-// );
 export default axiosToken
 export {
     axiosToken,

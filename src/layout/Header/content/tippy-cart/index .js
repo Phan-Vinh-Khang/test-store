@@ -11,7 +11,7 @@ function TippyCart() {
     useEffect(() => {
         let fetchData = async () => {
             try {
-                let data = await (await getcart()).data.listCart;
+                let data = (await getcart()).data.listCart;
                 let arr = []
                 for (let i = 0; i < data.length; i++) {
                     arr.push({ shop: false, checkQuantity: 0, listproduct: new Array(data[i].listproduct.length).fill(false) })
@@ -19,7 +19,7 @@ function TippyCart() {
                 setStateCart(data)
             }
             catch (e) {
-                console.log(e.response.data)
+                console.log(e)
             }
         }
         fetchData();

@@ -11,10 +11,12 @@ import { setPage } from '../../../redux/reduxPages';
 import Select from 'react-select';
 import { set, values } from 'lodash';
 import { isActionAllowed } from 'redux-state-sync';
-const options = [];
+const options = [
+    { value: 'all', label: 'Tất cả danh mục' },
+    { value: '1', label: 'Điện thoại' }]
 let checkLoadPage = true;
 function ContentHeader() {
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [stateInput, setStateInput] = useState(null);
     let cv = classNames.bind(objStyle)
     let cv2 = classNames.bind(objGlobalStyle)
     const [stateVisible, setStateVisible] = useState(false);
@@ -51,7 +53,7 @@ function ContentHeader() {
             localStorage.setItem('listSearch', JSON.stringify(listSearch))
         }
     }
-    console.log('reLoadSelectOption')
+    console.log('reload')
     let idTimeout = null;
     return (
         <div className={cv('wrapper-header')}>
@@ -64,50 +66,7 @@ function ContentHeader() {
 
             <div className={cv('wrapper-searchbar')}>
                 <div style={{ width: '100%' }}>
-                    <Select
-                        value={selectedOption}
-                        onChange={(data, action) => {
-                            if (idTimeout) {
-                                clearTimeout(idTimeout);
-                            }
-                            console.log(data, 'data')
-                            setSelectedOption(data)
-                            dispatch(setSearch(data.value))
-                            // setState là 1 define function,khi call setSate() thì nó mới call và thực thi
-                        }}
-                        options={options}
-                        placeholder='Tìm sản phẩm...'
-                        noOptionsMessage={({ inputValue }) => {
-                            console.log(inputValue)//function này chỉ thực thi khi nhập input,set-value sẽ ko thực thi function này
-                            if (idTimeout) {
-                                clearTimeout(idTimeout);
-                            }
 
-                            idTimeout = setTimeout(() => {
-                                dispatch(setSearch(inputValue))
-                            }, 250)
-
-                            return null
-                        }}
-                        onInputChange={(inputValue, { action, prevInputValue }) => {
-                            // if (idTimeout && (action == 'input-change' || action == 'set-value')) {
-                            //     clearTimeout(idTimeout);
-                            // }
-                            // if (action == 'input-change') {
-                            //     idTimeout = setTimeout(() => {
-                            //         dispatch(setSearch(inputValue))
-                            //     }, 250)
-                            // }
-                            if (action == 'menu-close' && prevInputValue) {
-                                const exist = options.some(({ value }) => { return value == prevInputValue; })
-                                if (!exist) {
-                                    options.push({ value: prevInputValue, label: prevInputValue })
-                                }
-                            }
-                        }}
-                    // isSearchable
-                    // noOptionsMessage={() => { return 'Không có kết quả nào' }}
-                    />
                 </div>
                 {/* <Tippy
                     visible={stateVisible}

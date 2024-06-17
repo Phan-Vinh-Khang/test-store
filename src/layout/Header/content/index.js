@@ -7,54 +7,14 @@ import Tippy from '@tippyjs/react/headless';
 import TippyCart from './tippy-cart/index ';
 import { useDispatch } from 'react-redux';
 import { setSearch } from '../../../redux/reduxSearch';
-import { setPage } from '../../../redux/reduxPages';
 import Select from 'react-select';
-import { set, values } from 'lodash';
-import { isActionAllowed } from 'redux-state-sync';
-const options = [
-    { value: 'all', label: 'Tất cả danh mục' },
-    { value: '1', label: 'Điện thoại' }]
-let checkLoadPage = true;
+let cv = classNames.bind(objStyle)
+let cv2 = classNames.bind(objGlobalStyle)
+const options = storage('getItem', 'search')
 function ContentHeader() {
-    const [stateInput, setStateInput] = useState(null);
-    let cv = classNames.bind(objStyle)
-    let cv2 = classNames.bind(objGlobalStyle)
-    const [stateVisible, setStateVisible] = useState(false);
-    const hide = () => setStateVisible(!stateVisible);
-    let [stateSearch, setStateSearch] = useState(sessionStorage.getItem('search'));
+    let [stateInput, setStateInput] = useState('');
     let dispatch = useDispatch();
-    let listSearch = JSON.parse(localStorage.getItem('listSearch'))
-    if (!listSearch) listSearch = [];
-    let setInput = (e) => {
-        setStateSearch(e.target.value);
-    }
-    // useEffect(() => {
-    //     let timeout = setTimeout(() => {
-    //         dispatch(setSearch(stateSearch))
-    //         if (checkLoadPage) {//có thể sử dụng useRef()
-    //             checkLoadPage = false;
-    //         } else {
-    //             dispatch(setPage(1))
-    //         }
-
-    //     }, 500)
-    //     return () => clearTimeout(timeout)
-    // }, [stateSearch])
-    let searchBtn = () => {
-        if (stateSearch != '') {
-            const isExistSearch = listSearch.indexOf(stateSearch)
-            if (isExistSearch > -1) {
-                listSearch.splice(isExistSearch, 1)
-            }
-            else {
-                if (listSearch.length >= 5) listSearch.shift();
-            }
-            listSearch.push(stateSearch)
-            localStorage.setItem('listSearch', JSON.stringify(listSearch))
-        }
-    }
-    console.log('reload')
-    let idTimeout = null;
+    console.log('reload', stateInput)
     return (
         <div className={cv('wrapper-header')}>
             <div className={cv('wrapper-logo')}>
@@ -66,34 +26,55 @@ function ContentHeader() {
 
             <div className={cv('wrapper-searchbar')}>
                 <div style={{ width: '100%' }}>
-
-                </div>
-                {/* <Tippy
-                    visible={stateVisible}
-                    onClickOutside={hide}
-                    interactive
-                    render={attrs => (
-                        <div className={cv2('showbox') + ' ' + cv('size-search')} tabIndex="-1" {...attrs}>
-                            {
-                                [...listSearch].reverse().map((item) => {
-                                    return (<a href='/'>
-                                        {item}
-                                    </a>
-                                    )
-                                })
+                    <Select
+                        inputValue={stateInput}
+                        onChange={({ value }) => {
+                            setStateInput(value);
+                        }}
+                        onKeyDown={(e) => {
+                            if (e.key == 'Enter') {
+                                // console.log(stateInput, 'onKeyDown')
+                                let isExist = options.some((item) => item.value == stateInput)
+                                storage('setItem', 'search', { label: stateInput, value: stateInput })
+                                options.push({ label: stateInput, value: stateInput })
+                                console.log(isExist, 'isExist')
+                                if (isExist) {
+                                    let idxItemExist = options.findIndex((item) => item.value == stateInput)
+                                    storage('D-item', 'search', '', idxItemExist);
+                                    options.splice(idxItemExist, 1);
+                                }
+                                // if (options.length >= 5) {
+                                //     storage('D-item', 'search', '', 0);
+                                //     options.shift();
+                                // }
+                                dispatch(setSearch(stateInput))
                             }
 
-                        </div>
-                    )}
-                >
-                    <input onKeyDown={(e) => {
-                        if (e.key == 'Enter') {
-                            searchBtn()
-                            setStateVisible(!stateVisible)
-                        }
-                    }} value={stateSearch} onChange={(e) => setInput(e)} onClick={hide} type='text' placeholder='Đăng ký và nhận voucher bạn mới đến 70k!' ></input>
-                </Tippy> */}
-                <span onClick={searchBtn}>
+                        }}
+                        onInputChange={(data, { action }) => {
+                            if (action == 'input-change') {
+                                setStateInput(data);
+                            }
+                            // if (action == 'menu-close' && stateInput != '') {
+                            //     storage('setItem', 'search', { label: stateInput, value: stateInput })
+                            //     options.push({ label: stateInput, value: stateInput })
+                            //     let isExist = options.some((item) => item.value == stateInput)
+                            //     if (isExist) {
+                            //         let idxItemExist = options.findIndex((item) => item.value == stateInput)
+                            //         storage('D-item', 'search', '', idxItemExist);
+                            //         options.splice(idxItemExist, 1);
+                            //     }
+                            //     // if (options.length >= 5) {
+                            //     //     storage('D-item', 'search', '', 0);
+                            //     //     options.shift();
+                            //     // }
+                            // }
+                        }}
+                        options={options}
+                        noOptionsMessage={() => null} //khi ko có bất kì option nào dc tìm thấy khi search function này sẽ dc call
+                    />
+                </div>
+                <span>
                     <i class="fa-solid fa-magnifying-glass" Style="color: #eceff3;"></i>
                 </span>
             </div >
@@ -119,5 +100,17 @@ function ContentHeader() {
         </div >
     );
 }
-
+function storage(action, key, value = '', idx = -1) {
+    let data = JSON.parse(localStorage.getItem(key)) || [];
+    switch (action) {
+        case 'getItem':
+            return JSON.parse(localStorage[action](key)) || [];
+        case 'setItem':
+            data.push(value);
+            localStorage[action](key, JSON.stringify(data))
+        case 'D-item':
+            data.splice(idx, 1);
+            localStorage.setItem(key, JSON.stringify(data))
+    }
+}
 export default ContentHeader;

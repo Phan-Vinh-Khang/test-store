@@ -32,9 +32,11 @@ function ContentHeader() {
                         onChange={({ value }) => dispatch(setSearch(value))}
                         onKeyDown={(e) => {
                             if (e.key == 'Enter') {
+                                console.log('enter')
                                 const isExistIndex = options.findIndex((item) => item.value == stateInput);
                                 storage('setItem', 'search', { value: { label: stateInput, value: stateInput } });
                                 options.push({ label: stateInput, value: stateInput });
+                                console.log(isExistIndex, 'isExistIndex keydown ')
                                 if (isExistIndex >= 0) {
                                     storage('D-item', 'search', { idx: isExistIndex });
                                     options.splice(isExistIndex, 1);
@@ -48,14 +50,17 @@ function ContentHeader() {
                             }
 
                         }}
+                        //nếu options chưa tồn tại option thì sẽ chỉ call keydown khi event dc thực thi
+                        //nếu options có 1 select trước đó thì sẽ call cả keydown và menu-close
                         onInputChange={(data, { action }) => {
                             if (action == 'input-change') setStateInput(data);
-                            if (action == 'menu-close' && stateInput != '') {
+                            if (action == 'input-blur' && stateInput != '') {
                                 const isExistIndex = options.findIndex((item) => item.value == stateInput)
                                 storage('setItem', 'search', { value: { label: stateInput, value: stateInput } })
                                 options.push({ label: stateInput, value: stateInput })
+                                console.log(isExistIndex, 'isExistIndex not focus')
                                 if (isExistIndex >= 0) {
-                                    storage('D-item', 'search', '', { idx: isExistIndex });
+                                    storage('D-item', 'search', { idx: isExistIndex });
                                     options.splice(isExistIndex, 1);
                                 }
                                 if (options.length > 5) {
@@ -67,6 +72,7 @@ function ContentHeader() {
                         }}
                         options={[...options].reverse()}
                         noOptionsMessage={() => null} //khi ko có bất kì option nào dc tìm thấy khi search function này sẽ dc call
+                        placeholder='Search for products, brands and categories'
                     />
                 </div>
                 <span>

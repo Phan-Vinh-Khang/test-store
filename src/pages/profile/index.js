@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, Link } from 'react-router-dom'
 import classNames from 'classnames/bind'
 import objStyle from './index.module.scss'
 import WrapperPurchase from './purchase/wrapper';
@@ -21,7 +21,7 @@ function Profile() {
                     </div>
                     <div Style='padding-left:8px'>
                         <div>{user.name}</div>
-                        <a href="javascript:void(0)">Chỉnh sửa hồ sơ</a>
+                        <Link to="/profile">Chỉnh sửa hồ sơ</Link>
                     </div>
                 </div>
             </div>

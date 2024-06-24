@@ -13,7 +13,7 @@ function ModalInput({ reloadData, listRole, ...obj }) {
         password: '',
         confirmPassword: '',
         image: '',
-        adress: '',
+        address: '',
         roleid: '',
         fileNameUid: ''
     });
@@ -50,7 +50,7 @@ function ModalInput({ reloadData, listRole, ...obj }) {
                 password: '',
                 confirmPassword: '',
                 image: '',
-                adress: '',
+                address: '',
                 roleid: '',
                 fileNameUid: ''
             }
@@ -74,7 +74,7 @@ function ModalInput({ reloadData, listRole, ...obj }) {
                     password: '',
                     confirmPassword: '',
                     image: '',
-                    adress: '',
+                    address: '',
                     roleid: '',
                 })
             }} size='lg'>
@@ -127,7 +127,7 @@ function ModalInput({ reloadData, listRole, ...obj }) {
                             password: '',
                             confirmPassword: '',
                             image: '',
-                            adress: '',
+                            address: '',
                             roleid: '',
                         })
                     }}>

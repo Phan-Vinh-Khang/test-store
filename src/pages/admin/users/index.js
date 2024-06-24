@@ -91,7 +91,7 @@ function AdminUser() {
                 thead={['name',
                     'email',
                     'avatar',
-                    'adress',
+                    'address',
                     'role',
                     'isCollab',
                     'createdAt',

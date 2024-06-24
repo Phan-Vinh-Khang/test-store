@@ -4,13 +4,38 @@
     padding: 0 20px;
     border-radius: 8px;
 
+    .flex-container {
+        display: flex;
+        border-bottom: 2px solid gainsboro;
+        border-radius: 4px;
+
+        &-img {
+            padding: 20px 0rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+
+            img {
+                display: block;
+                width: 110px;
+                height: 110px;
+                border-radius: 50%;
+                border: 3px solid gainsboro;
+                padding: 2px 2px;
+                margin-bottom: 20px;
+                margin-left: 90px;
+            }
+        }
+    }
+
     .title-account {
-        padding: 20px 0px;
+        padding: 20px 0rem;
         border-bottom: 1px solid gainsboro;
     }
 
     .form-container {
-        padding: 20px 0px;
+        width: 100%;
+        padding: 20px 0rem;
         display: inline-block;
         text-align: right;
     }

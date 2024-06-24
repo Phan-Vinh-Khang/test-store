@@ -32,7 +32,7 @@ function CreateShop() {
             dispatch(setLoginReducer(data))
             navigate('/')
         } catch (e) {
-            alert(e.respose.data)
+            alert(e)
         }
     }
     return (
@@ -69,4 +69,4 @@ function CreateShop() {
     );
 }
 
-export default CreateShop;
+export default CreateShop; 

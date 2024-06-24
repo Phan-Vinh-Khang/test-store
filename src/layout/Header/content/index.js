@@ -103,7 +103,7 @@ function ContentHeader() {
 }
 function storage(action, key, { value, idx } = {}) {
     /*phải set 1 object {} nếu ko đưa đối số thứ 3 vào
-    nếu ko có đối số thứ 3 tham số object này reference vào undefine và undefine thì ko có prop value hoặc idxl
+    nếu ko có đối số thứ 3 tham số object này reference vào undefine và undefine thì ko có prop value hoặc idx
     ko thể sử dụng undefined.value hoặc undefined.idx nên sẽ báo lỗi
     */
     let data;

@@ -241,8 +241,8 @@ function WrapperCheckout() {
                 <div title={user.name}>
                     {user.name}
                 </div>
-                <div title={user.adress}>
-                    {user.adress}
+                <div title={user.address}>
+                    {user.address}
                 </div>
                 <div>Option</div>
             </div>
